@@ -6,14 +6,12 @@ import VibeButton from "../Images/VibeButton.png";
 import CreateButton from "../Images/CreateButton.png";
 
 const NavbarContainer = styled.footer`
-  height: auto;
-  width: auto;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
 `;
 
-function Navbar() {
+function Navbar({ className }) {
   function handleSearch() {
     console.log("Search");
   }
@@ -24,7 +22,7 @@ function Navbar() {
     console.log("Create");
   }
   return (
-    <NavbarContainer>
+    <NavbarContainer className={className}>
       <img src={SearchButton} alt="Search" onClick={handleSearch} />
       <img src={VibeButton} alt="Vibe" onClick={handleVibe} />
       <img src={CreateButton} alt="Create" onClick={handleCreate} />

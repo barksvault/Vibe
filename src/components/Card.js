@@ -5,13 +5,14 @@ import PropTypes from "prop-types";
 const Card = styled.div`
   width: 120px;
   border: 1px solid #979797;
-  border-radius: 4px;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
 `;
 const CardImg = styled.div`
+  border-radius: 15px;
   background: red;
-  height: 100px;
+  height: 150px;
   width: 120px;
 `;
 const CardTitle = styled.div`
@@ -30,7 +31,6 @@ function Cards() {
   );
 }
 Card.propTypes = {
-  img: PropTypes.img.isRequired,
   title: PropTypes.string.isRequired
 };
 export default Cards;
