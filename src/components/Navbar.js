@@ -25,13 +25,13 @@ function Navbar() {
   }
   return (
     <NavbarContainer>
-      <img src={SearchButton} onClick={handleSearch} />
-      <img src={VibeButton} onClick={handleVibe} />
-      <img src={CreateButton} onClick={handleCreate} />
+      <img src={SearchButton} alt="Search" onClick={handleSearch} />
+      <img src={VibeButton} alt="Vibe" onClick={handleVibe} />
+      <img src={CreateButton} alt="Create" onClick={handleCreate} />
     </NavbarContainer>
   );
 }
-Navbar.PropTypes = {
+Navbar.propTypes = {
   onClick: PropTypes.func
 };
 export default Navbar;
