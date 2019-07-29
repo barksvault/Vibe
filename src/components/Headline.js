@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
+import { fadeVibe } from "../utils/animations";
 
 const sizes = {
   S: "18px",
@@ -13,9 +14,11 @@ function getSize(size) {
 }
 
 const StyledHeadline = styled.h1`
-  margin: 0;
+  margin: -80px;
   font-size: ${props => getSize(props.size)};
+  color: white;
   font-family: "Montserrat", sans-serif;
+  animation: ${fadeVibe} 3s ease 1 both;
 `;
 
 function Headline({ size, ...props }) {

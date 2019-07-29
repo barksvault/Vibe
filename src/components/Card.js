@@ -12,14 +12,14 @@ const Card = styled.div`
 const CardImg = styled.div`
   border-radius: 15px;
   background: red;
-  height: 150px;
+  height: 130px;
   width: 120px;
 `;
 const CardTitle = styled.div`
   text-align: center;
   border-top: 1px solid #979797;
   padding: 2px 5px;
-  font-size: 12px;
+  font-size: 14px;
   background-color: rgba(255, 255, 255, 13);
 `;
 function Cards() {

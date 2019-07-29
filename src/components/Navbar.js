@@ -7,7 +7,7 @@ import CreateButton from "../Images/CreateButton.png";
 
 const NavbarContainer = styled.footer`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: flex-end;
 `;
 
