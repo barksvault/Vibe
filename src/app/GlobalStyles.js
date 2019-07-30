@@ -1,9 +1,13 @@
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
-*{box-sizing:border-box;}
-html,body{
+* {
+    box-sizing:border-box;
+}
+
+html,body {
     margin:0;
-}body{
+}
+body {
     font-family: 'Montserrat', sans-serif;
 }`;
