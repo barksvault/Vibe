@@ -9,7 +9,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const CardImg = styled.div`
+const CardImg = styled.img`
   border-radius: 15px;
   background: red;
   height: 130px;
@@ -22,15 +22,16 @@ const CardTitle = styled.div`
   font-size: 14px;
   background-color: rgba(255, 255, 255, 13);
 `;
-function Cards() {
+function Cards({ img, title, ...props }) {
   return (
-    <Card>
-      <CardImg />
-      <CardTitle>Red Party Look</CardTitle>
+    <Card {...props}>
+      <CardImg src={img} />
+      <CardTitle>{title}</CardTitle>
     </Card>
   );
 }
 Card.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  img: PropTypes.img
 };
 export default Cards;
