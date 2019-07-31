@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import Card from "../components/Card";
+import Look from "../components/Look";
 import Navbar from "../components/Navbar";
 import DashboardContent from "../components/DashboardContent";
+// import { getFromLocal, setToLocal } from "../services";
 
 const StyledNavbar = styled(Navbar)`
   position: fixed;
@@ -84,18 +85,22 @@ const cardData = [
     title: "Kopang Satu"
   }
 ];
-function Dashboard() {
-  const [cards, setCards] = React.useState(cardData);
+function Dashboard({ looks }) {
+  // const [looks, setLooks] = React.useState(getFromLocal("looks") || []);
 
-  function renderCard(card) {
-    return <Card key={card._id} img={card.img} title={card.title} />;
+  // const newLooks = looks.slice();
+  // newLooks = { ...looks };
+  // setLooks(newLooks);
+
+  function renderLook(look) {
+    return <Look img={look.img} title={look.title} />;
   }
 
   return (
     <>
       <DashboardContent />
       <CardContainerTitle>Your closet</CardContainerTitle>
-      <CardContainer>{cards.map(card => renderCard(card))} </CardContainer>
+      <CardContainer>{looks.map(look => renderLook(look))} </CardContainer>
 
       <StyledNavbar />
     </>

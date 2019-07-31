@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Card from "./Card";
+import Card from "./Look";
 import BackgroundVibe from "../Images/BackgroundVibe.png";
 
 const DashboardHeader = styled.header`
