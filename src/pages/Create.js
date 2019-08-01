@@ -7,7 +7,7 @@ import SubmitButton from "../Images/SubmitButton.png";
 import { CirclePicker } from "react-color";
 import { setToLocal } from "../services";
 import axios from "axios";
-
+import uuid from "uuid/v1";
 const Container = styled.div`
   padding: 20px;
   margin-bottom: 30px;
@@ -117,6 +117,7 @@ function CreateCard({ looks, setLooks, ...props }) {
   // }
 
   const [formValues, setFormValues] = React.useState({
+    _id: uuid(),
     title: "",
     description: "",
     img: ""
@@ -133,6 +134,7 @@ function CreateCard({ looks, setLooks, ...props }) {
   function handleSubmit() {
     // First save data
     // console.log(formValues);
+
     setToLocal("looks", [...looks, formValues]);
     setLooks([...looks, formValues]);
     props.history.push("/dashboard");

@@ -7,6 +7,7 @@ import GlobalStyle from "./GlobalStyles";
 import Landing from "../pages/Landing";
 import Search from "../pages/Search";
 import { getFromLocal } from "../services";
+import LookDetail from "../pages/LookDetail";
 
 const Container = styled.div`
   height: 100vh;
@@ -27,7 +28,14 @@ function App() {
             )}
           />
           <Route path="/search" component={Search} />
-          <Route path="/dashboard" render={() => <Dashboard looks={looks} />} />
+          <Route
+            path="/look/:id"
+            render={props => <LookDetail looks={looks} {...props} />}
+          />
+          <Route
+            path="/dashboard"
+            render={props => <Dashboard looks={looks} {...props} />}
+          />
           <Route path="/" component={Landing} />
         </Switch>
       </Router>
