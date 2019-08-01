@@ -17,14 +17,6 @@ const NavbarContainer = styled.footer`
 `;
 
 function Navbar({ className }) {
-  function handleSearch() {
-    console.log("Search");
-  }
-
-  function handleVibe() {
-    console.log("Vibe");
-  }
-
   return (
     <NavbarContainer className={className}>
       <Link to="/search">

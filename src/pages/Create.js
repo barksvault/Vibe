@@ -6,6 +6,7 @@ import ImgButton from "../Images/ImgButton.png";
 import SubmitButton from "../Images/SubmitButton.png";
 import { CirclePicker } from "react-color";
 import { setToLocal } from "../services";
+import axios from "axios";
 
 const Container = styled.div`
   padding: 20px;
@@ -81,7 +82,40 @@ const AddImgButton = styled.img``;
 const SubButton = styled.img`
   padding-bottom: 40px;
 `;
+
+const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
+const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
+
 function CreateCard({ looks, setLooks, ...props }) {
+  // const [image, setImage] = React.useState("");
+
+  function upload(event) {
+    console.log("hu");
+    const url = `https://api.cloudinary.com/v1_1/${CLOUDNAME}/upload`;
+
+    const formData = new FormData();
+    formData.append("file", event.target.files[0]);
+    formData.append("upload_preset", PRESET);
+
+    axios
+      .post(url, formData, {
+        headers: {
+          "Content-type": "multipart/form-data"
+        }
+      })
+      .then(res => {
+        // setImage(res.data.secure_url);
+        setFormValues({ ...formValues, img: res.data.secure_url });
+      })
+      .catch(err => console.error(err));
+  }
+
+  // function onImageSave(response) {
+  //   console.log(response);
+  //   setImage(response.data.url);
+  //   console.log(response.data.url);
+  // }
+
   const [formValues, setFormValues] = React.useState({
     title: "",
     description: "",
@@ -98,6 +132,7 @@ function CreateCard({ looks, setLooks, ...props }) {
 
   function handleSubmit() {
     // First save data
+    // console.log(formValues);
     setToLocal("looks", [...looks, formValues]);
     setLooks([...looks, formValues]);
     props.history.push("/dashboard");
@@ -111,6 +146,13 @@ function CreateCard({ looks, setLooks, ...props }) {
       <Container>
         {" "}
         <AddImgButton src={ImgButton} />
+        <div>
+          {formValues.img ? (
+            <img src={formValues.img} alt="" style={{ width: "100%" }} />
+          ) : (
+            <input type="file" name="img" onChange={upload} />
+          )}
+        </div>
       </Container>
       <StyledForm onSubmit={handleSubmit}>
         <TitleInput
