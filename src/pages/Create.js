@@ -8,6 +8,8 @@ import { CirclePicker } from "react-color";
 import { setToLocal } from "../services";
 import axios from "axios";
 import uuid from "uuid/v1";
+import { fadeVibe } from "../utils/animations";
+
 const Container = styled.div`
   padding: 20px;
   margin-bottom: 30px;
@@ -78,7 +80,13 @@ const FavoritePieceInput = styled.input`
   border: 3px solid #663992;
 `;
 
-const AddImgButton = styled.img``;
+const AddImgButton = styled.img`
+  animation: ${fadeVibe} 2s ease 1 both;
+
+  .AddImgButton:active {
+    transform: translateY(4px);
+  }
+`;
 const SubButton = styled.img`
   padding-bottom: 40px;
 `;
@@ -90,7 +98,6 @@ function CreateCard({ looks, setLooks, ...props }) {
   // const [image, setImage] = React.useState("");
 
   function upload(event) {
-    console.log("hu");
     const url = `https://api.cloudinary.com/v1_1/${CLOUDNAME}/upload`;
 
     const formData = new FormData();
@@ -118,9 +125,13 @@ function CreateCard({ looks, setLooks, ...props }) {
 
   const [formValues, setFormValues] = React.useState({
     _id: uuid(),
+    img: "",
     title: "",
+    color: "",
     description: "",
-    img: ""
+    season: "",
+    tags: "",
+    favorites: ""
   });
 
   function handleChange(event) {
@@ -135,11 +146,13 @@ function CreateCard({ looks, setLooks, ...props }) {
     // First save data
     // console.log(formValues);
 
-    setToLocal("looks", [...looks, formValues]);
-    setLooks([...looks, formValues]);
+    setToLocal("looks", [formValues, ...looks]);
+    setLooks([formValues, ...looks]);
     props.history.push("/dashboard");
     // then redirect to...
   }
+  const handleColorChange = ({ hex }) =>
+    setFormValues({ ...formValues, color: hex });
 
   return (
     <>
@@ -171,11 +184,15 @@ function CreateCard({ looks, setLooks, ...props }) {
         <TagInput placeholder="Tags" />
         <SeasonInput placeholder="Season" />
         <FavoritePieceInput placeholder="Favorite piece" />
+        <CirclePicker name="color" onChangeComplete={handleColorChange} />
       </StyledForm>
 
       <Container>
-        <CirclePicker />
-        <SubButton src={SubmitButton} onClick={handleSubmit} />
+        <SubButton
+          className="animated infinite bounce delay-2s"
+          src={SubmitButton}
+          onClick={handleSubmit}
+        />
       </Container>
       <Navbar />
     </>

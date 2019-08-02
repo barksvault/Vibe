@@ -1,15 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import CreateImgTop from "../Images/CreateImgTop.png";
+import { fadeVibe, fadeDown, fadeIn } from "../utils/animations";
 
 const Image = styled.img``;
 
 const Container = styled.div`
+  animation: ${fadeIn} 3s ease 1 both;
   display: flex;
   justify-content: center;
 `;
 
-function CreateHeaderTop() {
+function CreateHeaderTop({ looks }) {
   return (
     <Container>
       <Image src={CreateImgTop} />

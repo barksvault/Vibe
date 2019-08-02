@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import Card from "./Look";
+import { fadeIn } from "../utils/animations";
 import BackgroundVibe from "../Images/BackgroundVibe.png";
+import Look from "./Look";
 
 const DashboardHeader = styled.header`
+  animation: ${fadeIn} 3s ease 1 both;
   background-image: url(${BackgroundVibe});
   background-repeat: no-repeat;
   background-position: center bottom;
@@ -26,7 +28,6 @@ const DashboardTitle = styled.h1`
 `;
 
 const TodaysOutfitTitle = styled.div`
-  font-size: 20px;
   color: white;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -34,11 +35,11 @@ const TodaysOutfitTitle = styled.div`
   grid-area: 2 / 1 / 4 / 5;
 `;
 const TodaysSubTitle = styled.div`
-  font-size: 20px;
+  font-size: 25px;
   grid-area: 1 / 1 / 2 / 3;
 `;
 const OutfitSubTitle = styled.div`
-  font-size: 20px;
+  font-size: 25px;
   grid-area: 2 / 2 / 3 / 4;
 `;
 const TodaysCard = styled.div`
@@ -64,7 +65,10 @@ const Tag = styled.span`
   padding: 4px;
 `;
 
-function DashboardContent() {
+function DashboardContent({ looks }) {
+  function renderLook(look) {
+    return <Look id={look._id} img={look.img} title={look.title} />;
+  }
   return (
     <DashboardHeader>
       <DashboardTitle>VIBE </DashboardTitle>
@@ -72,9 +76,7 @@ function DashboardContent() {
         <TodaysSubTitle>Today's</TodaysSubTitle>
         <OutfitSubTitle>Outfit</OutfitSubTitle>
       </TodaysOutfitTitle>
-      <TodaysCard>
-        <Card />
-      </TodaysCard>
+      <TodaysCard>{renderLook(looks[0])}</TodaysCard>
       <Tags>
         <TagContainer1>
           <Tag>#Elegant</Tag>

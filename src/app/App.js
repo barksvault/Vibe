@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
 import Create from "../pages/Create";
 import Dashboard from "../pages/Dashboard";
 import GlobalStyle from "./GlobalStyles";
@@ -20,6 +21,7 @@ function App() {
     <Container>
       <Router>
         <GlobalStyle />
+
         <Switch>
           <Route
             path="/create"
@@ -28,14 +30,17 @@ function App() {
             )}
           />
           <Route path="/search" component={Search} />
+
           <Route
             path="/look/:id"
             render={props => <LookDetail looks={looks} {...props} />}
           />
+
           <Route
             path="/dashboard"
             render={props => <Dashboard looks={looks} {...props} />}
           />
+
           <Route path="/" component={Landing} />
         </Switch>
       </Router>
