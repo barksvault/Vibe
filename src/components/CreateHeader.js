@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import CreateImgTop from "../Images/CreateImgTop.png";
-import { fadeVibe, fadeDown, fadeIn } from "../utils/animations";
+import { fadeIn } from "../utils/animations";
 
 const Image = styled.img``;
 

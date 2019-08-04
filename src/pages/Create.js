@@ -24,6 +24,9 @@ const StyledForm = styled.form`
 
   padding: 10px;
   padding-bottom: 7px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;
 const TitleInput = styled.input`
   ::placeholder {
@@ -82,15 +85,19 @@ const FavoritePieceInput = styled.input`
 
 const AddImgButton = styled.img`
   animation: ${fadeVibe} 2s ease 1 both;
-
-  .AddImgButton:active {
-    transform: translateY(4px);
-  }
 `;
+
 const SubButton = styled.img`
   padding-bottom: 40px;
 `;
-
+const StyledImgContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const ImgUpload = styled.div`
+  display: none;
+`;
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
@@ -160,14 +167,22 @@ function CreateCard({ looks, setLooks, ...props }) {
 
       <Container>
         {" "}
-        <AddImgButton src={ImgButton} />
-        <div>
-          {formValues.img ? (
-            <img src={formValues.img} alt="" style={{ width: "100%" }} />
-          ) : (
-            <input type="file" name="img" onChange={upload} />
+        <StyledImgContainer>
+          <label for="file-input">
+            <AddImgButton src={ImgButton} />
+          </label>
+          <ImgUpload>
+            <input id="file-input" type="file" name="img" onChange={upload} />
+          </ImgUpload>
+
+          {formValues.img && (
+            <img
+              src={formValues.img}
+              alt=""
+              style={{ width: "50%", borderRadius: "50%" }}
+            />
           )}
-        </div>
+        </StyledImgContainer>
       </Container>
       <StyledForm onSubmit={handleSubmit}>
         <TitleInput
@@ -181,18 +196,22 @@ function CreateCard({ looks, setLooks, ...props }) {
           name="description"
           onChange={handleChange}
         />
-        <TagInput placeholder="Tags" />
-        <SeasonInput placeholder="Season" />
-        <FavoritePieceInput placeholder="Favorite piece" />
+        <TagInput placeholder="Tags" name="tags" />
+        <SeasonInput
+          placeholder="Season"
+          name="season"
+          onChange={handleChange}
+        />
+        <FavoritePieceInput
+          placeholder="Favorite piece"
+          name="favorite"
+          onChange={handleChange}
+        />
         <CirclePicker name="color" onChangeComplete={handleColorChange} />
       </StyledForm>
 
       <Container>
-        <SubButton
-          className="animated infinite bounce delay-2s"
-          src={SubmitButton}
-          onClick={handleSubmit}
-        />
+        <SubButton src={SubmitButton} onClick={handleSubmit} />
       </Container>
       <Navbar />
     </>

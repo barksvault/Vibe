@@ -29,12 +29,29 @@ function LookDetail({ history, looks, match }) {
     margin-top: 0;
     color: white;
   `;
+  const ColorDot = styled.span`
+    height: 25px;
+    width: 25px;
+    background-color: ${outfit.color};
+    border-radius: 50%;
+    display: inline-block;
+  `;
   const Container = styled.div`
     animation: ${fadeVibe} 3s ease 1 both;
     color: white;
     background: url(${Detail});
     height: 100vh;
     overflow: auto;
+  `;
+  const ContainerContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  `;
+  const StyledPara = styled.p`
+    background-color: rgba(216, 216, 216, 0.141882);
+    padding: 10px;
+    margin: 0;
   `;
 
   function handleBackClick() {
@@ -46,16 +63,16 @@ function LookDetail({ history, looks, match }) {
         <BackButton className="fas fa-chevron-left" onClick={handleBackClick} />
         <StyledHeader> {outfit.title} </StyledHeader>
         <DetailImg src={outfit.img} alt={outfit.title} />
-        <div>
+        <ContainerContent>
           <h2>Description</h2>
-          <p>{outfit.description}</p>
+          <StyledPara>{outfit.description}</StyledPara>
           <h2>Favorite Piece</h2>
-          <p>{outfit.favorite}</p>
+          <StyledPara>{outfit.favorite}</StyledPara>
           <h2>Season</h2>
-          <p>{outfit.season}</p>
-          <h2>color</h2>
-          <p>{outfit.color}</p>
-        </div>
+          <StyledPara>{outfit.season}</StyledPara>
+          <h2>Color</h2>
+          <ColorDot />
+        </ContainerContent>
       </Container>
     </>
   );

@@ -3,19 +3,16 @@ import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Fullscreen from "../components/Fullscreen";
 import Background from "../components/Background";
-
-const Container = styled.div`
-  padding: 10px;
-`;
+import Detail from "../Images/DetailBackground.png";
 
 function Search() {
   return (
     <>
       <Fullscreen>
-        <Background />
+        <Background src={Detail} />
+        <h1>Search</h1>
       </Fullscreen>
-      <h1>Search</h1>
-      <Container />
+
       <Navbar />
     </>
   );

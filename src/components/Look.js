@@ -26,7 +26,7 @@ const LookTitle = styled.div`
   background-color: rgba(216, 216, 216, 0.141882);
 `;
 
-function Look({ img, title, onClick, ...props }) {
+function Look({ img, _id, title, onClick, ...props }) {
   return (
     <StyledLook {...props}>
       <LookImg onClick={onClick} src={img} />

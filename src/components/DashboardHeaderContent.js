@@ -65,7 +65,7 @@ const Tag = styled.span`
   padding: 4px;
 `;
 
-function DashboardContent({ looks }) {
+function DashboardHeaderContent({ looks }) {
   function renderLook(look) {
     return <Look id={look._id} img={look.img} title={look.title} />;
   }
@@ -76,7 +76,7 @@ function DashboardContent({ looks }) {
         <TodaysSubTitle>Today's</TodaysSubTitle>
         <OutfitSubTitle>Outfit</OutfitSubTitle>
       </TodaysOutfitTitle>
-      <TodaysCard>{renderLook(looks[0])}</TodaysCard>
+      <TodaysCard>{looks && renderLook(looks[0])}</TodaysCard>
       <Tags>
         <TagContainer1>
           <Tag>#Elegant</Tag>
@@ -89,4 +89,4 @@ function DashboardContent({ looks }) {
   );
 }
 
-export default DashboardContent;
+export default DashboardHeaderContent;

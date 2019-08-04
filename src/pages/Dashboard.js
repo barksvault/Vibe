@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import Look from "../components/Look";
 import Navbar from "../components/Navbar";
-import DashboardContent from "../components/DashboardContent";
-import FullCardView from "../components/FullCardView";
+import DashboardHeaderContent from "../components/DashboardHeaderContent";
+
 // import { getFromLocal, setToLocal } from "../services";
 import uuid from "uuid/v1";
-import { fadeDown, fadeIn, fadeVibe } from "../utils/animations";
+import { fadeIn } from "../utils/animations";
 
 const StyledNavbar = styled(Navbar)`
   position: fixed;
@@ -50,10 +50,10 @@ function Dashboard({ looks, history }) {
 
   return (
     <>
-      <DashboardContent looks={looks} />
+      <DashboardHeaderContent looks={looks} />
       <CardContainerTitle>Your closet</CardContainerTitle>
       <CardContainer>
-        {looks.map(look => renderLook(console.log(look)))}
+        {looks.map(look => look.img && renderLook(look))}
       </CardContainer>
 
       <StyledNavbar />
