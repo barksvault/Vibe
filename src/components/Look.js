@@ -23,10 +23,11 @@ const LookTitle = styled.div`
   border-top: 1px solid #663992;
   padding: 2px 5px;
   font-size: 14px;
+  color: #663992;
   background-color: rgba(216, 216, 216, 0.141882);
 `;
 
-function Look({ img, _id, title, onClick, ...props }) {
+function Look({ img, title, onClick, ...props }) {
   return (
     <StyledLook {...props}>
       <LookImg onClick={onClick} src={img} />

@@ -34,6 +34,7 @@ function Dashboard({ looks, history }) {
   function renderLook(look) {
     return (
       <Look
+        key={look._id}
         id={look._id}
         img={look.img}
         title={look.title}
@@ -43,7 +44,6 @@ function Dashboard({ looks, history }) {
   }
 
   function handleLookSelect(look, _id) {
-    console.log("passed it", look);
     setSelectedLook({ _id: uuid(), ...look });
     history.push(`look/${look._id}`);
   }

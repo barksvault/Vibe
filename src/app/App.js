@@ -17,6 +17,14 @@ const Container = styled.div`
 function App() {
   const [looks, setLooks] = React.useState(getFromLocal("looks") || []);
 
+  function deleteLook(id, history) {
+    const outfits = looks.filter(look => {
+      return look._id !== id;
+    });
+    setLooks(outfits);
+    history.push("/dashboard");
+  }
+
   return (
     <Container>
       <Router>
@@ -33,12 +41,16 @@ function App() {
 
           <Route
             path="/look/:id"
-            render={props => <LookDetail looks={looks} {...props} />}
+            render={props => (
+              <LookDetail deleteLook={deleteLook} looks={looks} {...props} />
+            )}
           />
 
           <Route
             path="/dashboard"
-            render={props => <Dashboard looks={looks} {...props} />}
+            render={props => (
+              <Dashboard deleteLook={deleteLook} looks={looks} {...props} />
+            )}
           />
 
           <Route path="/" component={Landing} />

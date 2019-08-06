@@ -10,4 +10,12 @@ html,body {
 }
 body {
     font-family: 'Montserrat', sans-serif;
-}`;
+}
+
+.popup-content {
+   
+    width:auto !important;
+   border: solid 2px #663992 !important;
+    border-radius:14px !important;
+}
+`;

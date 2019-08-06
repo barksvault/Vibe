@@ -69,6 +69,9 @@ function DashboardHeaderContent({ looks }) {
   function renderLook(look) {
     return <Look id={look._id} img={look.img} title={look.title} />;
   }
+  function renderTags(lookTag) {
+    return <Tag id={lookTag._id} tag={lookTag.tags} />;
+  }
   return (
     <DashboardHeader>
       <DashboardTitle>VIBE </DashboardTitle>
@@ -79,7 +82,9 @@ function DashboardHeaderContent({ looks }) {
       <TodaysCard>{looks && renderLook(looks[0])}</TodaysCard>
       <Tags>
         <TagContainer1>
-          <Tag>#Elegant</Tag>
+          {looks
+            .slice(0, 2)
+            .map(lookTag => lookTag.tags && renderTags(lookTag))}
         </TagContainer1>
         <TagContainer2>
           <Tag>#Classy</Tag>

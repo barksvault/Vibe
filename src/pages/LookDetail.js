@@ -3,9 +3,9 @@ import styled from "styled-components";
 import Detail from "../Images/DetailBackground.png";
 import { fadeVibe } from "../utils/animations";
 
-function LookDetail({ history, looks, match }) {
+function LookDetail({ history, looks, match, deleteLook }) {
   const outfit = looks && looks.find(look => look._id === match.params.id);
-  console.log(outfit.description);
+  console.log(outfit);
   if (!outfit) {
     return null; // Look not found
   }
@@ -18,7 +18,7 @@ function LookDetail({ history, looks, match }) {
   const DetailImg = styled.img`
     border: white 2px solid;
     border-radius: 20px;
-    object-fit: contain;
+    object-fit: cover;
     height: 384px;
     width: 100vw;
     animation: ${fadeVibe} 3s ease 1 both;
@@ -57,6 +57,7 @@ function LookDetail({ history, looks, match }) {
   function handleBackClick() {
     history.push(`/dashboard`);
   }
+
   return (
     <>
       <Container>
@@ -70,8 +71,14 @@ function LookDetail({ history, looks, match }) {
           <StyledPara>{outfit.favorite}</StyledPara>
           <h2>Season</h2>
           <StyledPara>{outfit.season}</StyledPara>
+          <h2>Tags</h2>
+          <StyledPara>{outfit.tags}</StyledPara>
           <h2>Color</h2>
           <ColorDot />
+          <button onClick={() => deleteLook(outfit._id, history)}>
+            {" "}
+            "delete look"
+          </button>
         </ContainerContent>
       </Container>
     </>

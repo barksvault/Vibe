@@ -9,6 +9,9 @@ import { setToLocal } from "../services";
 import axios from "axios";
 import uuid from "uuid/v1";
 import { fadeVibe } from "../utils/animations";
+import Popup from "reactjs-popup";
+import ColorBttn from "../Images/ColorBttn.png";
+import SeasonInput from "../components/Seasoninput";
 
 const Container = styled.div`
   padding: 20px;
@@ -38,7 +41,7 @@ const TitleInput = styled.input`
   border: 3px solid #663992;
   font-size: 15px;
 `;
-const DescriptionInput = styled.input`
+const DescriptionInput = styled.textarea`
   ::placeholder {
     color: #663992;
   }
@@ -49,17 +52,7 @@ const DescriptionInput = styled.input`
   font-size: 15px;
   border: 3px solid #663992;
 `;
-const SeasonInput = styled.input`
-  ::placeholder {
-    color: #663992;
-  }
-  margin-bottom: 30px;
-  padding: 10px;
-  border-radius: 14px;
 
-  font-size: 15px;
-  border: 3px solid #663992;
-`;
 const TagInput = styled.input`
   ::placeholder {
     color: #663992;
@@ -78,7 +71,7 @@ const FavoritePieceInput = styled.input`
   margin-bottom: 30px;
   padding: 10px;
   border-radius: 14px;
-  margin-bottom: 10px;
+
   font-size: 15px;
   border: 3px solid #663992;
 `;
@@ -98,6 +91,14 @@ const StyledImgContainer = styled.div`
 const ImgUpload = styled.div`
   display: none;
 `;
+const ColorDot = styled.div`
+  margin-bottom: 30px;
+  height: 25px;
+  width: 25px;
+  background-image: url(${ColorBttn});
+  border-radius: 50%;
+`;
+
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
@@ -156,10 +157,14 @@ function CreateCard({ looks, setLooks, ...props }) {
     setToLocal("looks", [formValues, ...looks]);
     setLooks([formValues, ...looks]);
     props.history.push("/dashboard");
-    // then redirect to...
   }
   const handleColorChange = ({ hex }) =>
     setFormValues({ ...formValues, color: hex });
+
+  function handleSelectedSeason(e) {
+    const selectedSeason = e.target.value;
+    setFormValues({ ...formValues, season: selectedSeason });
+  }
 
   return (
     <>
@@ -179,7 +184,7 @@ function CreateCard({ looks, setLooks, ...props }) {
             <img
               src={formValues.img}
               alt=""
-              style={{ width: "50%", borderRadius: "50%" }}
+              style={{ width: "50%", borderRadius: "50px" }}
             />
           )}
         </StyledImgContainer>
@@ -197,18 +202,29 @@ function CreateCard({ looks, setLooks, ...props }) {
           onChange={handleChange}
         />
         <TagInput placeholder="Tags" name="tags" />
-        <SeasonInput
-          placeholder="Season"
-          name="season"
-          onChange={handleChange}
-        />
+
         <FavoritePieceInput
           placeholder="Favorite piece"
           name="favorite"
           onChange={handleChange}
         />
-        <CirclePicker name="color" onChangeComplete={handleColorChange} />
+        <Popup trigger={<ColorDot />} position="top ">
+          {close => (
+            <div>
+              <div>
+                <CirclePicker
+                  name="color"
+                  onChangeComplete={handleColorChange}
+                />
+              </div>
+              <a className="close" onClick={close}>
+                &times;
+              </a>
+            </div>
+          )}
+        </Popup>
       </StyledForm>
+      <SeasonInput onhandleSelectedSeason={handleSelectedSeason} />
 
       <Container>
         <SubButton src={SubmitButton} onClick={handleSubmit} />
