@@ -5,7 +5,7 @@ import { fadeVibe } from "../utils/animations";
 
 function LookDetail({ history, looks, match, deleteLook }) {
   const outfit = looks && looks.find(look => look._id === match.params.id);
-  console.log(outfit);
+
   if (!outfit) {
     return null; // Look not found
   }
@@ -72,7 +72,7 @@ function LookDetail({ history, looks, match, deleteLook }) {
           <h2>Season</h2>
           <StyledPara>{outfit.season}</StyledPara>
           <h2>Tags</h2>
-          <StyledPara>{outfit.tags}</StyledPara>
+          <StyledPara>{outfit.tags.split("#")}</StyledPara>
           <h2>Color</h2>
           <ColorDot />
           <button onClick={() => deleteLook(outfit._id, history)}>

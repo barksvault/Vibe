@@ -5,7 +5,7 @@ import CreateHeader from "../components/CreateHeader";
 import ImgButton from "../Images/ImgButton.png";
 import SubmitButton from "../Images/SubmitButton.png";
 import { CirclePicker } from "react-color";
-import { setToLocal } from "../services";
+
 import axios from "axios";
 import uuid from "uuid/v1";
 import { fadeVibe } from "../utils/animations";
@@ -102,7 +102,7 @@ const ColorDot = styled.div`
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
-function CreateCard({ looks, setLooks, ...props }) {
+function CreateCard({ looks, onCreate, ...props }) {
   // const [image, setImage] = React.useState("");
 
   function upload(event) {
@@ -138,7 +138,7 @@ function CreateCard({ looks, setLooks, ...props }) {
     color: "",
     description: "",
     season: "",
-    tags: "",
+    tags: [],
     favorites: ""
   });
 
@@ -154,8 +154,7 @@ function CreateCard({ looks, setLooks, ...props }) {
     // First save data
     // console.log(formValues);
 
-    setToLocal("looks", [formValues, ...looks]);
-    setLooks([formValues, ...looks]);
+    onCreate(formValues);
     props.history.push("/dashboard");
   }
   const handleColorChange = ({ hex }) =>
@@ -201,7 +200,7 @@ function CreateCard({ looks, setLooks, ...props }) {
           name="description"
           onChange={handleChange}
         />
-        <TagInput placeholder="Tags" name="tags" />
+        <TagInput placeholder="Tags" name="tags" onChange={handleChange} />
 
         <FavoritePieceInput
           placeholder="Favorite piece"

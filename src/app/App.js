@@ -7,7 +7,7 @@ import Dashboard from "../pages/Dashboard";
 import GlobalStyle from "./GlobalStyles";
 import Landing from "../pages/Landing";
 import Search from "../pages/Search";
-import { getFromLocal } from "../services";
+import { getFromLocal, setToLocal } from "../services";
 import LookDetail from "../pages/LookDetail";
 
 const Container = styled.div`
@@ -16,6 +16,14 @@ const Container = styled.div`
 
 function App() {
   const [looks, setLooks] = React.useState(getFromLocal("looks") || []);
+
+  React.useEffect(() => {
+    setToLocal("looks", looks);
+  }, [looks]);
+
+  function handleCreate(look) {
+    setLooks([look, ...looks]);
+  }
 
   function deleteLook(id, history) {
     const outfits = looks.filter(look => {
@@ -34,10 +42,14 @@ function App() {
           <Route
             path="/create"
             render={props => (
-              <Create looks={looks} setLooks={setLooks} {...props} />
+              <Create looks={looks} onCreate={handleCreate} {...props} />
             )}
           />
-          <Route path="/search" component={Search} />
+          <Route
+            path="/search"
+            looks={looks}
+            render={props => <Search looks={looks} {...props} />}
+          />
 
           <Route
             path="/look/:id"

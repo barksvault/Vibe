@@ -37,6 +37,20 @@ export const fadeVibe = keyframes`
   }
 `;
 
+export const fadeRight = keyframes`
+  
+  from {
+    margin-left: 100%;
+    width: 300%; 
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+
+
+`;
 export const move = keyframes`
   from{
     opacity: 0;

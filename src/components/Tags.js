@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import React from "react";
-import PropTypes from "prop-types";
 
-const Tag = styled.span`
+const StyledTag = styled.span`
+  color: white;
   border: solid white 1px;
   padding: 4px;
 `;
 
-function Tags({ img, tag, ...props }) {
-  return <Tag>{tag}</Tag>;
+function Tag({ tag, ...props }) {
+  return <StyledTag {...props}>{tag}</StyledTag>;
 }
-export default Tags;
+export default Tag;

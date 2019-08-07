@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import React from "react";
-import PropTypes from "prop-types";
 
 const StyledLook = styled.div`
-  width: 120px;
-  border: 1px solid #663992;
+  width: 306px;
+  height: 348px;
+  border: 1px solid white;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -12,23 +12,24 @@ const StyledLook = styled.div`
 `;
 
 const LookImg = styled.img`
+  position: relative;
+  top: 0;
   object-fit: cover;
   border-radius: 15px;
 
-  height: 130px;
-  width: 120px;
+  height: 75%;
+  width: 100%;
 `;
 
 export const LookTitle = styled.div`
   text-align: center;
-  border-top: 1px solid #663992;
+  border-top: 1px solid white;
   padding: 2px 5px;
   font-size: 14px;
-  color: ${props => props.titleColor || "#663992"};
+  color: white;
   background-color: rgba(216, 216, 216, 0.141882);
 `;
-
-function Look({ img, title, onClick, titleColor, ...props }) {
+function SearchLook({ img, title, onClick, titleColor, ...props }) {
   return (
     <StyledLook {...props}>
       <LookImg onClick={onClick} src={img} />
@@ -36,10 +37,4 @@ function Look({ img, title, onClick, titleColor, ...props }) {
     </StyledLook>
   );
 }
-
-Look.propTypes = {
-  title: PropTypes.string.isRequired,
-  img: PropTypes.string
-};
-
-export default Look;
+export default SearchLook;

@@ -28,7 +28,7 @@ const CardContainer = styled.div`
   justify-items: center;
 `;
 
-function Dashboard({ looks, history }) {
+function Dashboard({ looks, history, handleLookSelect }) {
   const [selectedLook, setSelectedLook] = React.useState(null);
 
   function renderLook(look) {
@@ -53,7 +53,7 @@ function Dashboard({ looks, history }) {
       <DashboardHeaderContent looks={looks} />
       <CardContainerTitle>Your closet</CardContainerTitle>
       <CardContainer>
-        {looks.map(look => look.img && renderLook(look))}
+        {looks && looks.map(look => renderLook(look))}
       </CardContainer>
 
       <StyledNavbar />

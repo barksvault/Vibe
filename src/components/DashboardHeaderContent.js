@@ -4,6 +4,8 @@ import { fadeIn } from "../utils/animations";
 import BackgroundVibe from "../Images/BackgroundVibe.png";
 import Look from "./Look";
 
+import { Link } from "react-router-dom";
+
 const DashboardHeader = styled.header`
   animation: ${fadeIn} 3s ease 1 both;
   background-image: url(${BackgroundVibe});
@@ -22,6 +24,7 @@ const DashboardHeader = styled.header`
 `;
 
 const DashboardTitle = styled.h1`
+  text-decoration: none;
   color: white;
   font-size: 30px;
   grid-area: 1 / 2 / 2 / 7;
@@ -65,30 +68,33 @@ const Tag = styled.span`
   padding: 4px;
 `;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+`;
+
 function DashboardHeaderContent({ looks }) {
   function renderLook(look) {
     return <Look id={look._id} img={look.img} title={look.title} />;
   }
-  function renderTags(lookTag) {
-    return <Tag id={lookTag._id} tag={lookTag.tags} />;
-  }
+
+  const todaysLook = looks && looks[0];
+
   return (
     <DashboardHeader>
-      <DashboardTitle>VIBE </DashboardTitle>
+      <DashboardTitle>
+        <StyledLink to="/">VIBE</StyledLink>{" "}
+      </DashboardTitle>
       <TodaysOutfitTitle>
         <TodaysSubTitle>Today's</TodaysSubTitle>
         <OutfitSubTitle>Outfit</OutfitSubTitle>
       </TodaysOutfitTitle>
-      <TodaysCard>{looks && renderLook(looks[0])}</TodaysCard>
+      <TodaysCard>{todaysLook && renderLook(todaysLook)}</TodaysCard>
       <Tags>
         <TagContainer1>
-          {looks
-            .slice(0, 2)
-            .map(lookTag => lookTag.tags && renderTags(lookTag))}
+          {todaysLook && <Tag>#{todaysLook.tags} </Tag>}
         </TagContainer1>
-        <TagContainer2>
-          <Tag>#Classy</Tag>
-        </TagContainer2>
+        <TagContainer2 />
       </Tags>
     </DashboardHeader>
   );
