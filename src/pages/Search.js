@@ -6,30 +6,36 @@ import Background from "../components/Background";
 import SearchImg from "../Images/LandingImg.png";
 import Headline from "../components/Headline";
 import Fuse from "fuse.js";
-import Look, { LookTitle } from "../components/Look";
-import { fadeIn, fadeDown, fadeRight, fadeVibe } from "../utils/animations";
+
+import { fadeDown, fadeRight, fadeVibe } from "../utils/animations";
 import SearchLook from "../components/SearchLook";
 
 const StyledFullscreen = styled(Fullscreen)`
   justify-content: flex-start;
+  overflow: auto;
 `;
 
 const StyledBackground = styled(Background)`
   animation: ${fadeRight} 2s ease 1 both;
 `;
-
+const StylesSearchlook = styled(SearchLook)`
+  animation: ${fadeDown} 2s ease 1 both;
+  margin-bottom: 30px;
+`;
 const MoodContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
   overflow: auto;
-  height: 100vh;
-  width: 100%;
+  height: auto;
+  width: 100vw;
+  padding-bottom: 50px;
 `;
 const SearchInput = styled.input`
   ::placeholder {
     color: white;
   }
+  outline: none;
   animation: ${fadeVibe} 3s ease 1 both;
   background: rgba(216, 216, 216, 0.282206);
   padding: 10px;
@@ -45,30 +51,38 @@ function Search({ handleLookSelect, history, looks, ...props }) {
 
   console.log(looks);
 
-  const [searchValue, setSearchValue] = React.useState();
+  const [searchValue, setSearchValue] = React.useState("");
+  const [result, setResult] = React.useState([]);
 
   function handleChange(event) {
     const lowerCaseValue = event.target.value.toLowerCase();
     setSearchValue(lowerCaseValue);
   }
 
-  var options = {
-    shouldSort: true,
-    threshold: 0.6,
-    location: 0,
-    distance: 100,
-    maxPatternLength: 32,
-    minMatchCharLength: 1,
-    keys: ["title", "description", "tags", "season"]
-  };
-  var fuse = new Fuse(looks, options); // "list" is the item array
-  var result = fuse.search(searchValue);
+  React.useEffect(() => {
+    if (!searchValue) {
+      return;
+    }
 
-  console.log(result);
+    const options = {
+      shouldSort: true,
+      threshold: 0.6,
+      location: 0,
+      distance: 100,
+      maxPatternLength: 32,
+      minMatchCharLength: 1,
+      keys: ["title", "description", "tags", "season"]
+    };
+    const fuse = new Fuse(looks, options); // "list" is the item array
+    const result = fuse.search(
+      searchValue ? searchValue : "hcfizewakdfzwekfewkadzrkwezdfkwe"
+    );
+    setResult(result);
+  }, [searchValue]);
 
   function renderOutfit(outfit) {
     return (
-      <SearchLook
+      <StylesSearchlook
         titleColor="white"
         key={outfit._id}
         id={outfit._id}
@@ -81,7 +95,7 @@ function Search({ handleLookSelect, history, looks, ...props }) {
   function handleOutfit(outfit, _id) {
     history.push(`look/${outfit._id}`);
   }
-  console.log(searchValue);
+
   return (
     <>
       <StyledFullscreen>

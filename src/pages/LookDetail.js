@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Detail from "../Images/DetailBackground.png";
+import Detail from "../Images/BackgroundVibe.png";
 import { fadeVibe } from "../utils/animations";
 
 function LookDetail({ history, looks, match, deleteLook }) {
@@ -18,9 +18,9 @@ function LookDetail({ history, looks, match, deleteLook }) {
   const DetailImg = styled.img`
     border: white 2px solid;
     border-radius: 20px;
-    object-fit: cover;
+    object-fit: fill;
     height: 384px;
-    width: 100vw;
+    width: 100%;
     animation: ${fadeVibe} 3s ease 1 both;
   `;
   const StyledHeader = styled.h1`
@@ -40,6 +40,8 @@ function LookDetail({ history, looks, match, deleteLook }) {
     animation: ${fadeVibe} 3s ease 1 both;
     color: white;
     background: url(${Detail});
+    object-fit: cover;
+    background-repeat: no-repeat;
     height: 100vh;
     overflow: auto;
   `;

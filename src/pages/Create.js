@@ -15,7 +15,7 @@ import SeasonInput from "../components/Seasoninput";
 
 const Container = styled.div`
   padding: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   margin-top: 20px;
   display: flex;
   align-items: center;
@@ -23,12 +23,9 @@ const Container = styled.div`
 `;
 
 const StyledForm = styled.form`
-  display: grid;
-
   padding: 10px;
   padding-bottom: 7px;
   display: flex;
-  align-items: center;
   flex-direction: column;
 `;
 const TitleInput = styled.input`
@@ -37,7 +34,7 @@ const TitleInput = styled.input`
   }
   padding: 10px;
   border-radius: 14px;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   border: 3px solid #663992;
   font-size: 15px;
 `;
@@ -48,7 +45,7 @@ const DescriptionInput = styled.textarea`
 
   padding: 10px;
   border-radius: 14px;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   font-size: 15px;
   border: 3px solid #663992;
 `;
@@ -57,7 +54,7 @@ const TagInput = styled.input`
   ::placeholder {
     color: #663992;
   }
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   padding: 10px;
   border-radius: 14px;
 
@@ -81,7 +78,7 @@ const AddImgButton = styled.img`
 `;
 
 const SubButton = styled.img`
-  padding-bottom: 40px;
+  padding-bottom: 59px;
 `;
 const StyledImgContainer = styled.div`
   display: flex;
@@ -207,7 +204,7 @@ function CreateCard({ looks, onCreate, ...props }) {
           name="favorite"
           onChange={handleChange}
         />
-        <Popup trigger={<ColorDot />} position="top ">
+        <Popup trigger={<ColorDot />} position="right ">
           {close => (
             <div>
               <div>
@@ -216,7 +213,7 @@ function CreateCard({ looks, onCreate, ...props }) {
                   onChangeComplete={handleColorChange}
                 />
               </div>
-              <a className="close" onClick={close}>
+              <a href={"color"} className="close" onClick={close}>
                 &times;
               </a>
             </div>
