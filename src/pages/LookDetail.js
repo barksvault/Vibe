@@ -5,7 +5,7 @@ import { fadeVibe } from "../utils/animations";
 
 function LookDetail({ history, looks, match, deleteLook }) {
   const outfit = looks && looks.find(look => look._id === match.params.id);
-
+  const [color, setColor] = React.useState({});
   if (!outfit) {
     return null; // Look not found
   }
@@ -32,7 +32,7 @@ function LookDetail({ history, looks, match, deleteLook }) {
   const ColorDot = styled.span`
     height: 25px;
     width: 25px;
-    background-color: ${outfit.color};
+    background-color: ${color};
     border-radius: 50%;
     display: inline-block;
   `;
@@ -59,6 +59,17 @@ function LookDetail({ history, looks, match, deleteLook }) {
   function handleBackClick() {
     history.push(`/dashboard`);
   }
+  var sightengine = require("sightengine")("958064678", "XcpJCy4xCUG26Fvp9nZC");
+
+  sightengine
+    .check(["properties"])
+    .set_url(outfit.img)
+    .then(function(result) {
+      setColor(result.colors.accent[0].hex);
+    })
+    .catch(function(err) {
+      // handle the error
+    });
 
   return (
     <>

@@ -99,7 +99,7 @@ const ColorDot = styled.div`
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
-function CreateCard({ looks, onCreate, ...props }) {
+function CreateCard({ res, looks, weather, onCreate, ...props }) {
   // const [image, setImage] = React.useState("");
 
   function upload(event) {
@@ -135,8 +135,9 @@ function CreateCard({ looks, onCreate, ...props }) {
     color: "",
     description: "",
     season: "",
-    tags: [],
-    favorites: ""
+    tags: "",
+    favorites: "",
+    weather: weather
   });
 
   function handleChange(event) {
@@ -225,6 +226,7 @@ function CreateCard({ looks, onCreate, ...props }) {
       <Container>
         <SubButton src={SubmitButton} onClick={handleSubmit} />
       </Container>
+
       <Navbar />
     </>
   );

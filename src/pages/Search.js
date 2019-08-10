@@ -49,8 +49,6 @@ const SearchInput = styled.input`
 function Search({ handleLookSelect, history, looks, ...props }) {
   const randomPlaceholder = looks[Math.floor(Math.random() * looks.length)];
 
-  console.log(looks);
-
   const [searchValue, setSearchValue] = React.useState("");
   const [result, setResult] = React.useState([]);
 
