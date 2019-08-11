@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Detail from "../Images/BackgroundVibe.png";
 import { fadeVibe } from "../utils/animations";
 
 function LookDetail({ history, looks, match, deleteLook }) {
   const outfit = looks && looks.find(look => look._id === match.params.id);
-  const [color, setColor] = React.useState({});
+
   if (!outfit) {
     return null; // Look not found
   }
@@ -32,7 +32,7 @@ function LookDetail({ history, looks, match, deleteLook }) {
   const ColorDot = styled.span`
     height: 25px;
     width: 25px;
-    background-color: ${color};
+    background-color: ${outfit.color};
     border-radius: 50%;
     display: inline-block;
   `;
@@ -55,28 +55,30 @@ function LookDetail({ history, looks, match, deleteLook }) {
     padding: 10px;
     margin: 0;
   `;
-
+  const DeleteButton = styled.button`
+    padding: 10px;
+    height: 25px;
+    width: 25px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 19px;
+    right: 12px;
+  `;
   function handleBackClick() {
     history.push(`/dashboard`);
   }
-  var sightengine = require("sightengine")("958064678", "XcpJCy4xCUG26Fvp9nZC");
-
-  sightengine
-    .check(["properties"])
-    .set_url(outfit.img)
-    .then(function(result) {
-      setColor(result.colors.accent[0].hex);
-    })
-    .catch(function(err) {
-      // handle the error
-    });
 
   return (
     <>
       <Container>
+        <DeleteButton onClick={() => deleteLook(outfit._id, history)}>
+          {" "}
+        </DeleteButton>
         <BackButton className="fas fa-chevron-left" onClick={handleBackClick} />
         <StyledHeader> {outfit.title} </StyledHeader>
         <DetailImg src={outfit.img} alt={outfit.title} />
+
         <ContainerContent>
           <h2>Description</h2>
           <StyledPara>{outfit.description}</StyledPara>
@@ -85,13 +87,9 @@ function LookDetail({ history, looks, match, deleteLook }) {
           <h2>Season</h2>
           <StyledPara>{outfit.season}</StyledPara>
           <h2>Tags</h2>
-          <StyledPara>{outfit.tags.split("#")}</StyledPara>
+          <StyledPara>{outfit.tags}</StyledPara>
           <h2>Color</h2>
-          <ColorDot />
-          <button onClick={() => deleteLook(outfit._id, history)}>
-            {" "}
-            "delete look"
-          </button>
+          <ColorDot>{outfit.color}</ColorDot>
         </ContainerContent>
       </Container>
     </>

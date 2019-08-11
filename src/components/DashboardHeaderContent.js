@@ -73,13 +73,22 @@ const StyledLink = styled(Link)`
   color: white;
 `;
 
-function DashboardHeaderContent({ looks }) {
+function DashboardHeaderContent({ looks, weather, temp, tags }) {
   function renderLook(look) {
     return <Look id={look._id} img={look.img} title={look.title} />;
   }
 
-  const todaysLook = looks && looks[0];
+  const todaysLooks =
+    looks &&
+    looks.filter(look => look.temp === temp && look.weather === weather);
 
+  const todaysLook = todaysLooks[0];
+  console.log(todaysLook);
+  const tag1 = todaysLook && todaysLook.tags[0];
+  const tag2 = todaysLook && todaysLook.tags[1];
+  //function renderTag() {
+  //  return <Tag key={tag}>{tag}</Tag>;
+  // }
   return (
     <DashboardHeader>
       <DashboardTitle>
@@ -91,10 +100,8 @@ function DashboardHeaderContent({ looks }) {
       </TodaysOutfitTitle>
       <TodaysCard>{todaysLook && renderLook(todaysLook)}</TodaysCard>
       <Tags>
-        <TagContainer1>
-          {todaysLook && <Tag>#{todaysLook.tags} </Tag>}
-        </TagContainer1>
-        <TagContainer2 />
+        <TagContainer1>{todaysLook && <Tag>{tag1} </Tag>}</TagContainer1>
+        <TagContainer2>{todaysLook && <Tag>{tag2} </Tag>}</TagContainer2>
       </Tags>
     </DashboardHeader>
   );

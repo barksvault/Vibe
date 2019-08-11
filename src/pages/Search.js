@@ -76,7 +76,7 @@ function Search({ handleLookSelect, history, looks, ...props }) {
       searchValue ? searchValue : "hcfizewakdfzwekfewkadzrkwezdfkwe"
     );
     setResult(result);
-  }, [searchValue]);
+  }, [looks]);
 
   function renderOutfit(outfit) {
     return (

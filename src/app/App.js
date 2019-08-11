@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -17,15 +17,18 @@ const Container = styled.div`
 
 function App() {
   const [looks, setLooks] = React.useState(getFromLocal("looks") || []);
-  const [weather, setWeather] = React.useState({});
+  const [weather, setWeather] = React.useState(getWeather());
   const [temp, setTemp] = React.useState({});
+
   async function getWeather() {
     const currentWeather = await axios.get(
       "https://cors-anywhere.herokuapp.com/https://api.weatherbit.io/v2.0/current?city=Hamburg&key=9d4650c365ef47b6b9cacd4eadf8c3a1"
     );
+    // const jsonData = await currentWeather.json();
 
-    setWeather(currentWeather.data.data[0].weather.code) &&
-      console.log(currentWeather.data.data[0]);
+    setWeather(currentWeather.data.data[0].weather.code);
+
+    setTemp(currentWeather.data.data[0].app_temp);
   }
 
   function handleCreate(look) {
@@ -49,7 +52,13 @@ function App() {
           <Route
             path="/create"
             render={props => (
-              <Create looks={looks} onCreate={handleCreate} {...props} />
+              <Create
+                looks={looks}
+                weather={weather}
+                temp={temp}
+                onCreate={handleCreate}
+                {...props}
+              />
             )}
           />
           <Route
@@ -68,7 +77,13 @@ function App() {
           <Route
             path="/dashboard"
             render={props => (
-              <Dashboard deleteLook={deleteLook} looks={looks} {...props} />
+              <Dashboard
+                deleteLook={deleteLook}
+                weather={weather}
+                temp={temp}
+                looks={looks}
+                {...props}
+              />
             )}
           />
 

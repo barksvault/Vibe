@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import CreateHeader from "../components/CreateHeader";
@@ -12,6 +12,7 @@ import { fadeVibe } from "../utils/animations";
 import Popup from "reactjs-popup";
 import ColorBttn from "../Images/ColorBttn.png";
 import SeasonInput from "../components/Seasoninput";
+import { setToLocal } from "../services";
 
 const Container = styled.div`
   padding: 20px;
@@ -99,7 +100,7 @@ const ColorDot = styled.div`
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
-function CreateCard({ res, looks, weather, onCreate, ...props }) {
+function CreateCard({ res, looks, weather, temp, onCreate, ...props }) {
   // const [image, setImage] = React.useState("");
 
   function upload(event) {
@@ -115,6 +116,7 @@ function CreateCard({ res, looks, weather, onCreate, ...props }) {
           "Content-type": "multipart/form-data"
         }
       })
+
       .then(res => {
         // setImage(res.data.secure_url);
         setFormValues({ ...formValues, img: res.data.secure_url });
@@ -127,19 +129,6 @@ function CreateCard({ res, looks, weather, onCreate, ...props }) {
   //   setImage(response.data.url);
   //   console.log(response.data.url);
   // }
-
-  const [formValues, setFormValues] = React.useState({
-    _id: uuid(),
-    img: "",
-    title: "",
-    color: "",
-    description: "",
-    season: "",
-    tags: "",
-    favorites: "",
-    weather: weather
-  });
-
   function handleChange(event) {
     const { name, value } = event.target;
     setFormValues({
@@ -148,16 +137,53 @@ function CreateCard({ res, looks, weather, onCreate, ...props }) {
     });
   }
 
-  function handleSubmit() {
-    // First save data
-    // console.log(formValues);
+  const [formValues, setFormValues] = React.useState({
+    _id: uuid(),
+    img: "",
+    title: "",
 
+    description: "",
+    season: "",
+    tags: "",
+    color: "",
+    favorites: "",
+    weather: weather,
+    temp: temp
+  });
+
+  const resImg = formValues.img;
+
+  const [color, setColor] = React.useState();
+  useEffect(() => {
+    var sightengine = require("sightengine")(
+      "958064678",
+      "XcpJCy4xCUG26Fvp9nZC"
+    );
+
+    sightengine
+      .check(["properties"])
+      .set_url(resImg)
+      .then(function(result) {
+        setColor({ ...formValues, color: result.colors.accent[0].hex });
+      })
+      .catch(function(err) {
+        // handle the error
+      });
+  });
+
+  function handleSubmit() {
+    setToLocal("looks", [...looks, formValues]);
     onCreate(formValues);
     props.history.push("/dashboard");
   }
   const handleColorChange = ({ hex }) =>
     setFormValues({ ...formValues, color: hex });
 
+  function handleTags(e) {
+    const tagValue = e.target.value;
+    const tags = tagValue.split(",").map(tag => tag.trim());
+    setFormValues({ ...formValues, tags: tags });
+  }
   function handleSelectedSeason(e) {
     const selectedSeason = e.target.value;
     setFormValues({ ...formValues, season: selectedSeason });
@@ -198,7 +224,7 @@ function CreateCard({ res, looks, weather, onCreate, ...props }) {
           name="description"
           onChange={handleChange}
         />
-        <TagInput placeholder="Tags" name="tags" onChange={handleChange} />
+        <TagInput placeholder="Tags" name="tags" onChange={handleTags} />
 
         <FavoritePieceInput
           placeholder="Favorite piece"
