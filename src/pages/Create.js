@@ -7,6 +7,11 @@ import SubmitButton from "../Images/SubmitButton.png";
 import { CirclePicker } from "react-color";
 import { setToLocal } from "../services";
 import axios from "axios";
+import uuid from "uuid/v1";
+import { fadeVibe } from "../utils/animations";
+import Popup from "reactjs-popup";
+import ColorBttn from "../Images/ColorBttn.png";
+import SeasonInput from "../components/Seasoninput";
 
 const Container = styled.div`
   padding: 20px;
@@ -22,6 +27,9 @@ const StyledForm = styled.form`
 
   padding: 10px;
   padding-bottom: 7px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;
 const TitleInput = styled.input`
   ::placeholder {
@@ -33,7 +41,7 @@ const TitleInput = styled.input`
   border: 3px solid #663992;
   font-size: 15px;
 `;
-const DescriptionInput = styled.input`
+const DescriptionInput = styled.textarea`
   ::placeholder {
     color: #663992;
   }
@@ -44,17 +52,7 @@ const DescriptionInput = styled.input`
   font-size: 15px;
   border: 3px solid #663992;
 `;
-const SeasonInput = styled.input`
-  ::placeholder {
-    color: #663992;
-  }
-  margin-bottom: 30px;
-  padding: 10px;
-  border-radius: 14px;
 
-  font-size: 15px;
-  border: 3px solid #663992;
-`;
 const TagInput = styled.input`
   ::placeholder {
     color: #663992;
@@ -73,14 +71,32 @@ const FavoritePieceInput = styled.input`
   margin-bottom: 30px;
   padding: 10px;
   border-radius: 14px;
-  margin-bottom: 10px;
+
   font-size: 15px;
   border: 3px solid #663992;
 `;
 
-const AddImgButton = styled.img``;
+const AddImgButton = styled.img`
+  animation: ${fadeVibe} 2s ease 1 both;
+`;
+
 const SubButton = styled.img`
   padding-bottom: 40px;
+`;
+const StyledImgContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const ImgUpload = styled.div`
+  display: none;
+`;
+const ColorDot = styled.div`
+  margin-bottom: 30px;
+  height: 25px;
+  width: 25px;
+  background-image: url(${ColorBttn});
+  border-radius: 50%;
 `;
 
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
@@ -90,7 +106,6 @@ function CreateCard({ looks, setLooks, ...props }) {
   // const [image, setImage] = React.useState("");
 
   function upload(event) {
-    console.log("hu");
     const url = `https://api.cloudinary.com/v1_1/${CLOUDNAME}/upload`;
 
     const formData = new FormData();
@@ -117,9 +132,14 @@ function CreateCard({ looks, setLooks, ...props }) {
   // }
 
   const [formValues, setFormValues] = React.useState({
+    _id: uuid(),
+    img: "",
     title: "",
+    color: "",
     description: "",
-    img: ""
+    season: "",
+    tags: "",
+    favorites: ""
   });
 
   function handleChange(event) {
@@ -133,10 +153,17 @@ function CreateCard({ looks, setLooks, ...props }) {
   function handleSubmit() {
     // First save data
     // console.log(formValues);
-    setToLocal("looks", [...looks, formValues]);
-    setLooks([...looks, formValues]);
+
+    setToLocal("looks", [formValues, ...looks]);
+    setLooks([formValues, ...looks]);
     props.history.push("/dashboard");
-    // then redirect to...
+  }
+  const handleColorChange = ({ hex }) =>
+    setFormValues({ ...formValues, color: hex });
+
+  function handleSelectedSeason(e) {
+    const selectedSeason = e.target.value;
+    setFormValues({ ...formValues, season: selectedSeason });
   }
 
   return (
@@ -145,14 +172,22 @@ function CreateCard({ looks, setLooks, ...props }) {
 
       <Container>
         {" "}
-        <AddImgButton src={ImgButton} />
-        <div>
-          {formValues.img ? (
-            <img src={formValues.img} alt="" style={{ width: "100%" }} />
-          ) : (
-            <input type="file" name="img" onChange={upload} />
+        <StyledImgContainer>
+          <label for="file-input">
+            <AddImgButton src={ImgButton} />
+          </label>
+          <ImgUpload>
+            <input id="file-input" type="file" name="img" onChange={upload} />
+          </ImgUpload>
+
+          {formValues.img && (
+            <img
+              src={formValues.img}
+              alt=""
+              style={{ width: "50%", borderRadius: "50px" }}
+            />
           )}
-        </div>
+        </StyledImgContainer>
       </Container>
       <StyledForm onSubmit={handleSubmit}>
         <TitleInput
@@ -166,13 +201,32 @@ function CreateCard({ looks, setLooks, ...props }) {
           name="description"
           onChange={handleChange}
         />
-        <TagInput placeholder="Tags" />
-        <SeasonInput placeholder="Season" />
-        <FavoritePieceInput placeholder="Favorite piece" />
+        <TagInput placeholder="Tags" name="tags" />
+
+        <FavoritePieceInput
+          placeholder="Favorite piece"
+          name="favorite"
+          onChange={handleChange}
+        />
+        <Popup trigger={<ColorDot />} position="top ">
+          {close => (
+            <div>
+              <div>
+                <CirclePicker
+                  name="color"
+                  onChangeComplete={handleColorChange}
+                />
+              </div>
+              <a className="close" onClick={close}>
+                &times;
+              </a>
+            </div>
+          )}
+        </Popup>
       </StyledForm>
+      <SeasonInput onhandleSelectedSeason={handleSelectedSeason} />
 
       <Container>
-        <CirclePicker />
         <SubButton src={SubmitButton} onClick={handleSubmit} />
       </Container>
       <Navbar />
