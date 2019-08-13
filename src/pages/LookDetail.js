@@ -1,9 +1,23 @@
 import React from "react";
 import styled from "styled-components";
-import Detail from "../Images/DetailBackground.png";
-import { fadeVibe } from "../utils/animations";
+import Detail from "../Images/LandingImg.png";
+import { fadeDown } from "../utils/animations";
 
-function LookDetail({ history, looks, match, deleteLook }) {
+import Popup from "reactjs-popup";
+
+function LookDetail({
+  onEdit,
+  formValues,
+  history,
+  looks,
+  match,
+  deleteLook,
+  editLook
+}) {
+  const [edit, setEdit] = React.useState(true);
+  const [editedValue, setEditedValue] = React.useState({
+    description: ""
+  });
   const outfit = looks && looks.find(look => look._id === match.params.id);
   console.log(outfit);
   if (!outfit) {
@@ -18,10 +32,9 @@ function LookDetail({ history, looks, match, deleteLook }) {
   const DetailImg = styled.img`
     border: white 2px solid;
     border-radius: 20px;
-    object-fit: cover;
+    object-fit: fill;
     height: 384px;
-    width: 100vw;
-    animation: ${fadeVibe} 3s ease 1 both;
+    width: 100%;
   `;
   const StyledHeader = styled.h1`
     text-align: center;
@@ -36,10 +49,13 @@ function LookDetail({ history, looks, match, deleteLook }) {
     border-radius: 50%;
     display: inline-block;
   `;
+
   const Container = styled.div`
-    animation: ${fadeVibe} 3s ease 1 both;
+    animation: ${fadeDown} 1s ease 1 both;
     color: white;
-    background: url(${Detail});
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-image: url(${Detail});
     height: 100vh;
     overflow: auto;
   `;
@@ -48,12 +64,65 @@ function LookDetail({ history, looks, match, deleteLook }) {
     flex-direction: column;
     padding: 10px;
   `;
+
   const StyledPara = styled.p`
-    background-color: rgba(216, 216, 216, 0.141882);
+    background-color: rgba(216, 216, 216, 0.2);
     padding: 10px;
     margin: 0;
   `;
+  const PopupContainer = styled.div`
+    position: relative;
+  `;
+  const OptionButton = styled.button`
+    background: white;
+    height: 15px;
+    width: 20px;
+    background: white;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font: yellow;
+  `;
+  const DeleteButton = styled.button`
+    padding: 10px;
+    height: 25px;
+    width: 25px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 19px;
+    right: 12px;
+  `;
+  const OptionContainer = styled.div`
+    height: 50px;
+    width: 100px;
+  `;
 
+  const ContainerDetail = styled.div`
+    height: 100vh;
+    overflow: auto;
+    background: rgba(8, 8, 9, 0.36);
+  `;
+  const EditButton = styled.button`
+    height: 25px;
+    width: 25px;
+    background: violet;
+    border-radius: 50%;
+  `;
+
+  function handleChange(event) {
+    event.preventDefault();
+
+    const { name, value } = event.target;
+    setEditedValue({
+      ...editedValue,
+      [name]: value
+    });
+    console.log(editedValue);
+  }
+  function handleSubmit() {
+    onEdit(editedValue);
+  }
   function handleBackClick() {
     history.push(`/dashboard`);
   }
@@ -62,23 +131,45 @@ function LookDetail({ history, looks, match, deleteLook }) {
     <>
       <Container>
         <BackButton className="fas fa-chevron-left" onClick={handleBackClick} />
+
         <StyledHeader> {outfit.title} </StyledHeader>
-        <DetailImg src={outfit.img} alt={outfit.title} />
+        <PopupContainer>
+          <DetailImg src={outfit.img} alt={outfit.title} />
+          <Popup
+            trigger={<OptionButton className="button" />}
+            position="left top"
+            on="click"
+          >
+            <OptionContainer title="Left Top">
+              <DeleteButton onClick={() => deleteLook(outfit._id, history)} />
+              <EditButton
+                onClick={() => {
+                  setEdit(!edit);
+                }}
+              />
+            </OptionContainer>
+          </Popup>
+        </PopupContainer>
         <ContainerContent>
           <h2>Description</h2>
-          <StyledPara>{outfit.description}</StyledPara>
+          {edit ? (
+            <StyledPara>{outfit.description}</StyledPara>
+          ) : (
+            <input
+              type="text"
+              name="description"
+              placeholder={outfit.description}
+              onChange={handleChange}
+            />
+          )}
           <h2>Favorite Piece</h2>
           <StyledPara>{outfit.favorite}</StyledPara>
           <h2>Season</h2>
           <StyledPara>{outfit.season}</StyledPara>
           <h2>Tags</h2>
           <StyledPara>{outfit.tags}</StyledPara>
-          <h2>Color</h2>
-          <ColorDot />
-          <button onClick={() => deleteLook(outfit._id, history)}>
-            {" "}
-            "delete look"
-          </button>
+          {outfit.color && <h2>Color</h2>}
+          <ColorDot>{outfit.color}</ColorDot>
         </ContainerContent>
       </Container>
     </>

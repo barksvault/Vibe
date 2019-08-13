@@ -4,6 +4,8 @@ import { fadeIn } from "../utils/animations";
 import BackgroundVibe from "../Images/BackgroundVibe.png";
 import Look from "./Look";
 
+import { Link } from "react-router-dom";
+
 const DashboardHeader = styled.header`
   animation: ${fadeIn} 3s ease 1 both;
   background-image: url(${BackgroundVibe});
@@ -22,6 +24,7 @@ const DashboardHeader = styled.header`
 `;
 
 const DashboardTitle = styled.h1`
+  text-decoration: none;
   color: white;
   font-size: 30px;
   grid-area: 1 / 2 / 2 / 7;
@@ -56,39 +59,55 @@ const Tags = styled.div`
 
 const TagContainer1 = styled.div`
   grid-area: 1 / 1 / 2 / 3;
+  margin-bottom: 10px;
 `;
 const TagContainer2 = styled.div`
   grid-area: 2 / 2 / 3 / 4;
+  margin-top: 10px;
 `;
 const Tag = styled.span`
   border: solid white 1px;
   padding: 4px;
+  border-radius: 4px;
+  margin-bottom: 5px;
 `;
 
-function DashboardHeaderContent({ looks }) {
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+`;
+
+function DashboardHeaderContent({ looks, weather }) {
   function renderLook(look) {
     return <Look id={look._id} img={look.img} title={look.title} />;
   }
-  function renderTags(lookTag) {
-    return <Tag id={lookTag._id} tag={lookTag.tags} />;
-  }
+
+  const todaysLooks =
+    looks && weather
+      ? looks.filter(
+          look => look.temp === weather.temp && look.weather === weather.code
+        )
+      : looks;
+
+  const todaysLook = todaysLooks[0];
+  const tag1 = todaysLook && todaysLook.tags[0];
+  const tag2 = todaysLook && todaysLook.tags[1];
+  //function renderTag() {
+  //  return <Tag key={tag}>{tag}</Tag>;
+  // }
   return (
     <DashboardHeader>
-      <DashboardTitle>VIBE </DashboardTitle>
+      <DashboardTitle>
+        <StyledLink to="/">VIBE</StyledLink>{" "}
+      </DashboardTitle>
       <TodaysOutfitTitle>
         <TodaysSubTitle>Today's</TodaysSubTitle>
         <OutfitSubTitle>Outfit</OutfitSubTitle>
       </TodaysOutfitTitle>
-      <TodaysCard>{looks && renderLook(looks[0])}</TodaysCard>
+      <TodaysCard>{todaysLook && renderLook(todaysLook)}</TodaysCard>
       <Tags>
-        <TagContainer1>
-          {looks
-            .slice(0, 2)
-            .map(lookTag => lookTag.tags && renderTags(lookTag))}
-        </TagContainer1>
-        <TagContainer2>
-          <Tag>#Classy</Tag>
-        </TagContainer2>
+        <TagContainer1>{todaysLook && <Tag>#{tag1} </Tag>}</TagContainer1>
+        <TagContainer2>{todaysLook && <Tag>#{tag2} </Tag>}</TagContainer2>
       </Tags>
     </DashboardHeader>
   );

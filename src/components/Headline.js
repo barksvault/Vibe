@@ -6,7 +6,8 @@ import { fadeVibe } from "../utils/animations";
 const sizes = {
   S: "18px",
   M: "20px",
-  L: "24px"
+  L: "24px",
+  XL: "30px"
 };
 
 function getSize(size) {
@@ -14,7 +15,6 @@ function getSize(size) {
 }
 
 const StyledHeadline = styled.h1`
-  margin: -80px;
   font-size: ${props => getSize(props.size)};
   color: white;
   font-family: "Montserrat", sans-serif;
@@ -26,7 +26,7 @@ function Headline({ size, ...props }) {
 }
 
 Headline.propTypes = {
-  size: PropTypes.oneOf(["S", "M", "L"])
+  size: PropTypes.oneOf(["S", "M", "L", "XL"])
 };
 
 Headline.defaultProps = {

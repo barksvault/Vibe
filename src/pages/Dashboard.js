@@ -17,7 +17,7 @@ const StyledNavbar = styled(Navbar)`
 const CardContainerTitle = styled.h2`
   animation: ${fadeIn} 3s ease 1 both;
   color: #673a94;
-  margin-left: 21px;
+  margin-left: 30px;
 `;
 const CardContainer = styled.div`
   animation: ${fadeIn} 3s ease 1 both;
@@ -28,7 +28,7 @@ const CardContainer = styled.div`
   justify-items: center;
 `;
 
-function Dashboard({ looks, history }) {
+function Dashboard({ looks, history, weather, temp }) {
   const [selectedLook, setSelectedLook] = React.useState(null);
 
   function renderLook(look) {
@@ -44,16 +44,16 @@ function Dashboard({ looks, history }) {
   }
 
   function handleLookSelect(look, _id) {
-    setSelectedLook({ _id: uuid(), ...look });
+    setSelectedLook({ _id: uuid(), ...selectedLook });
     history.push(`look/${look._id}`);
   }
 
   return (
     <>
-      <DashboardHeaderContent looks={looks} />
+      <DashboardHeaderContent looks={looks} weather={weather} temp={temp} />
       <CardContainerTitle>Your closet</CardContainerTitle>
       <CardContainer>
-        {looks.map(look => look.img && renderLook(look))}
+        {looks && looks.map(look => renderLook(look))}
       </CardContainer>
 
       <StyledNavbar />

@@ -5,8 +5,10 @@ const Background = styled.img`
   top: 0;
   object-fit: cover;
   z-index: -1;
-  height: 100%;
+  height: 100vh;
   width: 100%;
-  filter: grayscale(0.3) saturate(5);
+  filter: saturate(1);
+  align-items: center;
+  justify-content: center;
 `;
 export default Background;
