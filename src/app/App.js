@@ -10,6 +10,7 @@ import Landing from "../pages/Landing";
 import Search from "../pages/Search";
 import { getFromLocal, setToLocal } from "../services";
 import LookDetail from "../pages/LookDetail";
+import uuid from "uuid/v1";
 
 const Container = styled.div`
   height: 100vh;
@@ -17,8 +18,15 @@ const Container = styled.div`
 
 function App() {
   const [looks, setLooks] = React.useState(getFromLocal("looks") || []);
-  const [weather, setWeather] = React.useState(getWeather());
-  const [temp, setTemp] = React.useState({});
+  const [weather, setWeather] = React.useState(null);
+
+  React.useEffect(() => {
+    getWeather();
+  }, []);
+
+  React.useEffect(() => {
+    setToLocal("looks", looks);
+  }, [looks]);
 
   async function getWeather() {
     const currentWeather = await axios.get(
@@ -26,13 +34,20 @@ function App() {
     );
     // const jsonData = await currentWeather.json();
 
-    setWeather(currentWeather.data.data[0].weather.code);
-
-    setTemp(currentWeather.data.data[0].app_temp);
+    setWeather({
+      code: currentWeather.data.data[0].weather.code,
+      temp: currentWeather.data.data[0].app_temp
+    });
   }
 
   function handleCreate(look) {
-    setLooks([look, ...looks]);
+    const newLook = {
+      ...look,
+      _id: uuid(),
+      weather: weather.code,
+      temp: weather.temp
+    };
+    setLooks([newLook, ...looks]);
   }
 
   function deleteLook(id, history) {
@@ -52,13 +67,7 @@ function App() {
           <Route
             path="/create"
             render={props => (
-              <Create
-                looks={looks}
-                weather={weather}
-                temp={temp}
-                onCreate={handleCreate}
-                {...props}
-              />
+              <Create looks={looks} onCreate={handleCreate} {...props} />
             )}
           />
           <Route
@@ -80,7 +89,6 @@ function App() {
               <Dashboard
                 deleteLook={deleteLook}
                 weather={weather}
-                temp={temp}
                 looks={looks}
                 {...props}
               />

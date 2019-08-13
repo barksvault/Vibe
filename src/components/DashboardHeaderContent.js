@@ -59,13 +59,17 @@ const Tags = styled.div`
 
 const TagContainer1 = styled.div`
   grid-area: 1 / 1 / 2 / 3;
+  margin-bottom: 10px;
 `;
 const TagContainer2 = styled.div`
   grid-area: 2 / 2 / 3 / 4;
+  margin-top: 10px;
 `;
 const Tag = styled.span`
   border: solid white 1px;
   padding: 4px;
+  border-radius: 4px;
+  margin-bottom: 5px;
 `;
 
 const StyledLink = styled(Link)`
@@ -73,17 +77,19 @@ const StyledLink = styled(Link)`
   color: white;
 `;
 
-function DashboardHeaderContent({ looks, weather, temp, tags }) {
+function DashboardHeaderContent({ looks, weather }) {
   function renderLook(look) {
     return <Look id={look._id} img={look.img} title={look.title} />;
   }
 
   const todaysLooks =
-    looks &&
-    looks.filter(look => look.temp === temp && look.weather === weather);
+    looks && weather
+      ? looks.filter(
+          look => look.temp === weather.temp && look.weather === weather.code
+        )
+      : looks;
 
   const todaysLook = todaysLooks[0];
-  console.log(todaysLook);
   const tag1 = todaysLook && todaysLook.tags[0];
   const tag2 = todaysLook && todaysLook.tags[1];
   //function renderTag() {
@@ -100,8 +106,8 @@ function DashboardHeaderContent({ looks, weather, temp, tags }) {
       </TodaysOutfitTitle>
       <TodaysCard>{todaysLook && renderLook(todaysLook)}</TodaysCard>
       <Tags>
-        <TagContainer1>{todaysLook && <Tag>{tag1} </Tag>}</TagContainer1>
-        <TagContainer2>{todaysLook && <Tag>{tag2} </Tag>}</TagContainer2>
+        <TagContainer1>{todaysLook && <Tag>#{tag1} </Tag>}</TagContainer1>
+        <TagContainer2>{todaysLook && <Tag>#{tag2} </Tag>}</TagContainer2>
       </Tags>
     </DashboardHeader>
   );

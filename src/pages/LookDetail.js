@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import Detail from "../Images/BackgroundVibe.png";
-import { fadeVibe } from "../utils/animations";
+import Detail from "../Images/LandingImg.png";
+import { fadeDown } from "../utils/animations";
+
+import Popup from "reactjs-popup";
 
 function LookDetail({ history, looks, match, deleteLook }) {
   const outfit = looks && looks.find(look => look._id === match.params.id);
-
+  console.log(outfit);
   if (!outfit) {
     return null; // Look not found
   }
@@ -21,7 +23,6 @@ function LookDetail({ history, looks, match, deleteLook }) {
     object-fit: fill;
     height: 384px;
     width: 100%;
-    animation: ${fadeVibe} 3s ease 1 both;
   `;
   const StyledHeader = styled.h1`
     text-align: center;
@@ -36,12 +37,13 @@ function LookDetail({ history, looks, match, deleteLook }) {
     border-radius: 50%;
     display: inline-block;
   `;
+
   const Container = styled.div`
-    animation: ${fadeVibe} 3s ease 1 both;
+    animation: ${fadeDown} 1s ease 1 both;
     color: white;
-    background: url(${Detail});
     object-fit: cover;
     background-repeat: no-repeat;
+    background-image: url(${Detail});
     height: 100vh;
     overflow: auto;
   `;
@@ -50,10 +52,22 @@ function LookDetail({ history, looks, match, deleteLook }) {
     flex-direction: column;
     padding: 10px;
   `;
+
   const StyledPara = styled.p`
-    background-color: rgba(216, 216, 216, 0.141882);
+    background-color: rgba(216, 216, 216, 0.2);
     padding: 10px;
     margin: 0;
+  `;
+  const OptionButton = styled.button`
+    z-index: 100;
+    background: white;
+    content: "\2807";
+    font-size: 100px;
+
+    font-size: 20px;
+    color: white;
+    font: white;
+    content: "f39b";
   `;
   const DeleteButton = styled.button`
     padding: 10px;
@@ -65,6 +79,16 @@ function LookDetail({ history, looks, match, deleteLook }) {
     top: 19px;
     right: 12px;
   `;
+  const OptionContainer = styled.div`
+    height: 100px;
+    width: 50px;
+  `;
+
+  const ContainerDetail = styled.div`
+    height: 100vh;
+    overflow: auto;
+    background: rgba(8, 8, 9, 0.36);
+  `;
   function handleBackClick() {
     history.push(`/dashboard`);
   }
@@ -75,7 +99,15 @@ function LookDetail({ history, looks, match, deleteLook }) {
         <DeleteButton onClick={() => deleteLook(outfit._id, history)}>
           {" "}
         </DeleteButton>
+        <Popup
+          trigger={<OptionButton className="button" />}
+          position="left top"
+          on="hover"
+        >
+          <OptionContainer title="Left Top" />
+        </Popup>
         <BackButton className="fas fa-chevron-left" onClick={handleBackClick} />
+
         <StyledHeader> {outfit.title} </StyledHeader>
         <DetailImg src={outfit.img} alt={outfit.title} />
 
@@ -88,7 +120,7 @@ function LookDetail({ history, looks, match, deleteLook }) {
           <StyledPara>{outfit.season}</StyledPara>
           <h2>Tags</h2>
           <StyledPara>{outfit.tags}</StyledPara>
-          <h2>Color</h2>
+          {outfit.color && <h2>Color</h2>}
           <ColorDot>{outfit.color}</ColorDot>
         </ContainerContent>
       </Container>

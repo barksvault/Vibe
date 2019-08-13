@@ -7,12 +7,10 @@ import SubmitButton from "../Images/SubmitButton.png";
 import { CirclePicker } from "react-color";
 
 import axios from "axios";
-import uuid from "uuid/v1";
-import { fadeVibe } from "../utils/animations";
+import { fadeDown } from "../utils/animations";
 import Popup from "reactjs-popup";
 import ColorBttn from "../Images/ColorBttn.png";
 import SeasonInput from "../components/Seasoninput";
-import { setToLocal } from "../services";
 
 const Container = styled.div`
   padding: 20px;
@@ -24,6 +22,7 @@ const Container = styled.div`
 `;
 
 const StyledForm = styled.form`
+  animation: ${fadeDown} 1s ease 1 both;
   padding: 10px;
   padding-bottom: 7px;
   display: flex;
@@ -66,6 +65,7 @@ const FavoritePieceInput = styled.input`
   ::placeholder {
     color: #663992;
   }
+  outline: none;
   margin-bottom: 30px;
   padding: 10px;
   border-radius: 14px;
@@ -75,7 +75,7 @@ const FavoritePieceInput = styled.input`
 `;
 
 const AddImgButton = styled.img`
-  animation: ${fadeVibe} 2s ease 1 both;
+  animation: ${fadeDown} 1s ease 1 both;
 `;
 
 const SubButton = styled.img`
@@ -96,13 +96,25 @@ const ColorDot = styled.div`
   background-image: url(${ColorBttn});
   border-radius: 50%;
 `;
-
+const StyledError = styled.div`
+  color: #663992;
+`;
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
-function CreateCard({ res, looks, weather, temp, onCreate, ...props }) {
+function CreateCard({ res, looks, onCreate, ...props }) {
   // const [image, setImage] = React.useState("");
-
+  const [formValues, setFormValues] = React.useState({
+    img: "",
+    title: "",
+    description: "",
+    season: "",
+    tags: "",
+    favorites: "",
+    color: ""
+  });
+  const [color, setColor] = React.useState();
+  const [errors, setErrors] = React.useState({});
   function upload(event) {
     const url = `https://api.cloudinary.com/v1_1/${CLOUDNAME}/upload`;
 
@@ -124,6 +136,29 @@ function CreateCard({ res, looks, weather, temp, onCreate, ...props }) {
       .catch(err => console.error(err));
   }
 
+  function validate() {
+    const errors = {};
+
+    if (formValues.img.trim() === "") {
+      errors.img = "Add an Image ";
+    }
+
+    if (formValues.title.trim() === "") {
+      errors.title = "Please add a picture";
+    }
+    if (formValues.description.trim() === "") {
+      errors.description = "Please add a description";
+    }
+    if (formValues.tags === "") {
+      errors.tags = "Please add a tags";
+    }
+
+    if (formValues.favorites.trim === "") {
+      errors.favorites = "Please add a favorites";
+    }
+    return Object.keys(errors).length === 0 ? null : errors;
+  }
+
   // function onImageSave(response) {
   //   console.log(response);
   //   setImage(response.data.url);
@@ -137,45 +172,37 @@ function CreateCard({ res, looks, weather, temp, onCreate, ...props }) {
     });
   }
 
-  const [formValues, setFormValues] = React.useState({
-    _id: uuid(),
-    img: "",
-    title: "",
-
-    description: "",
-    season: "",
-    tags: "",
-    color: "",
-    favorites: "",
-    weather: weather,
-    temp: temp
-  });
-
-  const resImg = formValues.img;
-
-  const [color, setColor] = React.useState();
   useEffect(() => {
-    var sightengine = require("sightengine")(
+    if (!formValues.img) {
+      return;
+    }
+
+    const sightengine = require("sightengine")(
       "958064678",
       "XcpJCy4xCUG26Fvp9nZC"
     );
 
     sightengine
       .check(["properties"])
-      .set_url(resImg)
+      .set_url(formValues.img)
       .then(function(result) {
-        setColor({ ...formValues, color: result.colors.accent[0].hex });
+        console.log(result);
+        setFormValues({ ...formValues, color: result.colors.accent[0].hex });
       })
-      .catch(function(err) {
-        // handle the error
-      });
-  });
+      .catch(function(err) {});
+  }, [formValues.img]);
 
   function handleSubmit() {
-    setToLocal("looks", [...looks, formValues]);
+    const errors = validate();
+
+    if (errors) {
+      setErrors(errors);
+      return;
+    }
     onCreate(formValues);
     props.history.push("/dashboard");
   }
+
   const handleColorChange = ({ hex }) =>
     setFormValues({ ...formValues, color: hex });
 
@@ -184,6 +211,7 @@ function CreateCard({ res, looks, weather, temp, onCreate, ...props }) {
     const tags = tagValue.split(",").map(tag => tag.trim());
     setFormValues({ ...formValues, tags: tags });
   }
+
   function handleSelectedSeason(e) {
     const selectedSeason = e.target.value;
     setFormValues({ ...formValues, season: selectedSeason });
@@ -192,7 +220,6 @@ function CreateCard({ res, looks, weather, temp, onCreate, ...props }) {
   return (
     <>
       <CreateHeader />
-
       <Container>
         {" "}
         <StyledImgContainer>
@@ -213,23 +240,34 @@ function CreateCard({ res, looks, weather, temp, onCreate, ...props }) {
         </StyledImgContainer>
       </Container>
       <StyledForm onSubmit={handleSubmit}>
+        {errors.title && <StyledError>{errors.title}</StyledError>}
         <TitleInput
-          placeholder="Look title"
+          placeholder="Look Title"
           name="title"
           value={formValues.title}
           onChange={handleChange}
+          error={errors.title}
         />
+        {errors.description && <StyledError>{errors.description}</StyledError>}
         <DescriptionInput
           placeholder="Description"
           name="description"
           onChange={handleChange}
+          error={errors.description}
+        />{" "}
+        {errors.tags && <StyledError>{errors.tags}</StyledError>}
+        <TagInput
+          placeholder="Tags"
+          name="tags"
+          onChange={handleTags}
+          error={errors.tags}
         />
-        <TagInput placeholder="Tags" name="tags" onChange={handleTags} />
-
+        {errors.favorites && <StyledError>{errors.favorites}</StyledError>}
         <FavoritePieceInput
-          placeholder="Favorite piece"
-          name="favorite"
+          placeholder="Favorite Piece"
+          name="favorites"
           onChange={handleChange}
+          error={errors.favorites}
         />
         <Popup trigger={<ColorDot />} position="right ">
           {close => (
@@ -246,13 +284,15 @@ function CreateCard({ res, looks, weather, temp, onCreate, ...props }) {
             </div>
           )}
         </Popup>
-      </StyledForm>
-      <SeasonInput onhandleSelectedSeason={handleSelectedSeason} />
-
+      </StyledForm>{" "}
+      {errors.season && <StyledError>{errors.season}</StyledError>}
+      <SeasonInput
+        onhandleSelectedSeason={handleSelectedSeason}
+        error={errors.season}
+      />
       <Container>
         <SubButton src={SubmitButton} onClick={handleSubmit} />
       </Container>
-
       <Navbar />
     </>
   );

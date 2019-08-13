@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const StyledLook = styled.div`
+  background: white;
   width: 120px;
   border-radius: 15px;
   display: flex;
@@ -25,7 +26,7 @@ const LookImg = styled.img`
 
 export const LookTitle = styled.div`
   text-align: center;
-  border-top: 1px solid #663992;
+
   padding: 2px 5px;
   font-size: 14px;
   color: ${props => props.titleColor || "#663992"};

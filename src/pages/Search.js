@@ -34,6 +34,7 @@ const MoodContainer = styled.div`
 const SearchInput = styled.input`
   ::placeholder {
     color: white;
+    opacity: 0.5;
   }
   outline: none;
   animation: ${fadeVibe} 3s ease 1 both;
@@ -69,14 +70,12 @@ function Search({ handleLookSelect, history, looks, ...props }) {
       distance: 100,
       maxPatternLength: 32,
       minMatchCharLength: 1,
-      keys: ["title", "description", "tags", "season"]
+      keys: ["title", "description", "tags", "season", "favorites"]
     };
     const fuse = new Fuse(looks, options); // "list" is the item array
-    const result = fuse.search(
-      searchValue ? searchValue : "hcfizewakdfzwekfewkadzrkwezdfkwe"
-    );
+    const result = fuse.search(searchValue);
     setResult(result);
-  }, [looks]);
+  }, [searchValue]);
 
   function renderOutfit(outfit) {
     return (

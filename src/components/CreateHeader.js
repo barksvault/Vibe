@@ -6,7 +6,7 @@ import { fadeIn } from "../utils/animations";
 const Image = styled.img``;
 
 const Container = styled.div`
-  animation: ${fadeIn} 3s ease 1 both;
+  animation: ${fadeIn} 1.5s ease 1 both;
   display: flex;
   justify-content: center;
 `;
