@@ -113,7 +113,7 @@ function CreateCard({ res, looks, onCreate, ...props }) {
     favorites: "",
     color: ""
   });
-  const [color, setColor] = React.useState();
+
   const [errors, setErrors] = React.useState({});
   function upload(event) {
     const url = `https://api.cloudinary.com/v1_1/${CLOUDNAME}/upload`;

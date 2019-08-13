@@ -5,7 +5,19 @@ import { fadeDown } from "../utils/animations";
 
 import Popup from "reactjs-popup";
 
-function LookDetail({ history, looks, match, deleteLook }) {
+function LookDetail({
+  onEdit,
+  formValues,
+  history,
+  looks,
+  match,
+  deleteLook,
+  editLook
+}) {
+  const [edit, setEdit] = React.useState(true);
+  const [editedValue, setEditedValue] = React.useState({
+    description: ""
+  });
   const outfit = looks && looks.find(look => look._id === match.params.id);
   console.log(outfit);
   if (!outfit) {
@@ -58,16 +70,18 @@ function LookDetail({ history, looks, match, deleteLook }) {
     padding: 10px;
     margin: 0;
   `;
+  const PopupContainer = styled.div`
+    position: relative;
+  `;
   const OptionButton = styled.button`
-    z-index: 100;
     background: white;
-    content: "\2807";
-    font-size: 100px;
-
-    font-size: 20px;
-    color: white;
-    font: white;
-    content: "f39b";
+    height: 15px;
+    width: 20px;
+    background: white;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font: yellow;
   `;
   const DeleteButton = styled.button`
     padding: 10px;
@@ -80,8 +94,8 @@ function LookDetail({ history, looks, match, deleteLook }) {
     right: 12px;
   `;
   const OptionContainer = styled.div`
-    height: 100px;
-    width: 50px;
+    height: 50px;
+    width: 100px;
   `;
 
   const ContainerDetail = styled.div`
@@ -89,6 +103,26 @@ function LookDetail({ history, looks, match, deleteLook }) {
     overflow: auto;
     background: rgba(8, 8, 9, 0.36);
   `;
+  const EditButton = styled.button`
+    height: 25px;
+    width: 25px;
+    background: violet;
+    border-radius: 50%;
+  `;
+
+  function handleChange(event) {
+    event.preventDefault();
+
+    const { name, value } = event.target;
+    setEditedValue({
+      ...editedValue,
+      [name]: value
+    });
+    console.log(editedValue);
+  }
+  function handleSubmit() {
+    onEdit(editedValue);
+  }
   function handleBackClick() {
     history.push(`/dashboard`);
   }
@@ -96,24 +130,38 @@ function LookDetail({ history, looks, match, deleteLook }) {
   return (
     <>
       <Container>
-        <DeleteButton onClick={() => deleteLook(outfit._id, history)}>
-          {" "}
-        </DeleteButton>
-        <Popup
-          trigger={<OptionButton className="button" />}
-          position="left top"
-          on="hover"
-        >
-          <OptionContainer title="Left Top" />
-        </Popup>
         <BackButton className="fas fa-chevron-left" onClick={handleBackClick} />
 
         <StyledHeader> {outfit.title} </StyledHeader>
-        <DetailImg src={outfit.img} alt={outfit.title} />
-
+        <PopupContainer>
+          <DetailImg src={outfit.img} alt={outfit.title} />
+          <Popup
+            trigger={<OptionButton className="button" />}
+            position="left top"
+            on="click"
+          >
+            <OptionContainer title="Left Top">
+              <DeleteButton onClick={() => deleteLook(outfit._id, history)} />
+              <EditButton
+                onClick={() => {
+                  setEdit(!edit);
+                }}
+              />
+            </OptionContainer>
+          </Popup>
+        </PopupContainer>
         <ContainerContent>
           <h2>Description</h2>
-          <StyledPara>{outfit.description}</StyledPara>
+          {edit ? (
+            <StyledPara>{outfit.description}</StyledPara>
+          ) : (
+            <input
+              type="text"
+              name="description"
+              placeholder={outfit.description}
+              onChange={handleChange}
+            />
+          )}
           <h2>Favorite Piece</h2>
           <StyledPara>{outfit.favorite}</StyledPara>
           <h2>Season</h2>

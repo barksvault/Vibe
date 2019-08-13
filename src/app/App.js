@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -49,7 +49,9 @@ function App() {
     };
     setLooks([newLook, ...looks]);
   }
-
+  function handleEdit(edit) {
+    setLooks([edit, ...looks]);
+  }
   function deleteLook(id, history) {
     const outfits = looks.filter(look => {
       return look._id !== id;
@@ -79,7 +81,12 @@ function App() {
           <Route
             path="/look/:id"
             render={props => (
-              <LookDetail deleteLook={deleteLook} looks={looks} {...props} />
+              <LookDetail
+                deleteLook={deleteLook}
+                onEdit={handleEdit}
+                looks={looks}
+                {...props}
+              />
             )}
           />
 
