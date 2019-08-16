@@ -11,7 +11,9 @@ html,body {
 body {
     font-family: 'Montserrat', sans-serif;
 }
-
+input, textarea, button, img, a {
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
 .popup-content {
    
     width:auto !important;

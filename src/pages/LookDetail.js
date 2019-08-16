@@ -24,13 +24,6 @@ const StyledHeader = styled.h1`
   margin-top: 0;
   color: white;
 `;
-const ColorDot = styled.span`
-  height: 25px;
-  width: 25px;
-
-  border-radius: 50%;
-  display: inline-block;
-`;
 
 const Container = styled.div`
   animation: ${fadeDown} 1s ease 1 both;
@@ -86,39 +79,24 @@ const EditButton = styled.button`
   background: violet;
   border-radius: 50%;
 `;
-
-function LookDetail({
-  onChange,
-  formValues,
-  history,
-  looks,
-  match,
-  deleteLook,
-  editLook
-}) {
-  const [edit, setEdit] = React.useState(true);
-  const [editedValue, setEditedValue] = React.useState({ description: "" });
+const ColorDot = styled.span`
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: inline-block;
+`;
+function LookDetail({ onChange, looks, history, match, deleteLook }) {
   const outfit = looks && looks.find(look => look._id === match.params.id);
+
   if (!outfit) {
-    return null; // Look not found
+    return null;
   }
 
-  function handleChange(event) {
-    event.preventDefault();
-
-    const { name, value } = event.target;
-    setEditedValue({
-      ...editedValue,
-      [name]: value
-    });
-    console.log(editedValue);
-  }
-  function handleSubmit(event) {
-    event.preventDefault();
-    onChange(editedValue);
-  }
   function handleBackClick() {
     history.push(`/dashboard`);
+  }
+  function handleEdit() {
+    history.push(`/create/${outfit._id}`);
   }
 
   return (
@@ -136,29 +114,15 @@ function LookDetail({
           >
             <OptionContainer title="Left Top">
               <DeleteButton onClick={() => deleteLook(outfit._id, history)} />
-              <EditButton
-                onClick={() => {
-                  setEdit(!edit);
-                }}
-              />
+              <EditButton onClick={() => handleEdit(outfit)} />
             </OptionContainer>
           </Popup>
         </PopupContainer>
         <ContainerContent>
           <h2>Description</h2>
-          {edit ? (
-            <StyledPara>{outfit.description}</StyledPara>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              >
-              <input
-                type="text"
-                name="description"
-                placeholder={outfit.description}
-                onChange={handleChange}
-              />
-            </form>
-          )}
+
+          <StyledPara>{outfit.description}</StyledPara>
+
           <h2>Favorite Piece</h2>
           <StyledPara>{outfit.favorite}</StyledPara>
           <h2>Season</h2>
@@ -166,7 +130,7 @@ function LookDetail({
           <h2>Tags</h2>
           <StyledPara>{outfit.tags}</StyledPara>
           {outfit.color && <h2>Color</h2>}
-          <ColorDot>{outfit.color}</ColorDot>
+          <ColorDot />
         </ContainerContent>
       </Container>
     </>

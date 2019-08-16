@@ -99,20 +99,37 @@ const ColorDot = styled.div`
 const StyledError = styled.div`
   color: #663992;
 `;
+const StyledLabel = styled.label`
+  display: flex;
+  justify-content: center;
+  font: 20px;
+`;
+const PopupContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
-function CreateCard({ res, looks, onCreate, ...props }) {
-  // const [image, setImage] = React.useState("");
-  const [formValues, setFormValues] = React.useState({
-    img: "",
-    title: "",
-    description: "",
-    season: "",
-    tags: "",
-    favorites: "",
-    color: ""
-  });
+function CreateCard({ res, looks, match, onCreate, ...props }) {
+  const outfiToEdit =
+    match.params.id &&
+    looks &&
+    looks.find(look => look._id === match.params.id);
+  const [showSeasons, setShowSeasons] = React.useState(false);
+  const [formValues, setFormValues] = React.useState(
+    outfiToEdit
+      ? { ...outfiToEdit }
+      : {
+          img: "",
+          title: "",
+          description: "",
+          season: "",
+          tags: "",
+          favorites: "",
+          color: ""
+        }
+  );
 
   const [errors, setErrors] = React.useState({});
   function upload(event) {
@@ -159,11 +176,6 @@ function CreateCard({ res, looks, onCreate, ...props }) {
     return Object.keys(errors).length === 0 ? null : errors;
   }
 
-  // function onImageSave(response) {
-  //   console.log(response);
-  //   setImage(response.data.url);
-  //   console.log(response.data.url);
-  // }
   function handleChange(event) {
     const { name, value } = event.target;
     setFormValues({
@@ -186,7 +198,6 @@ function CreateCard({ res, looks, onCreate, ...props }) {
       .check(["properties"])
       .set_url(formValues.img)
       .then(function(result) {
-        console.log(result);
         setFormValues({ ...formValues, color: result.colors.accent[0].hex });
       })
       .catch(function(err) {});
@@ -199,7 +210,8 @@ function CreateCard({ res, looks, onCreate, ...props }) {
       setErrors(errors);
       return;
     }
-    onCreate(formValues);
+
+    onCreate(formValues, showSeasons);
     props.history.push("/dashboard");
   }
 
@@ -212,18 +224,22 @@ function CreateCard({ res, looks, onCreate, ...props }) {
     setFormValues({ ...formValues, tags: tags });
   }
 
+  function handleSeasonClick(e) {
+    setShowSeasons(!showSeasons);
+  }
   function handleSelectedSeason(e) {
     const selectedSeason = e.target.value;
+
     setFormValues({ ...formValues, season: selectedSeason });
   }
-
+  console.log();
   return (
     <>
       <CreateHeader />
       <Container>
         {" "}
         <StyledImgContainer>
-          <label for="file-input">
+          <label htmlFor="file-input">
             <AddImgButton src={ImgButton} />
           </label>
           <ImgUpload>
@@ -244,12 +260,13 @@ function CreateCard({ res, looks, onCreate, ...props }) {
         <TitleInput
           placeholder="Look Title"
           name="title"
-          value={formValues.title}
           onChange={handleChange}
           error={errors.title}
+          defaultValue={outfiToEdit && outfiToEdit.title}
         />
         {errors.description && <StyledError>{errors.description}</StyledError>}
         <DescriptionInput
+          defaultValue={formValues.description}
           placeholder="Description"
           name="description"
           onChange={handleChange}
@@ -257,6 +274,7 @@ function CreateCard({ res, looks, onCreate, ...props }) {
         />{" "}
         {errors.tags && <StyledError>{errors.tags}</StyledError>}
         <TagInput
+          defaultValue={outfiToEdit && outfiToEdit.tags}
           placeholder="Tags"
           name="tags"
           onChange={handleTags}
@@ -264,34 +282,48 @@ function CreateCard({ res, looks, onCreate, ...props }) {
         />
         {errors.favorites && <StyledError>{errors.favorites}</StyledError>}
         <FavoritePieceInput
+          defaultValue={outfiToEdit && outfiToEdit.favorites}
           placeholder="Favorite Piece"
           name="favorites"
           onChange={handleChange}
           error={errors.favorites}
         />
-        <Popup trigger={<ColorDot />} position="right ">
-          {close => (
-            <div>
+        <PopupContainer>
+          <Popup trigger={<ColorDot />} position="center">
+            {close => (
               <div>
-                <CirclePicker
-                  name="color"
-                  onChangeComplete={handleColorChange}
-                />
+                <div>
+                  <CirclePicker
+                    name="color"
+                    onChangeComplete={handleColorChange}
+                  />
+                </div>
+                <a className="close" onClick={close}>
+                  &times;
+                </a>
               </div>
-              <a href={"color"} className="close" onClick={close}>
-                &times;
-              </a>
-            </div>
-          )}
-        </Popup>
+            )}
+          </Popup>
+        </PopupContainer>
       </StyledForm>{" "}
       {errors.season && <StyledError>{errors.season}</StyledError>}
-      <SeasonInput
-        onhandleSelectedSeason={handleSelectedSeason}
-        error={errors.season}
-      />
+      <StyledLabel>
+        For this Season?
+        <input
+          name="showSeason"
+          type="checkbox"
+          checked={showSeasons}
+          onClick={handleSeasonClick}
+        />
+      </StyledLabel>
+      {showSeasons && (
+        <SeasonInput
+          onhandleSelectedSeason={handleSelectedSeason}
+          error={errors.season}
+        />
+      )}
       <Container>
-        <SubButton src={SubmitButton} onClick={handleSubmit} />
+        <SubButton src={SubmitButton} onClick={handleSubmit} />}
       </Container>
       <Navbar />
     </>

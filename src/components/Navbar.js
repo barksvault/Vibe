@@ -16,18 +16,25 @@ const NavbarContainer = styled.footer`
   align-items: flex-end;
 `;
 
+const NavbarElement = styled.img`
+  transition: all 0.4s;
+  &:active {
+    background: violet;
+    border-radius: 50%;
+  }
+`;
 function Navbar({ className }) {
   return (
     <NavbarContainer className={className}>
       <Link to="/search">
-        <img src={SearchButton} alt="Search" />
+        <NavbarElement src={SearchButton} alt="Search" />
       </Link>
 
       <Link to="/dashboard">
-        <img src={VibeButton} alt="Vibe" />
+        <NavbarElement src={VibeButton} alt="Vibe" />
       </Link>
       <Link to="/create">
-        <img src={CreateButton} alt="Create" />
+        <NavbarElement src={CreateButton} alt="Create" />
       </Link>
     </NavbarContainer>
   );

@@ -7,7 +7,7 @@ import Look from "./Look";
 import { Link } from "react-router-dom";
 
 const DashboardHeader = styled.header`
-  animation: ${fadeIn} 3s ease 1 both;
+  animation: ${fadeIn} 1.5s ease 1 both;
   background-image: url(${BackgroundVibe});
   background-repeat: no-repeat;
   background-position: center bottom;
@@ -78,18 +78,24 @@ const StyledLink = styled(Link)`
 `;
 
 function DashboardHeaderContent({ looks, weather }) {
+  const [seasonRange, setSeasonRange] = React.useState();
   function renderLook(look) {
     return <Look id={look._id} img={look.img} title={look.title} />;
   }
 
+  switch (true) {
+    case weather.temp >= 10:
+      setSeasonRange("Winter");
+      break;
+  }
+
   const todaysLooks =
     looks && weather
-      ? looks.filter(
-          look => look.temp === weather.temp && look.weather === weather.code
-        )
+      ? looks.filter(look => Math.abs(weather.temp - look.temp) <= 3)
       : looks;
-
+  console.log(todaysLooks);
   const todaysLook = todaysLooks[0];
+
   const tag1 = todaysLook && todaysLook.tags[0];
   const tag2 = todaysLook && todaysLook.tags[1];
   //function renderTag() {
