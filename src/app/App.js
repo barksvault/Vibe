@@ -18,7 +18,7 @@ const Container = styled.div`
 
 function App() {
   const [looks, setLooks] = React.useState(getFromLocal("looks") || []);
-  const [weather, setWeather] = React.useState(null);
+  const [weather, setWeather] = React.useState();
 
   React.useEffect(() => {
     getWeather();
@@ -38,11 +38,9 @@ function App() {
       code: currentWeather.data.data[0].weather.code,
       temp: currentWeather.data.data[0].app_temp
     });
-    console.log(weather);
   }
-
+  console.log(weather);
   function handleCreate(look, showSeasons) {
-    console.log(showSeasons);
     const newLookId = { ...look, _id: uuid() };
     const newLookWeather = {
       ...look,
