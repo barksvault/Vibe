@@ -77,29 +77,18 @@ const StyledLink = styled(Link)`
   color: white;
 `;
 
-function DashboardHeaderContent({ looks, weather }) {
-  const [seasonRange, setSeasonRange] = React.useState();
-
+function DashboardHeaderContent({ seasonRange, looks, weather }) {
   function renderLook(look) {
     return <Look id={look._id} img={look.img} title={look.title} />;
   }
-  React.useEffect(() => {
-    if (weather.temp >= 8 && weather.temp <= 16) {
-      setSeasonRange("Spring");
-    } else if (weather.temp >= 16 && weather.temp <= 50) {
-      setSeasonRange("Sommer");
-    } else if (weather.temp >= 5 && weather.temp <= 18) {
-      setSeasonRange("Fall");
-    } else if (weather.temp <= 7) {
-      setSeasonRange("Winter");
-    }
-  }, []);
-  console.log(seasonRange);
+  console.log(weather);
   const todaysLooks =
-    looks && weather
-      ? looks.filter(look => Math.abs(weather.temp - look.temp) <= 1)
-      : looks.filter(look => look.season === seasonRange);
-
+    looks &&
+    looks.filter(
+      look =>
+        look.season === seasonRange || Math.abs(weather.temp - look.temp) <= 3
+    );
+  console.log(todaysLooks);
   const todaysLook = todaysLooks[0];
 
   const tag1 = todaysLook && todaysLook.tags[0];

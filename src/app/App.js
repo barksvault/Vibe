@@ -8,21 +8,40 @@ import Dashboard from "../pages/Dashboard";
 import GlobalStyle from "./GlobalStyles";
 import Landing from "../pages/Landing";
 import Search from "../pages/Search";
-import { getFromLocal, setToLocal } from "../services";
+
 import LookDetail from "../pages/LookDetail";
 import uuid from "uuid/v1";
+import {
+  getFromLocal,
+  setToLocal,
+  getLooks,
+  postLook,
+  patchLook
+} from "../services";
 
 const Container = styled.div`
   height: 100vh;
 `;
 
 function App() {
-  const [looks, setLooks] = React.useState(getFromLocal("looks") || []);
-  const [weather, setWeather] = React.useState();
+  const [looks, setLooks] = React.useState([]);
+  const [weather, setWeather] = React.useState({});
+  const [seasonRange, setSeasonRange] = React.useState();
+
+  React.useEffect(() => {
+    loadLooks();
+  }, []);
+  async function loadLooks() {
+    setLooks(await getLooks());
+  }
+  function updateCardInState(data) {
+    const index = looks.findIndex(look => look._id === data._id);
+    setLooks([...looks.slice(0, index), data, ...looks.slice(index + 1)]);
+  }
 
   React.useEffect(() => {
     getWeather();
-  }, []);
+  }, [looks]);
 
   React.useEffect(() => {
     setToLocal("looks", looks);
@@ -30,15 +49,26 @@ function App() {
 
   async function getWeather() {
     const currentWeather = await axios.get(
-      "https://cors-anywhere.herokuapp.com/https://api.weatherbit.io/v2.0/current?city=Hamburg&key=9d4650c365ef47b6b9cacd4eadf8c3a1"
+      "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=Hamburg&units=metric&appid=9000a13cb01f156d8f261209d67d50c6"
     );
-    // const jsonData = await currentWeather.json();
 
-    setWeather({
-      code: currentWeather.data.data[0].weather.code,
-      temp: currentWeather.data.data[0].app_temp
+    return setWeather({
+      code: currentWeather.data.weather[0].id,
+      temp: currentWeather.data.main.temp
     });
   }
+  React.useEffect(() => {
+    if (weather.temp >= 8 && weather.temp <= 16) {
+      setSeasonRange("Spring");
+    } else if (weather.temp >= 16 && weather.temp <= 50) {
+      setSeasonRange("Sommer");
+    } else if (weather.temp >= 5 && weather.temp <= 18) {
+      setSeasonRange("Fall");
+    } else if (weather.temp <= 7) {
+      setSeasonRange("Winter");
+    }
+  }, []);
+
   console.log(weather);
   function handleCreate(look, showSeasons) {
     const newLookId = { ...look, _id: uuid() };
@@ -51,10 +81,10 @@ function App() {
     !showSeasons
       ? setLooks([newLookWeather, ...looks])
       : setLooks([newLookId, ...looks]);
+    postLook(look).then(result => setLooks([result, ...looks]));
   }
   function handleEdit(look) {
-    const index = looks.findIndex(item => item._id === look._id);
-    setLooks([...looks.slice(0, index), look, ...looks.slice(index + 1)]);
+    patchLook(look, look._id).then(result => updateCardInState(result));
   }
   function deleteLook(id, history) {
     const outfits = looks.filter(look => {
@@ -100,6 +130,7 @@ function App() {
             path="/dashboard"
             render={props => (
               <Dashboard
+                seasonRange={seasonRange}
                 deleteLook={deleteLook}
                 weather={weather}
                 looks={looks}
