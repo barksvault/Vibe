@@ -8,6 +8,9 @@ export function getLooks() {
 export function postLook(data) {
   return fetchLook("POST", data);
 }
+export function deleteLooks(id) {
+  return fetchLook("DELETE", null, id);
+}
 
 export function patchLook(data, id) {
   return fetchLook("PATCH", data, id);
@@ -19,6 +22,6 @@ function fetchLook(method, data, id = "") {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(data)
+    body: data ? JSON.stringify(data) : undefined
   }).then(res => res.json());
 }

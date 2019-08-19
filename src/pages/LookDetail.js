@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Detail from "../Images/LandingImg.png";
+import Detail from "../Images/BackgroundVibe.png";
 import { fadeDown } from "../utils/animations";
 import Popup from "reactjs-popup";
 

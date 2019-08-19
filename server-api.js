@@ -22,4 +22,10 @@ module.exports = function(app) {
       .then(look => res.json(look))
       .catch(err => res.json(err));
   });
+  app.delete("/api/looks/:id", (req, res) => {
+    const { id } = req.params;
+    Look.findByIdAndRemove(id)
+      .then(look => res.json({ success: true }))
+      .catch(err => res.json(err));
+  });
 };

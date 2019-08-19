@@ -89,10 +89,10 @@ function DashboardHeaderContent({ seasonRange, looks, weather }) {
         look.season === seasonRange || Math.abs(weather.temp - look.temp) <= 3
     );
 
-  // const todaysLook = todaysLooks[0];
+  const todaysLook = todaysLooks[0];
 
-  // const tag1 = todaysLook && todaysLook.tags[0];
-  // const tag2 = todaysLook && todaysLook.tags[1];
+  const tag1 = todaysLook && todaysLook.tags[0];
+  const tag2 = todaysLook && todaysLook.tags[1];
 
   return (
     <DashboardHeader>
@@ -102,15 +102,24 @@ function DashboardHeaderContent({ seasonRange, looks, weather }) {
       <TodaysOutfitTitle>
         <TodaysSubTitle>Today's</TodaysSubTitle>
         <OutfitSubTitle>Outfit</OutfitSubTitle>
-      </TodaysOutfitTitle>
+      </TodaysOutfitTitle>{" "}
       <TodaysCard>
         <RecommendationSlider>
-          {looks && looks.map(look => renderLook(look))}
+          {looks && renderLook(todaysLooks)}
         </RecommendationSlider>
       </TodaysCard>
       <Tags>
-        <TagContainer1>{<Tag> </Tag>}</TagContainer1>
-        <TagContainer2>{<Tag> </Tag>}</TagContainer2>
+        {todaysLook && (
+          <TagContainer1>
+            {" "}
+            <Tag>{tag1} </Tag>
+          </TagContainer1>
+        )}
+        {todaysLook && (
+          <TagContainer2>
+            <Tag> {tag2} </Tag>
+          </TagContainer2>
+        )}
       </Tags>
     </DashboardHeader>
   );

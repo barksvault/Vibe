@@ -103,7 +103,6 @@ const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
 function CreateCard({ res, looks, weather, match, onCreate, ...props }) {
-  console.log(weather);
   const outfiToEdit =
     match.params.id &&
     looks &&
@@ -120,8 +119,8 @@ function CreateCard({ res, looks, weather, match, onCreate, ...props }) {
           tags: "",
           favorites: "",
           color: "",
-          temp: !showSeasons && weather.temp,
-          weatherCondition: !showSeasons && weather.code
+          temp: !showSeasons ? weather.temp : "",
+          weatherCondition: !showSeasons ? weather.code : ""
         }
   );
 

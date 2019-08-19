@@ -11,13 +11,15 @@ import Search from "../pages/Search";
 import Mockdata from "../mockdata/mockdata";
 
 import LookDetail from "../pages/LookDetail";
-import uuid from "uuid/v1";
+
 import {
   getFromLocal,
   setToLocal,
   getLooks,
   postLook,
-  patchLook
+  patchLook,
+  deleteLook,
+  deleteLooks
 } from "../services";
 
 const Container = styled.div`
@@ -26,7 +28,7 @@ const Container = styled.div`
 
 function App() {
   const [looks, setLooks] = React.useState();
-  console.log(looks);
+
   const [weather, setWeather] = React.useState({});
   const [seasonRange, setSeasonRange] = React.useState();
 
@@ -43,7 +45,7 @@ function App() {
 
   React.useEffect(() => {
     getWeather();
-  }, [looks]);
+  }, []);
 
   React.useEffect(() => {
     setToLocal("looks", looks);
@@ -71,22 +73,20 @@ function App() {
     }
   }, []);
 
-  console.log(weather);
   function handleCreate(look) {
-    console.log("jkdhsadkhasdkhasldh");
-
     console.log(look);
 
-    postLook(look).then(result => setLooks([result, ...looks]));
+    postLook(look).then(result => setLooks([...looks, result]));
   }
   function handleEdit(look) {
     patchLook(look, look._id).then(result => updateCardInState(result));
   }
   function deleteLook(id, history) {
-    const outfits = looks.filter(look => {
-      return look._id !== id;
+    deleteLooks(id).then(result => {
+      const index = looks.findIndex(look => look._id === id);
+      setLooks([...looks.slice(0, index), ...looks.slice(index + 1)]);
     });
-    setLooks(outfits);
+
     history.push("/dashboard");
   }
 
