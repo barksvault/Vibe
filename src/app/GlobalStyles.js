@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { slideRight } from "../utils/animations";
 
 export default createGlobalStyle`
 * {
@@ -19,5 +20,6 @@ input, textarea, button, img, a {
     width:auto !important;
    border: solid 2px #663992 !important;
     border-radius:14px !important;
+     animation: ${slideRight} 0.8s ease 1 both !important;
 }
 `;

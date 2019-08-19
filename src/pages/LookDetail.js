@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Detail from "../Images/LandingImg.png";
 import { fadeDown } from "../utils/animations";
-
 import Popup from "reactjs-popup";
 
 const BackButton = styled.div`
@@ -14,7 +13,7 @@ const BackButton = styled.div`
 const DetailImg = styled.img`
   border: white 2px solid;
   border-radius: 20px;
-  object-fit: fill;
+  object-fit: cover;
   height: 384px;
   width: 100%;
 `;
@@ -26,7 +25,7 @@ const StyledHeader = styled.h1`
 `;
 
 const Container = styled.div`
-  animation: ${fadeDown} 1s ease 1 both;
+  animation: ${fadeDown} 1.5s ease 1 both;
   color: white;
   object-fit: cover;
   background-repeat: no-repeat;
@@ -40,7 +39,7 @@ const ContainerContent = styled.div`
   padding: 10px;
 `;
 
-const StyledPara = styled.p`
+const StyledInfo = styled.p`
   background-color: rgba(216, 216, 216, 0.2);
   padding: 10px;
   margin: 0;
@@ -48,36 +47,46 @@ const StyledPara = styled.p`
 const PopupContainer = styled.div`
   position: relative;
 `;
-const OptionButton = styled.button`
-  background: white;
+
+const OptionButton = styled.img`
+  width: 30px;
   height: 15px;
-  width: 20px;
-  background: white;
+  border-radius: 14px;
+  background: #663992;
+  border: 10px double white;
+  box-shadow: 0px 13px 56px 34px rgba(0, 0, 0, 0.75);
   position: absolute;
   top: 10px;
   right: 20px;
-  font: yellow;
-`;
-const DeleteButton = styled.button`
-  padding: 10px;
-  height: 25px;
-  width: 25px;
-  background: white;
-  border-radius: 50%;
-  position: absolute;
-  top: 19px;
-  right: 12px;
+  &:active {
+    background-color: grey;
+  }
 `;
 const OptionContainer = styled.div`
-  height: 50px;
+  height: 65px;
   width: 100px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const EditButton = styled.button`
+  font-size: 12px;
+  color: #663992;
   height: 25px;
-  width: 25px;
-  background: violet;
-  border-radius: 50%;
+  width: auto;
+  border-radius: 15px;
+  background: white;
+  margin-bottom: 10px;
+  border: solid 2px #663992;
+`;
+const DeleteButton = styled.button`
+  font-size: 12px;
+  color: #663992;
+  height: 25px;
+  width: auto;
+  border-radius: 15px;
+  background: white;
+  border: solid 2px #663992;
 `;
 const ColorDot = styled.span`
   height: 25px;
@@ -85,7 +94,7 @@ const ColorDot = styled.span`
   border-radius: 50%;
   display: inline-block;
 `;
-function LookDetail({ onChange, looks, history, match, deleteLook }) {
+function LookDetail({ looks, history, match, deleteLook }) {
   const outfit = looks && looks.find(look => look._id === match.params.id);
 
   if (!outfit) {
@@ -113,22 +122,26 @@ function LookDetail({ onChange, looks, history, match, deleteLook }) {
             on="click"
           >
             <OptionContainer title="Left Top">
-              <DeleteButton onClick={() => deleteLook(outfit._id, history)} />
-              <EditButton onClick={() => handleEdit(outfit)} />
+              <EditButton onClick={() => handleEdit(outfit)}>
+                Edit look
+              </EditButton>
+              <DeleteButton onClick={() => deleteLook(outfit._id, history)}>
+                Delete look
+              </DeleteButton>
             </OptionContainer>
           </Popup>
         </PopupContainer>
         <ContainerContent>
           <h2>Description</h2>
 
-          <StyledPara>{outfit.description}</StyledPara>
+          <StyledInfo>{outfit.description}</StyledInfo>
 
           <h2>Favorite Piece</h2>
-          <StyledPara>{outfit.favorite}</StyledPara>
+          <StyledInfo>{outfit.favorite}</StyledInfo>
           <h2>Season</h2>
-          <StyledPara>{outfit.season}</StyledPara>
+          <StyledInfo>{outfit.season}</StyledInfo>
           <h2>Tags</h2>
-          <StyledPara>{outfit.tags}</StyledPara>
+          <StyledInfo>{outfit.tags}</StyledInfo>
           {outfit.color && <h2>Color</h2>}
           <ColorDot />
         </ContainerContent>

@@ -8,6 +8,7 @@ import Dashboard from "../pages/Dashboard";
 import GlobalStyle from "./GlobalStyles";
 import Landing from "../pages/Landing";
 import Search from "../pages/Search";
+import Mockdata from "../mockdata/mockdata";
 
 import LookDetail from "../pages/LookDetail";
 import uuid from "uuid/v1";
@@ -24,7 +25,7 @@ const Container = styled.div`
 `;
 
 function App() {
-  const [looks, setLooks] = React.useState([]);
+  const [looks, setLooks] = React.useState(Mockdata);
   const [weather, setWeather] = React.useState({});
   const [seasonRange, setSeasonRange] = React.useState();
 

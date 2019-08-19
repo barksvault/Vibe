@@ -11,13 +11,12 @@ import { fadeIn } from "../utils/animations";
 const StyledNavbar = styled(Navbar)`
   position: fixed;
   bottom: 0;
-
   width: 100%;
 `;
 const CardContainerTitle = styled.h2`
   animation: ${fadeIn} 1.5s ease 1 both;
   color: #673a94;
-  margin-left: 30px;
+  margin-left: 36px;
 `;
 const CardContainer = styled.div`
   animation: ${fadeIn} 1.5s ease 1 both;

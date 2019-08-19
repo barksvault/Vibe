@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { fadeIn } from "../utils/animations";
 import BackgroundVibe from "../Images/BackgroundVibe.png";
 import Look from "./Look";
-
 import { Link } from "react-router-dom";
 
 const DashboardHeader = styled.header`
