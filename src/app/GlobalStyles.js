@@ -20,6 +20,6 @@ input, textarea, button, img, a {
     width:auto !important;
    border: solid 2px #663992 !important;
     border-radius:14px !important;
-     animation: ${slideRight} 0.8s ease 1 both !important;
+     animation: ${slideRight} 0.6s ease 1 both !important;
 }
 `;

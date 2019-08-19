@@ -4,6 +4,7 @@ import { fadeIn } from "../utils/animations";
 import BackgroundVibe from "../Images/BackgroundVibe.png";
 import Look from "./Look";
 import { Link } from "react-router-dom";
+import RecommendationSlider from "./RecommendationSlider";
 
 const DashboardHeader = styled.header`
   animation: ${fadeIn} 1.5s ease 1 both;
@@ -80,21 +81,18 @@ function DashboardHeaderContent({ seasonRange, looks, weather }) {
   function renderLook(look) {
     return <Look id={look._id} img={look.img} title={look.title} />;
   }
-  console.log(weather);
+
   const todaysLooks =
     looks &&
     looks.filter(
       look =>
         look.season === seasonRange || Math.abs(weather.temp - look.temp) <= 3
     );
-  console.log(todaysLooks);
-  const todaysLook = todaysLooks[0];
 
-  const tag1 = todaysLook && todaysLook.tags[0];
-  const tag2 = todaysLook && todaysLook.tags[1];
-  //function renderTag() {
-  //  return <Tag key={tag}>{tag}</Tag>;
-  // }
+  // const todaysLook = todaysLooks[0];
+
+  // const tag1 = todaysLook && todaysLook.tags[0];
+  // const tag2 = todaysLook && todaysLook.tags[1];
 
   return (
     <DashboardHeader>
@@ -105,10 +103,14 @@ function DashboardHeaderContent({ seasonRange, looks, weather }) {
         <TodaysSubTitle>Today's</TodaysSubTitle>
         <OutfitSubTitle>Outfit</OutfitSubTitle>
       </TodaysOutfitTitle>
-      <TodaysCard>{todaysLook && renderLook(todaysLook)}</TodaysCard>
+      <TodaysCard>
+        <RecommendationSlider>
+          {looks && looks.map(look => renderLook(look))}
+        </RecommendationSlider>
+      </TodaysCard>
       <Tags>
-        <TagContainer1>{todaysLook && <Tag>#{tag1} </Tag>}</TagContainer1>
-        <TagContainer2>{todaysLook && <Tag>#{tag2} </Tag>}</TagContainer2>
+        <TagContainer1>{<Tag> </Tag>}</TagContainer1>
+        <TagContainer2>{<Tag> </Tag>}</TagContainer2>
       </Tags>
     </DashboardHeader>
   );

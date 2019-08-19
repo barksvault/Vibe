@@ -7,6 +7,7 @@ import DashboardHeaderContent from "../components/DashboardHeaderContent";
 // import { getFromLocal, setToLocal } from "../services";
 import uuid from "uuid/v1";
 import { fadeIn } from "../utils/animations";
+import RecommendationSlider from "../components/RecommendationSlider";
 
 const StyledNavbar = styled(Navbar)`
   position: fixed;

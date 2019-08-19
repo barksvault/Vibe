@@ -22,7 +22,7 @@ const StylesSearchlook = styled(SearchLook)`
   animation: ${fadeDown} 2s ease 1 both;
   margin-bottom: 30px;
 `;
-const MoodContainer = styled.div`
+const ResultContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -45,6 +45,14 @@ const SearchInput = styled.input`
   border: 3px solid white;
   font-size: 15px;
   color: white;
+`;
+
+const VibeContainer = styled.div`
+  display: grid;
+  padding-bottom: 77px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  justify-items: center;
 `;
 
 function Search({ handleLookSelect, history, looks, ...props }) {
@@ -89,6 +97,9 @@ function Search({ handleLookSelect, history, looks, ...props }) {
       />
     );
   }
+  function renderVibe(outfit) {
+    return <div key={outfit._id} id={outfit._id} />;
+  }
   function handleOutfit(outfit, _id) {
     history.push(`look/${outfit._id}`);
   }
@@ -104,9 +115,10 @@ function Search({ handleLookSelect, history, looks, ...props }) {
           type="search"
           onChange={handleChange}
         />
-        <MoodContainer>
+        <ResultContainer>
           {result.map(outfit => renderOutfit(outfit))}
-        </MoodContainer>
+        </ResultContainer>
+        <VibeContainer />
       </StyledFullscreen>
 
       <Navbar />

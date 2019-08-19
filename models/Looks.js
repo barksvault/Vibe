@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const lookSchema = new mongoose.Schema({
-  _id: {
-    type: String,
-    required: true
-  },
   img: {
     type: String,
     required: true
@@ -17,24 +13,18 @@ const lookSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  season: {
-    type: String,
-    required: true
-  },
+  season: String,
   tags: {
-    type: String,
+    type: [String],
     required: true
   },
-  _id: {
-    type: String,
-    required: true
-  },
+
   favorites: {
     type: String,
     required: true
   },
   color: String,
-  code: Number,
+  weatherCondition: Number,
   temp: Number
 });
 

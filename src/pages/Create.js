@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import CreateHeader from "../components/CreateHeader";
@@ -102,7 +102,8 @@ const StyledLabelTitel = styled.div`
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
-function CreateCard({ res, looks, match, onCreate, ...props }) {
+function CreateCard({ res, looks, weather, match, onCreate, ...props }) {
+  console.log(weather);
   const outfiToEdit =
     match.params.id &&
     looks &&
@@ -118,7 +119,9 @@ function CreateCard({ res, looks, match, onCreate, ...props }) {
           season: "",
           tags: "",
           favorites: "",
-          color: ""
+          color: "",
+          temp: !showSeasons && weather.temp,
+          weatherCondition: !showSeasons && weather.code
         }
   );
 
@@ -174,12 +177,12 @@ function CreateCard({ res, looks, match, onCreate, ...props }) {
     });
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (!formValues.img) {
       return;
     }
 
-    const sightengine = require("sightengine")(
+    /*const sightengine = require("sightengine")(
       "958064678",
       "XcpJCy4xCUG26Fvp9nZC"
     );
@@ -192,7 +195,7 @@ function CreateCard({ res, looks, match, onCreate, ...props }) {
       })
       .catch(function(err) {});
   }, [formValues.img]);
-
+*/
   function handleSubmit() {
     const errors = validate();
 
@@ -287,7 +290,6 @@ function CreateCard({ res, looks, match, onCreate, ...props }) {
           uncheckedIcon={false}
           checkedIcon={false}
           name="showSeason"
-          type="radio"
           checked={showSeasons}
           onChange={handleSeasonClick}
         />

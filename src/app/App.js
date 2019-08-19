@@ -25,7 +25,8 @@ const Container = styled.div`
 `;
 
 function App() {
-  const [looks, setLooks] = React.useState(Mockdata);
+  const [looks, setLooks] = React.useState();
+  console.log(looks);
   const [weather, setWeather] = React.useState({});
   const [seasonRange, setSeasonRange] = React.useState();
 
@@ -71,17 +72,11 @@ function App() {
   }, []);
 
   console.log(weather);
-  function handleCreate(look, showSeasons) {
-    const newLookId = { ...look, _id: uuid() };
-    const newLookWeather = {
-      ...look,
-      _id: uuid(),
-      weather: weather.code,
-      temp: weather.temp
-    };
-    !showSeasons
-      ? setLooks([newLookWeather, ...looks])
-      : setLooks([newLookId, ...looks]);
+  function handleCreate(look) {
+    console.log("jkdhsadkhasdkhasldh");
+
+    console.log(look);
+
     postLook(look).then(result => setLooks([result, ...looks]));
   }
   function handleEdit(look) {
@@ -110,7 +105,12 @@ function App() {
           <Route
             path="/create"
             render={props => (
-              <Create looks={looks} onCreate={handleCreate} {...props} />
+              <Create
+                looks={looks}
+                weather={weather}
+                onCreate={handleCreate}
+                {...props}
+              />
             )}
           />
 

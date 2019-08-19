@@ -1,13 +1,16 @@
 module.exports = function(app) {
+  console.log(app);
   const Look = require("./models/Looks");
 
   app.get("/api/looks", (req, res) => {
+    console.log("##########");
     Look.find()
       .then(looks => res.json(looks))
       .catch(err => res.json(err));
   });
 
   app.post("/api/looks", (req, res) => {
+    console.log("sdfkdjh");
     Look.create(req.body)
       .then(look => res.json(look))
       .catch(err => res.json(err));
