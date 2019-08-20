@@ -8,17 +8,14 @@ import Dashboard from "../pages/Dashboard";
 import GlobalStyle from "./GlobalStyles";
 import Landing from "../pages/Landing";
 import Search from "../pages/Search";
-import Mockdata from "../mockdata/mockdata";
 
 import LookDetail from "../pages/LookDetail";
 
 import {
-  getFromLocal,
   setToLocal,
   getLooks,
   postLook,
   patchLook,
-  deleteLook,
   deleteLooks
 } from "../services";
 
@@ -28,16 +25,16 @@ const Container = styled.div`
 
 function App() {
   const [looks, setLooks] = React.useState();
-
-  const [weather, setWeather] = React.useState({});
-  const [seasonRange, setSeasonRange] = React.useState();
+  const [weather, setWeather] = React.useState(null);
 
   React.useEffect(() => {
     loadLooks();
   }, []);
+
   async function loadLooks() {
     setLooks(await getLooks());
   }
+
   function updateCardInState(data) {
     const index = looks.findIndex(look => look._id === data._id);
     setLooks([...looks.slice(0, index), data, ...looks.slice(index + 1)]);
@@ -61,20 +58,17 @@ function App() {
       temp: currentWeather.data.main.temp
     });
   }
-  React.useEffect(() => {
-    if (weather.temp >= 8 && weather.temp <= 16) {
-      setSeasonRange("Spring");
-    } else if (weather.temp >= 16 && weather.temp <= 50) {
-      setSeasonRange("Sommer");
-    } else if (weather.temp >= 5 && weather.temp <= 18) {
-      setSeasonRange("Fall");
-    } else if (weather.temp <= 7) {
-      setSeasonRange("Winter");
-    }
-  }, []);
 
-  function handleCreate(look) {
+  function handleCreate(look, showSeasons) {
     console.log(look);
+
+    if (!showSeasons && weather) {
+      look = {
+        ...look,
+        temp: weather.temp || "",
+        weatherCondition: weather.code || ""
+      };
+    }
 
     postLook(look).then(result => setLooks([...looks, result]));
   }
@@ -131,7 +125,6 @@ function App() {
             path="/dashboard"
             render={props => (
               <Dashboard
-                seasonRange={seasonRange}
                 deleteLook={deleteLook}
                 weather={weather}
                 looks={looks}

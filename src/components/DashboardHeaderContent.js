@@ -46,7 +46,8 @@ const OutfitSubTitle = styled.div`
   grid-area: 2 / 2 / 3 / 4;
 `;
 const TodaysCard = styled.div`
-  grid-area: 3 / 6 / 8 / 7;
+  grid-area: 3 / 5 / 8 / 7;
+  z-index: 1000;
 `;
 const Tags = styled.div`
   color: white;
@@ -86,10 +87,11 @@ function DashboardHeaderContent({ seasonRange, looks, weather }) {
     looks &&
     looks.filter(
       look =>
-        look.season === seasonRange || Math.abs(weather.temp - look.temp) <= 3
+        look.season === seasonRange ||
+        (weather && Math.abs(weather.temp - look.temp) <= 3)
     );
 
-  const todaysLook = todaysLooks[0];
+  const todaysLook = todaysLooks && todaysLooks[0];
 
   const tag1 = todaysLook && todaysLook.tags[0];
   const tag2 = todaysLook && todaysLook.tags[1];
@@ -105,7 +107,7 @@ function DashboardHeaderContent({ seasonRange, looks, weather }) {
       </TodaysOutfitTitle>{" "}
       <TodaysCard>
         <RecommendationSlider>
-          {looks && renderLook(todaysLooks)}
+          {looks && looks.map(look => renderLook(look))}
         </RecommendationSlider>
       </TodaysCard>
       <Tags>

@@ -118,9 +118,7 @@ function CreateCard({ res, looks, weather, match, onCreate, ...props }) {
           season: "",
           tags: "",
           favorites: "",
-          color: "",
-          temp: !showSeasons ? weather.temp : "",
-          weatherCondition: !showSeasons ? weather.code : ""
+          color: ""
         }
   );
 
@@ -264,7 +262,7 @@ function CreateCard({ res, looks, weather, match, onCreate, ...props }) {
         {errors.tags && <StyledError>{errors.tags}</StyledError>}
         <TagInput
           defaultValue={outfiToEdit && outfiToEdit.tags}
-          placeholder="Tags"
+          placeholder="Vibes"
           name="tags"
           onChange={handleTags}
           error={errors.tags}
@@ -300,7 +298,7 @@ function CreateCard({ res, looks, weather, match, onCreate, ...props }) {
         />
       )}
       <Container>
-        <SubButton src={SubmitButton} onClick={handleSubmit} />}
+        <SubButton src={SubmitButton} onClick={handleSubmit} />
       </Container>
       <Navbar />
     </>

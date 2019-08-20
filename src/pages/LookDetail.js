@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Detail from "../Images/BackgroundVibe.png";
 import { fadeDown } from "../utils/animations";
 import Popup from "reactjs-popup";
+import Tag from "../components/Tags";
 
 const BackButton = styled.div`
   font-size: 30px;
@@ -88,6 +89,19 @@ const DeleteButton = styled.button`
   background: white;
   border: solid 2px #663992;
 `;
+const TagList = styled.div`
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  padding: 0;
+`;
+const StyledTag = styled.span`
+  border-radius: 3px;
+  margin-right: 5px;
+  color: white;
+  border: solid white 1px;
+  padding: 4px;
+`;
 const ColorDot = styled.span`
   height: 25px;
   width: 25px;
@@ -106,6 +120,10 @@ function LookDetail({ looks, history, match, deleteLook }) {
   }
   function handleEdit() {
     history.push(`/create/${outfit._id}`);
+  }
+
+  function renderTag(tag) {
+    return <StyledTag key={tag}>#{tag}</StyledTag>;
   }
 
   return (
@@ -140,8 +158,8 @@ function LookDetail({ looks, history, match, deleteLook }) {
           <StyledInfo>{outfit.favorite}</StyledInfo>
           <h2>Season</h2>
           <StyledInfo>{outfit.season}</StyledInfo>
-          <h2>Tags</h2>
-          <StyledInfo>{outfit.tags}</StyledInfo>
+          <h2>Vibes</h2>
+          <TagList>{outfit.tags.map(tag => renderTag(tag))}</TagList>
           {outfit.color && <h2>Color</h2>}
           <ColorDot />
         </ContainerContent>

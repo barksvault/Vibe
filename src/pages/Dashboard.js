@@ -7,18 +7,19 @@ import DashboardHeaderContent from "../components/DashboardHeaderContent";
 // import { getFromLocal, setToLocal } from "../services";
 import uuid from "uuid/v1";
 import { fadeIn } from "../utils/animations";
-import RecommendationSlider from "../components/RecommendationSlider";
 
 const StyledNavbar = styled(Navbar)`
   position: fixed;
   bottom: 0;
   width: 100%;
 `;
+
 const CardContainerTitle = styled.h2`
   animation: ${fadeIn} 1.5s ease 1 both;
   color: #673a94;
   margin-left: 36px;
 `;
+
 const CardContainer = styled.div`
   animation: ${fadeIn} 1.5s ease 1 both;
   display: grid;
@@ -28,8 +29,21 @@ const CardContainer = styled.div`
   justify-items: center;
 `;
 
-function Dashboard({ looks, history, weather, seasonRange, temp, ...props }) {
+function getSeasonRange(weather) {
+  if (weather.temp >= 8 && weather.temp <= 16) {
+    return "Spring";
+  } else if (weather.temp >= 16 && weather.temp <= 50) {
+    return "Sommer";
+  } else if (weather.temp >= 5 && weather.temp <= 18) {
+    return "Fall";
+  } else if (weather.temp <= 7) {
+    return "Winter";
+  }
+}
+
+function Dashboard({ looks, history, weather, ...props }) {
   const [selectedLook, setSelectedLook] = React.useState(null);
+  const seasonRange = weather && getSeasonRange(weather);
 
   function renderLook(look) {
     return (
@@ -53,7 +67,6 @@ function Dashboard({ looks, history, weather, seasonRange, temp, ...props }) {
       <DashboardHeaderContent
         looks={looks}
         weather={weather}
-        temp={temp}
         seasonRange={seasonRange}
         {...props}
       />
