@@ -65,6 +65,7 @@ function Dashboard({ looks, history, weather, ...props }) {
   return (
     <>
       <DashboardHeaderContent
+        onTodaysLookClick={handleLookSelect}
         looks={looks}
         weather={weather}
         seasonRange={seasonRange}

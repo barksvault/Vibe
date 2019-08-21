@@ -25,3 +25,19 @@ function fetchLook(method, data, id = "") {
     body: data ? JSON.stringify(data) : undefined
   }).then(res => res.json());
 }
+
+export function getUser() {
+  return fetch("/api/user").then(res => res.json());
+}
+export function postUser(data) {
+  return fetchUser("POST", data);
+}
+function fetchUser(method, data, id = "") {
+  return fetch("/api/user/" + id, {
+    method,
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: data ? JSON.stringify(data) : undefined
+  }).then(res => res.json());
+}

@@ -3,7 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
-function RecommendationSlider() {
+function RecommendationSlider(props) {
   const settings = {
     dots: false,
     infinite: true,
@@ -12,8 +12,10 @@ function RecommendationSlider() {
     vertical: true,
     verticalSwiping: true,
     autoplay: true,
-    speed: 2000
+    speed: 4000,
+    arrows: false,
+    fade: true
   };
-  return <Slider {...settings} />;
+  return <Slider {...settings} {...props} />;
 }
 export default RecommendationSlider;

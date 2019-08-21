@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { fadeIn } from "../utils/animations";
 import BackgroundVibe from "../Images/BackgroundVibe.png";
@@ -46,8 +46,10 @@ const OutfitSubTitle = styled.div`
   grid-area: 2 / 2 / 3 / 4;
 `;
 const TodaysCard = styled.div`
-  grid-area: 3 / 5 / 8 / 7;
-  z-index: 1000;
+  position: absolute;
+  width: 135px;
+  right: 22px;
+  top: 82px;
 `;
 const Tags = styled.div`
   color: white;
@@ -71,6 +73,7 @@ const Tag = styled.span`
   padding: 4px;
   border-radius: 4px;
   margin-bottom: 5px;
+  transition: all 0.4s;
 `;
 
 const StyledLink = styled(Link)`
@@ -78,24 +81,67 @@ const StyledLink = styled(Link)`
   color: white;
 `;
 
-function DashboardHeaderContent({ seasonRange, looks, weather }) {
+function DashboardHeaderContent({
+  onTodaysLookClick,
+  seasonRange,
+  looks,
+  weather
+}) {
+  const [indexCount, setIndexCount] = useState(0);
   function renderLook(look) {
-    return <Look id={look._id} img={look.img} title={look.title} />;
+    return (
+      <Look
+        key={look.title}
+        id={look._id}
+        img={look.img}
+        title={look.title}
+        onClick={() => onTodaysLookClick(look)}
+      />
+    );
   }
 
   const todaysLooks =
-    looks &&
+    looks & weather &&
     looks.filter(
       look =>
         look.season === seasonRange ||
         (weather && Math.abs(weather.temp - look.temp) <= 3)
     );
 
-  const todaysLook = todaysLooks && todaysLooks[0];
+  console.log(todaysLooks);
+  const tags = todaysLooks && todaysLooks.map(look => look.tags);
 
-  const tag1 = todaysLook && todaysLook.tags[0];
-  const tag2 = todaysLook && todaysLook.tags[1];
+  let showTags = tags && tags[indexCount];
+  console.log(todaysLooks);
+  console.log(tags);
+  const tag1 = showTags && showTags[0];
 
+  const tag2 = showTags && showTags[1];
+
+  useInterval(() => {
+    setIndexCount(indexCount + 1);
+  }, 4500);
+  if (tags && indexCount === tags.length) {
+    setIndexCount(0);
+  }
+  function useInterval(callback, delay) {
+    const savedCallback = useRef();
+
+    useEffect(() => {
+      savedCallback.current = callback;
+    });
+
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }, [delay]);
+  }
+
+  console.log(indexCount);
   return (
     <DashboardHeader>
       <DashboardTitle>
@@ -111,17 +157,14 @@ function DashboardHeaderContent({ seasonRange, looks, weather }) {
         </RecommendationSlider>
       </TodaysCard>
       <Tags>
-        {todaysLook && (
-          <TagContainer1>
-            {" "}
-            <Tag>{tag1} </Tag>
-          </TagContainer1>
-        )}
-        {todaysLook && (
-          <TagContainer2>
-            <Tag> {tag2} </Tag>
-          </TagContainer2>
-        )}
+        <TagContainer1>
+          {" "}
+          <Tag>#{tag1}</Tag>
+        </TagContainer1>
+
+        <TagContainer2>
+          <Tag>#{tag2}</Tag>
+        </TagContainer2>
       </Tags>
     </DashboardHeader>
   );

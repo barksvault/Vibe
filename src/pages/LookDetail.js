@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Detail from "../Images/BackgroundVibe.png";
 import { fadeDown } from "../utils/animations";
 import Popup from "reactjs-popup";
-import Tag from "../components/Tags";
 
 const BackButton = styled.div`
   font-size: 30px;
@@ -14,7 +13,7 @@ const BackButton = styled.div`
 const DetailImg = styled.img`
   border: white 2px solid;
   border-radius: 20px;
-  object-fit: cover;
+  object-fit: fill;
   height: 384px;
   width: 100%;
 `;
@@ -29,9 +28,10 @@ const Container = styled.div`
   animation: ${fadeDown} 1.5s ease 1 both;
   color: white;
   object-fit: cover;
-  background-repeat: no-repeat;
   background-image: url(${Detail});
-  height: 100vh;
+  background-repeat: no-repeat;
+  height: 100%;
+
   overflow: auto;
 `;
 const ContainerContent = styled.div`
@@ -155,9 +155,9 @@ function LookDetail({ looks, history, match, deleteLook }) {
           <StyledInfo>{outfit.description}</StyledInfo>
 
           <h2>Favorite Piece</h2>
-          <StyledInfo>{outfit.favorite}</StyledInfo>
-          <h2>Season</h2>
-          <StyledInfo>{outfit.season}</StyledInfo>
+          <StyledInfo>{outfit.favorites}</StyledInfo>
+          {outfit.season && <h2>Season</h2>}
+          {outfit.season && <StyledInfo>{outfit.season}</StyledInfo>}
           <h2>Vibes</h2>
           <TagList>{outfit.tags.map(tag => renderTag(tag))}</TagList>
           {outfit.color && <h2>Color</h2>}

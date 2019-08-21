@@ -3,12 +3,13 @@ import styled from "styled-components";
 import { fadeVibe } from "../utils/animations";
 
 const StyledButton = styled.button`
+  text-align: center;
+  width: 75px;
   padding: 10px;
   color: white;
   background: #663992;
   border-radius: 14px;
   font-size: 15px;
-  :hover,
   :focus {
     outline: none;
     color: #663992;

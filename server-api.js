@@ -28,4 +28,16 @@ module.exports = function(app) {
       .then(look => res.json({ success: true }))
       .catch(err => res.json(err));
   });
+  app.get("/api/user", (req, res) => {
+    console.log("user");
+    User.find()
+      .then(user => res.json(user))
+      .catch(err => res.json(err));
+  });
+  app.post("/api/user", (req, res) => {
+    console.log("sdfkdjh");
+    User.create(req.body)
+      .then(user => res.json(user))
+      .catch(err => res.json(err));
+  });
 };

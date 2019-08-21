@@ -29,7 +29,7 @@ function Landing() {
     <>
       <Fullscreen>
         <LogoNorth />
-        <StyledLink to="/dashboard">
+        <StyledLink to="/login">
           <Headline size="L">V I B E</Headline>
         </StyledLink>
 

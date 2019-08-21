@@ -1,16 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
 import Create from "../pages/Create";
 import Dashboard from "../pages/Dashboard";
 import GlobalStyle from "./GlobalStyles";
 import Landing from "../pages/Landing";
 import Search from "../pages/Search";
-
 import LookDetail from "../pages/LookDetail";
-
 import {
   setToLocal,
   getLooks,
@@ -18,14 +15,17 @@ import {
   patchLook,
   deleteLooks
 } from "../services";
+import Login from "../pages/Login";
+import UserData from "../mockdata/user";
 
 const Container = styled.div`
   height: 100vh;
 `;
 
 function App() {
-  const [looks, setLooks] = React.useState();
-  const [weather, setWeather] = React.useState(null);
+  const [looks, setLooks] = useState();
+  const [weather, setWeather] = useState(null);
+  const [activeUser, setActiveUser] = useState(UserData);
 
   React.useEffect(() => {
     loadLooks();
@@ -83,7 +83,12 @@ function App() {
 
     history.push("/dashboard");
   }
-
+  function handleLogin(formValues) {
+    const profile = formValues.user_name;
+    const index = UserData.findIndex(user => user.user_name === profile);
+    setActiveUser(UserData[index]);
+    console.log(activeUser);
+  }
   return (
     <Container>
       <Router>
@@ -107,20 +112,23 @@ function App() {
               />
             )}
           />
-
           <Route
             path="/search"
             looks={looks}
             render={props => <Search looks={looks} {...props} />}
           />
-
           <Route
             path="/look/:id"
             render={props => (
               <LookDetail deleteLook={deleteLook} looks={looks} {...props} />
             )}
           />
-
+          <Route
+            path="/login"
+            render={props => (
+              <Login activeUser={activeUser} onLogin={handleLogin} {...props} />
+            )}
+          />
           <Route
             path="/dashboard"
             render={props => (
@@ -132,7 +140,6 @@ function App() {
               />
             )}
           />
-
           <Route path="/" component={Landing} />
         </Switch>
       </Router>
