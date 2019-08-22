@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { fadeVibe } from "../utils/animations";
-
+import PropTypes from "prop-types";
 const StyledButton = styled.button`
   text-align: center;
   width: 75px;
@@ -62,4 +62,7 @@ function SeasonInput({ onhandleSelectedSeason }) {
     </ButtonContainer>
   );
 }
+SeasonInput.propTypes = {
+  onhandleSelectedSeason: PropTypes.func
+};
 export default SeasonInput;

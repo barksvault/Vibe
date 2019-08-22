@@ -70,7 +70,7 @@ function App() {
       };
     }
 
-    postLook(look).then(result => setLooks([...looks, result]));
+    postLook(look).then(result => setLooks([result, ...looks]));
   }
   function handleEdit(look) {
     patchLook(look, look._id).then(result => updateCardInState(result));

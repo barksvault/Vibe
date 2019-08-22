@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Detail from "../Images/BackgroundVibe.png";
 import { fadeDown } from "../utils/animations";
 import Popup from "reactjs-popup";
-
+import PropTypes from "prop-types";
 const BackButton = styled.div`
   font-size: 30px;
   position: absolute;
@@ -25,7 +25,7 @@ const StyledHeader = styled.h1`
 `;
 
 const Container = styled.div`
-  animation: ${fadeDown} 1.5s ease 1 both;
+  animation: ${fadeDown} 1s ease 1 both;
   color: white;
   object-fit: cover;
   background-image: url(${Detail});
@@ -161,11 +161,16 @@ function LookDetail({ looks, history, match, deleteLook }) {
           <h2>Vibes</h2>
           <TagList>{outfit.tags.map(tag => renderTag(tag))}</TagList>
           {outfit.color && <h2>Color</h2>}
-          <ColorDot />
+          <ColorDot style={{ background: outfit.color }} />
         </ContainerContent>
       </Container>
     </>
   );
 }
-
+LookDetail.propTypes = {
+  match: PropTypes.object,
+  history: PropTypes.object,
+  looks: PropTypes.array,
+  deleteLook: PropTypes.func
+};
 export default LookDetail;

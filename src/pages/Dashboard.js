@@ -78,7 +78,6 @@ function Dashboard({ looks, history, weather, ...props }) {
     </>
   );
 }
-
 Dashboard.propTypes = {
   looks: PropTypes.array.isRequired,
   history: PropTypes.func,
