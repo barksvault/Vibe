@@ -1,16 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import CreateHeader from "../components/CreateHeader";
 import ImgButton from "../Images/ImgButton.png";
 import SubmitButton from "../Images/SubmitButton.png";
-import { CirclePicker } from "react-color";
-
 import axios from "axios";
 import { fadeDown } from "../utils/animations";
-import Popup from "reactjs-popup";
-import ColorBttn from "../Images/ColorBttn.png";
 import SeasonInput from "../components/Seasoninput";
+import Switch from "react-switch";
 
 const Container = styled.div`
   padding: 20px;
@@ -57,7 +54,6 @@ const TagInput = styled.input`
   margin-bottom: 15px;
   padding: 10px;
   border-radius: 14px;
-
   font-size: 15px;
   border: 3px solid #663992;
 `;
@@ -69,7 +65,6 @@ const FavoritePieceInput = styled.input`
   margin-bottom: 30px;
   padding: 10px;
   border-radius: 14px;
-
   font-size: 15px;
   border: 3px solid #663992;
 `;
@@ -89,13 +84,7 @@ const StyledImgContainer = styled.div`
 const ImgUpload = styled.div`
   display: none;
 `;
-const ColorDot = styled.div`
-  margin-bottom: 30px;
-  height: 25px;
-  width: 25px;
-  background-image: url(${ColorBttn});
-  border-radius: 50%;
-`;
+
 const StyledError = styled.div`
   color: #663992;
 `;
@@ -103,15 +92,17 @@ const StyledLabel = styled.label`
   display: flex;
   justify-content: center;
   font: 20px;
+  padding: 12px;
+  color: #663992;
+  margin-right: 8px;
 `;
-const PopupContainer = styled.div`
-  display: flex;
-  justify-content: center;
+const StyledLabelTitel = styled.div`
+  margin-right: 10px;
 `;
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
-function CreateCard({ res, looks, match, onCreate, ...props }) {
+function CreateCard({ res, looks, weather, match, onCreate, ...props }) {
   const outfiToEdit =
     match.params.id &&
     looks &&
@@ -147,7 +138,6 @@ function CreateCard({ res, looks, match, onCreate, ...props }) {
       })
 
       .then(res => {
-        // setImage(res.data.secure_url);
         setFormValues({ ...formValues, img: res.data.secure_url });
       })
       .catch(err => console.error(err));
@@ -170,7 +160,7 @@ function CreateCard({ res, looks, match, onCreate, ...props }) {
       errors.tags = "Please add a tags";
     }
 
-    if (formValues.favorites.trim === "") {
+    if (formValues.favorites.trim() === "") {
       errors.favorites = "Please add a favorites";
     }
     return Object.keys(errors).length === 0 ? null : errors;
@@ -184,12 +174,12 @@ function CreateCard({ res, looks, match, onCreate, ...props }) {
     });
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (!formValues.img) {
       return;
     }
 
-    const sightengine = require("sightengine")(
+    /*const sightengine = require("sightengine")(
       "958064678",
       "XcpJCy4xCUG26Fvp9nZC"
     );
@@ -202,7 +192,7 @@ function CreateCard({ res, looks, match, onCreate, ...props }) {
       })
       .catch(function(err) {});
   }, [formValues.img]);
-
+*/
   function handleSubmit() {
     const errors = validate();
 
@@ -214,9 +204,6 @@ function CreateCard({ res, looks, match, onCreate, ...props }) {
     onCreate(formValues, showSeasons);
     props.history.push("/dashboard");
   }
-
-  const handleColorChange = ({ hex }) =>
-    setFormValues({ ...formValues, color: hex });
 
   function handleTags(e) {
     const tagValue = e.target.value;
@@ -275,7 +262,7 @@ function CreateCard({ res, looks, match, onCreate, ...props }) {
         {errors.tags && <StyledError>{errors.tags}</StyledError>}
         <TagInput
           defaultValue={outfiToEdit && outfiToEdit.tags}
-          placeholder="Tags"
+          placeholder="Vibes"
           name="tags"
           onChange={handleTags}
           error={errors.tags}
@@ -288,32 +275,20 @@ function CreateCard({ res, looks, match, onCreate, ...props }) {
           onChange={handleChange}
           error={errors.favorites}
         />
-        <PopupContainer>
-          <Popup trigger={<ColorDot />} position="center">
-            {close => (
-              <div>
-                <div>
-                  <CirclePicker
-                    name="color"
-                    onChangeComplete={handleColorChange}
-                  />
-                </div>
-                <a className="close" onClick={close}>
-                  &times;
-                </a>
-              </div>
-            )}
-          </Popup>
-        </PopupContainer>
       </StyledForm>{" "}
       {errors.season && <StyledError>{errors.season}</StyledError>}
       <StyledLabel>
-        For this Season?
-        <input
+        <StyledLabelTitel>For this Season? </StyledLabelTitel>
+        <Switch
+          aria-labelledby="neat-label"
+          onColor="#663992"
+          height={20}
+          width={40}
+          uncheckedIcon={false}
+          checkedIcon={false}
           name="showSeason"
-          type="checkbox"
           checked={showSeasons}
-          onClick={handleSeasonClick}
+          onChange={handleSeasonClick}
         />
       </StyledLabel>
       {showSeasons && (
@@ -323,7 +298,7 @@ function CreateCard({ res, looks, match, onCreate, ...props }) {
         />
       )}
       <Container>
-        <SubButton src={SubmitButton} onClick={handleSubmit} />}
+        <SubButton src={SubmitButton} onClick={handleSubmit} />
       </Container>
       <Navbar />
     </>

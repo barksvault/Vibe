@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { fadeIn } from "../utils/animations";
 import BackgroundVibe from "../Images/BackgroundVibe.png";
 import Look from "./Look";
-
 import { Link } from "react-router-dom";
+import RecommendationSlider from "./RecommendationSlider";
 
 const DashboardHeader = styled.header`
   animation: ${fadeIn} 1.5s ease 1 both;
@@ -46,7 +46,10 @@ const OutfitSubTitle = styled.div`
   grid-area: 2 / 2 / 3 / 4;
 `;
 const TodaysCard = styled.div`
-  grid-area: 3 / 6 / 8 / 7;
+  position: absolute;
+  width: 135px;
+  right: 22px;
+  top: 82px;
 `;
 const Tags = styled.div`
   color: white;
@@ -70,6 +73,7 @@ const Tag = styled.span`
   padding: 4px;
   border-radius: 4px;
   margin-bottom: 5px;
+  transition: all 0.4s;
 `;
 
 const StyledLink = styled(Link)`
@@ -77,37 +81,68 @@ const StyledLink = styled(Link)`
   color: white;
 `;
 
-function DashboardHeaderContent({ looks, weather }) {
-  const [seasonRange, setSeasonRange] = React.useState();
-
+function DashboardHeaderContent({
+  onTodaysLookClick,
+  seasonRange,
+  looks,
+  weather
+}) {
+  const [indexCount, setIndexCount] = useState(0);
   function renderLook(look) {
-    return <Look id={look._id} img={look.img} title={look.title} />;
+    return (
+      <Look
+        key={look.title}
+        id={look._id}
+        img={look.img}
+        title={look.title}
+        onClick={() => onTodaysLookClick(look)}
+      />
+    );
   }
-  React.useEffect(() => {
-    if (weather.temp >= 8 && weather.temp <= 16) {
-      setSeasonRange("Spring");
-    } else if (weather.temp >= 16 && weather.temp <= 50) {
-      setSeasonRange("Sommer");
-    } else if (weather.temp >= 5 && weather.temp <= 18) {
-      setSeasonRange("Fall");
-    } else if (weather.temp <= 7) {
-      setSeasonRange("Winter");
-    }
-  }, []);
-  console.log(seasonRange);
+
   const todaysLooks =
-    looks && weather
-      ? looks.filter(look => Math.abs(weather.temp - look.temp) <= 1)
-      : looks.filter(look => look.season === seasonRange);
+    looks &&
+    weather &&
+    looks.filter(
+      look =>
+        look.season === seasonRange ||
+        (weather && Math.abs(weather.temp - look.temp) <= 3)
+    );
 
-  const todaysLook = todaysLooks[0];
+  console.log(todaysLooks);
+  const tags = todaysLooks && todaysLooks.map(look => look.tags);
 
-  const tag1 = todaysLook && todaysLook.tags[0];
-  const tag2 = todaysLook && todaysLook.tags[1];
-  //function renderTag() {
-  //  return <Tag key={tag}>{tag}</Tag>;
-  // }
+  let showTags = tags && tags[indexCount];
 
+  console.log(tags);
+  const tag1 = showTags && showTags[0];
+
+  const tag2 = showTags && showTags[1];
+
+  useInterval(() => {
+    setIndexCount(indexCount + 1);
+  }, 4500);
+  if (tags && indexCount === tags.length) {
+    setIndexCount(0);
+  }
+  function useInterval(callback, delay) {
+    const savedCallback = useRef();
+
+    useEffect(() => {
+      savedCallback.current = callback;
+    });
+
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }, [delay]);
+  }
+
+  console.log(indexCount);
   return (
     <DashboardHeader>
       <DashboardTitle>
@@ -116,11 +151,21 @@ function DashboardHeaderContent({ looks, weather }) {
       <TodaysOutfitTitle>
         <TodaysSubTitle>Today's</TodaysSubTitle>
         <OutfitSubTitle>Outfit</OutfitSubTitle>
-      </TodaysOutfitTitle>
-      <TodaysCard>{todaysLook && renderLook(todaysLook)}</TodaysCard>
+      </TodaysOutfitTitle>{" "}
+      <TodaysCard>
+        <RecommendationSlider>
+          {looks && looks.map(look => renderLook(look))}
+        </RecommendationSlider>
+      </TodaysCard>
       <Tags>
-        <TagContainer1>{todaysLook && <Tag>#{tag1} </Tag>}</TagContainer1>
-        <TagContainer2>{todaysLook && <Tag>#{tag2} </Tag>}</TagContainer2>
+        <TagContainer1>
+          {" "}
+          <Tag>#{tag1}</Tag>
+        </TagContainer1>
+
+        <TagContainer2>
+          <Tag>#{tag2}</Tag>
+        </TagContainer2>
       </Tags>
     </DashboardHeader>
   );

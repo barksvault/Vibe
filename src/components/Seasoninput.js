@@ -1,13 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+import { fadeVibe } from "../utils/animations";
 
 const StyledButton = styled.button`
+  text-align: center;
+  width: 75px;
   padding: 10px;
   color: white;
   background: #663992;
   border-radius: 14px;
   font-size: 15px;
-  :hover,
   :focus {
     outline: none;
     color: #663992;
@@ -21,7 +23,8 @@ const ButtonContainer = styled.div`
   border: solid 2px #663992;
   margin: 0 10px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  animation: ${fadeVibe} 0.5s ease 1 both;
 `;
 function SeasonInput({ onhandleSelectedSeason }) {
   return (

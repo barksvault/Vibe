@@ -4,24 +4,21 @@ import PropTypes from "prop-types";
 
 const StyledLook = styled.div`
   background: white;
-  width: 120px;
+  width: 135px;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0px 0px 25px -6px rgba(115, 113, 115, 1);
   margin-bottom: 15px;
-
-  :hover {
-    transform: scale(2);
-  }
 `;
 
 const LookImg = styled.img`
   object-fit: fill;
+
+  height: 140px;
   border-radius: 15px;
-  height: 130px;
-  width: 120px;
+  width: 135px;
 `;
 
 export const LookTitle = styled.div`

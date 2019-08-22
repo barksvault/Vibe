@@ -2,30 +2,39 @@ import React from "react";
 import Background from "../components/Background";
 import Fullscreen from "../components/Fullscreen";
 import Headline from "../components/Headline";
-import MainLogo from "../components/MainLogo";
-import Sublogo from "../components/SubLogo";
 import LandingImg from "../Images/LandingImg.png";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Logo from "../components/Logo";
+import { fadeDown, fadeIn } from "../utils/animations";
 
-const StyledLinkd = styled(Link)`
+const StyledLink = styled(Link)`
   z-index: 3;
   display: block;
   text-decoration: none;
   margin: -80px;
 `;
 
+const LogoNorth = styled(Logo)`
+  top: 20;
+  height: 200px;
+  animation: ${fadeIn} 3s ease 1 both;
+`;
+const LogoSouth = styled(Logo)`
+  height: 200px;
+  animation: ${fadeDown} 3s ease 1 both;
+`;
 function Landing() {
   return (
     <>
       <Fullscreen>
-        <MainLogo />
-        <StyledLinkd to="/dashboard">
+        <LogoNorth />
+        <StyledLink to="/login">
           <Headline size="L">V I B E</Headline>
-        </StyledLinkd>
-        <Sublogo />
+        </StyledLink>
 
         <Background src={LandingImg} />
+        <LogoSouth />
       </Fullscreen>
     </>
   );
