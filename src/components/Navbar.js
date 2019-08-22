@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+
 import styled from "styled-components";
 import SearchButton from "../Images/SearchButton.png";
 import VibeButton from "../Images/VibeButton.png";
@@ -23,9 +23,9 @@ const NavbarElement = styled.img`
     border-radius: 50%;
   }
 `;
-function Navbar({ className }) {
+function Navbar() {
   return (
-    <NavbarContainer className={className}>
+    <NavbarContainer>
       <Link to="/search">
         <NavbarElement src={SearchButton} alt="Search" />
       </Link>
@@ -39,7 +39,5 @@ function Navbar({ className }) {
     </NavbarContainer>
   );
 }
-Navbar.propTypes = {
-  onClick: PropTypes.func
-};
+
 export default Navbar;

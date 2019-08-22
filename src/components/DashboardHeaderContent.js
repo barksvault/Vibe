@@ -154,7 +154,7 @@ function DashboardHeaderContent({
       </TodaysOutfitTitle>{" "}
       <TodaysCard>
         <RecommendationSlider>
-          {looks && looks.map(look => renderLook(look))}
+          {todaysLooks && todaysLooks.map(look => renderLook(look))}
         </RecommendationSlider>
       </TodaysCard>
       <Tags>

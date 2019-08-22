@@ -26,11 +26,11 @@ export const LookTitle = styled.div`
 
   padding: 2px 5px;
   font-size: 14px;
-  color: ${props => props.titleColor || "#663992"};
+  color: "#663992";
   background-color: white;
 `;
 
-function Look({ img, title, onClick, titleColor, ...props }) {
+function Look({ img, title, onClick, ...props }) {
   return (
     <StyledLook {...props}>
       <LookImg onClick={onClick} src={img} />
@@ -41,7 +41,8 @@ function Look({ img, title, onClick, titleColor, ...props }) {
 
 Look.propTypes = {
   title: PropTypes.string.isRequired,
-  img: PropTypes.string
+  img: PropTypes.string,
+  onClick: PropTypes.func
 };
 
 export default Look;

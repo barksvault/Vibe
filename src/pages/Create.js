@@ -102,7 +102,7 @@ const StyledLabelTitel = styled.div`
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
-function CreateCard({ res, looks, weather, match, onCreate, ...props }) {
+function CreateCard({ looks, weather, match, onCreate, ...props }) {
   const outfiToEdit =
     match.params.id &&
     looks &&
@@ -304,5 +304,9 @@ function CreateCard({ res, looks, weather, match, onCreate, ...props }) {
     </>
   );
 }
-
+Create.propTypes = {
+  looks: PropTypes.array.isRequired,
+  history: PropTypes.func,
+  weather: PropTypes.array.isRequired
+};
 export default CreateCard;
