@@ -38,20 +38,25 @@ function App() {
       code: currentWeather.data.data[0].weather.code,
       temp: currentWeather.data.data[0].app_temp
     });
+    console.log(weather);
   }
 
-  function handleCreate(look) {
-    const newLook = {
+  function handleCreate(look, showSeasons) {
+    console.log(showSeasons);
+    const newLookId = { ...look, _id: uuid() };
+    const newLookWeather = {
       ...look,
       _id: uuid(),
       weather: weather.code,
       temp: weather.temp
     };
-    setLooks([newLook, ...looks]);
+    !showSeasons
+      ? setLooks([newLookWeather, ...looks])
+      : setLooks([newLookId, ...looks]);
   }
-  function handleEdit(edit, outfit) {
-    setLooks({ ...outfit, edit });
-    console.log(edit, outfit);
+  function handleEdit(look) {
+    const index = looks.findIndex(item => item._id === look._id);
+    setLooks([...looks.slice(0, index), look, ...looks.slice(index + 1)]);
   }
   function deleteLook(id, history) {
     const outfits = looks.filter(look => {
@@ -68,11 +73,18 @@ function App() {
 
         <Switch>
           <Route
+            path="/create/:id"
+            render={props => (
+              <Create looks={looks} onCreate={handleEdit} {...props} />
+            )}
+          />
+          <Route
             path="/create"
             render={props => (
               <Create looks={looks} onCreate={handleCreate} {...props} />
             )}
           />
+
           <Route
             path="/search"
             looks={looks}
@@ -82,12 +94,7 @@ function App() {
           <Route
             path="/look/:id"
             render={props => (
-              <LookDetail
-                deleteLook={deleteLook}
-                onChange={handleEdit}
-                looks={looks}
-                {...props}
-              />
+              <LookDetail deleteLook={deleteLook} looks={looks} {...props} />
             )}
           />
 
