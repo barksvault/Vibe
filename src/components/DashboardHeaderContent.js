@@ -5,6 +5,7 @@ import BackgroundVibe from "../Images/BackgroundVibe.png";
 import Look from "./Look";
 import { Link } from "react-router-dom";
 import RecommendationSlider from "./RecommendationSlider";
+import PropTypes from "prop-types";
 
 const DashboardHeader = styled.header`
   animation: ${fadeIn} 1.5s ease 1 both;
@@ -154,7 +155,7 @@ function DashboardHeaderContent({
       </TodaysOutfitTitle>{" "}
       <TodaysCard>
         <RecommendationSlider>
-          {looks && looks.map(look => renderLook(look))}
+          {todaysLooks && todaysLooks.map(look => renderLook(look))}
         </RecommendationSlider>
       </TodaysCard>
       <Tags>
@@ -170,5 +171,10 @@ function DashboardHeaderContent({
     </DashboardHeader>
   );
 }
-
+DashboardHeaderContent.propTypes = {
+  looks: PropTypes.array.isRequired,
+  seasonRange: PropTypes.object,
+  weather: PropTypes.object,
+  onTodaysLookClick: PropTypes.func
+};
 export default DashboardHeaderContent;

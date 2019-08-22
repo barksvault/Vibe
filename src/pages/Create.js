@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import CreateHeader from "../components/CreateHeader";
 import ImgButton from "../Images/ImgButton.png";
 import SubmitButton from "../Images/SubmitButton.png";
 import axios from "axios";
+import PropTypes from "prop-types";
 import { fadeDown } from "../utils/animations";
 import SeasonInput from "../components/Seasoninput";
 import Switch from "react-switch";
-
 const Container = styled.div`
   padding: 20px;
   margin-bottom: 10px;
@@ -102,7 +102,7 @@ const StyledLabelTitel = styled.div`
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
-function CreateCard({ res, looks, weather, match, onCreate, ...props }) {
+function CreateCard({ looks, weather, match, onCreate, ...props }) {
   const outfiToEdit =
     match.params.id &&
     looks &&
@@ -174,12 +174,12 @@ function CreateCard({ res, looks, weather, match, onCreate, ...props }) {
     });
   }
 
-  /*useEffect(() => {
+  /* useEffect(() => {
     if (!formValues.img) {
       return;
     }
 
-    /*const sightengine = require("sightengine")(
+    const sightengine = require("sightengine")(
       "958064678",
       "XcpJCy4xCUG26Fvp9nZC"
     );
@@ -219,7 +219,6 @@ function CreateCard({ res, looks, weather, match, onCreate, ...props }) {
 
     setFormValues({ ...formValues, season: selectedSeason });
   }
-  console.log();
   return (
     <>
       <CreateHeader />
@@ -278,7 +277,7 @@ function CreateCard({ res, looks, weather, match, onCreate, ...props }) {
       </StyledForm>{" "}
       {errors.season && <StyledError>{errors.season}</StyledError>}
       <StyledLabel>
-        <StyledLabelTitel>For this Season? </StyledLabelTitel>
+        <StyledLabelTitel>For another Season? </StyledLabelTitel>
         <Switch
           aria-labelledby="neat-label"
           onColor="#663992"
@@ -304,5 +303,9 @@ function CreateCard({ res, looks, weather, match, onCreate, ...props }) {
     </>
   );
 }
-
+CreateCard.propTypes = {
+  looks: PropTypes.array.isRequired,
+  history: PropTypes.func,
+  weather: PropTypes.object
+};
 export default CreateCard;

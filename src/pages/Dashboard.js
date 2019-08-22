@@ -3,11 +3,9 @@ import styled from "styled-components";
 import Look from "../components/Look";
 import Navbar from "../components/Navbar";
 import DashboardHeaderContent from "../components/DashboardHeaderContent";
-
-// import { getFromLocal, setToLocal } from "../services";
 import uuid from "uuid/v1";
 import { fadeIn } from "../utils/animations";
-
+import PropTypes from "prop-types";
 const StyledNavbar = styled(Navbar)`
   position: fixed;
   bottom: 0;
@@ -80,5 +78,9 @@ function Dashboard({ looks, history, weather, ...props }) {
     </>
   );
 }
-
+Dashboard.propTypes = {
+  looks: PropTypes.array.isRequired,
+  history: PropTypes.func,
+  weather: PropTypes.object
+};
 export default Dashboard;

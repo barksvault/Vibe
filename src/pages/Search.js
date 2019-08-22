@@ -6,7 +6,7 @@ import Background from "../components/Background";
 import SearchImg from "../Images/LandingImg.png";
 import Headline from "../components/Headline";
 import Fuse from "fuse.js";
-
+import PropTypes from "prop-types";
 import { fadeDown, fadeRight, fadeVibe } from "../utils/animations";
 import SearchLook from "../components/SearchLook";
 
@@ -55,9 +55,7 @@ const VibeContainer = styled.div`
   justify-items: center;
 `;
 
-function Search({ handleLookSelect, history, looks, ...props }) {
-  const randomPlaceholder = looks[Math.floor(Math.random() * looks.length)];
-
+function Search({ history, looks }) {
   const [searchValue, setSearchValue] = React.useState("");
   const [result, setResult] = React.useState([]);
 
@@ -111,7 +109,7 @@ function Search({ handleLookSelect, history, looks, ...props }) {
 
         <Headline size="XL">What is your vibe?</Headline>
         <SearchInput
-          placeholder={randomPlaceholder.tags}
+          placeholder="#vibes"
           type="search"
           onChange={handleChange}
         />
@@ -125,5 +123,8 @@ function Search({ handleLookSelect, history, looks, ...props }) {
     </>
   );
 }
-
+Search.propTypes = {
+  looks: PropTypes.array.isRequired,
+  history: PropTypes.func
+};
 export default Search;
