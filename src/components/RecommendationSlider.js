@@ -13,8 +13,7 @@ function RecommendationSlider(props) {
     verticalSwiping: true,
     autoplay: true,
     speed: 4000,
-    arrows: false,
-    fade: true
+    arrows: false
   };
   return <Slider {...settings} {...props} />;
 }

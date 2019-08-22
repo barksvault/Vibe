@@ -101,7 +101,8 @@ function DashboardHeaderContent({
   }
 
   const todaysLooks =
-    looks & weather &&
+    looks &&
+    weather &&
     looks.filter(
       look =>
         look.season === seasonRange ||
@@ -112,7 +113,7 @@ function DashboardHeaderContent({
   const tags = todaysLooks && todaysLooks.map(look => look.tags);
 
   let showTags = tags && tags[indexCount];
-  console.log(todaysLooks);
+
   console.log(tags);
   const tag1 = showTags && showTags[0];
 
