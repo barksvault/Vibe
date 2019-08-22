@@ -28,7 +28,7 @@ const CardContainer = styled.div`
   justify-items: center;
 `;
 
-function Dashboard({ looks, history, weather, temp }) {
+function Dashboard({ looks, history, weather, temp, ...props }) {
   const [selectedLook, setSelectedLook] = React.useState(null);
 
   function renderLook(look) {
@@ -50,7 +50,12 @@ function Dashboard({ looks, history, weather, temp }) {
 
   return (
     <>
-      <DashboardHeaderContent looks={looks} weather={weather} temp={temp} />
+      <DashboardHeaderContent
+        looks={looks}
+        weather={weather}
+        temp={temp}
+        {...props}
+      />
       <CardContainerTitle>Your closet</CardContainerTitle>
       <CardContainer>
         {looks && looks.map(look => renderLook(look))}
