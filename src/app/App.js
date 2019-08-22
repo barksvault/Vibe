@@ -49,8 +49,9 @@ function App() {
     };
     setLooks([newLook, ...looks]);
   }
-  function handleEdit(edit) {
-    setLooks([edit, ...looks]);
+  function handleEdit(edit, outfit) {
+    setLooks({ ...outfit, edit });
+    console.log(edit, outfit);
   }
   function deleteLook(id, history) {
     const outfits = looks.filter(look => {
@@ -83,7 +84,7 @@ function App() {
             render={props => (
               <LookDetail
                 deleteLook={deleteLook}
-                onEdit={handleEdit}
+                onChange={handleEdit}
                 looks={looks}
                 {...props}
               />
