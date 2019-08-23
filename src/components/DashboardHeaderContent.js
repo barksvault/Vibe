@@ -147,7 +147,9 @@ function DashboardHeaderContent({
   return (
     <DashboardHeader>
       <DashboardTitle>
-        <StyledLink to="/">VIBE</StyledLink>{" "}
+        <StyledLink to="/" data-cy="header-title">
+          VIBE
+        </StyledLink>{" "}
       </DashboardTitle>
       <TodaysOutfitTitle>
         <TodaysSubTitle>Today's</TodaysSubTitle>

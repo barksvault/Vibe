@@ -98,7 +98,7 @@ function Login({ history, activeUser, onLogin, ...props }) {
           type="password"
           value={formValues.password}
         />
-        <Button>Log in</Button>
+        <Button data-cy="button-name">Log in</Button>
       </Form>
     </Fullscreen>
   );

@@ -55,17 +55,20 @@ const VibeContainer = styled.div`
   justify-items: center;
 `;
 
-function Search({ history, looks }) {
-  const [searchValue, setSearchValue] = React.useState("");
+function Search({ history, looks, match, ...props }) {
+  const [searchValue, setSearchValue] = React.useState(
+    (match.params && match.params.tag) || ""
+  );
   const [result, setResult] = React.useState([]);
 
   function handleChange(event) {
     const lowerCaseValue = event.target.value.toLowerCase();
+    console.log(lowerCaseValue);
     setSearchValue(lowerCaseValue);
   }
 
   React.useEffect(() => {
-    if (!searchValue) {
+    if (!searchValue || !looks) {
       return;
     }
 
@@ -78,10 +81,11 @@ function Search({ history, looks }) {
       minMatchCharLength: 1,
       keys: ["title", "description", "tags", "season", "favorites"]
     };
-    const fuse = new Fuse(looks, options); // "list" is the item array
+    const fuse = new Fuse(looks, options);
+
     const result = fuse.search(searchValue);
     setResult(result);
-  }, [searchValue]);
+  }, [searchValue, looks]);
 
   function renderOutfit(outfit) {
     return (
@@ -109,14 +113,17 @@ function Search({ history, looks }) {
 
         <Headline size="XL">What is your vibe?</Headline>
         <SearchInput
+          value={searchValue}
           placeholder="#vibes"
           type="search"
-          onChange={handleChange}
+          onInput={handleChange}
         />
         <ResultContainer>
           {result.map(outfit => renderOutfit(outfit))}
         </ResultContainer>
-        <VibeContainer />
+        <VibeContainer>
+          {looks && looks.map(look => renderVibe(look))}
+        </VibeContainer>
       </StyledFullscreen>
 
       <Navbar />
