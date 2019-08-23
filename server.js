@@ -28,12 +28,12 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch(err => console.error(err));
 
-app.use(express.static(path.join(__dirname, "..build")));
+app.use(express.static(path.join(__dirname, "../build")));
 
 api(app);
 
 app.get("/*", function(req, res) {
-  res.sendFile(path.join(__dirname, "..build", "index.html"));
+  res.sendFile(path.join(__dirname, "../build", "index.html"));
 });
 
 app.listen(process.env.PORT || 4000);
