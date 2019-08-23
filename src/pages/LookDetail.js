@@ -123,9 +123,17 @@ function LookDetail({ looks, history, match, deleteLook }) {
   }
 
   function renderTag(tag) {
-    return <StyledTag key={tag}>#{tag}</StyledTag>;
+    return (
+      <StyledTag key={tag} onClick={() => handleVibeClick(tag)}>
+        #{tag}
+      </StyledTag>
+    );
   }
+  function handleVibeClick(tag) {
+    console.log(tag);
 
+    history.push(`/search/${tag}`);
+  }
   return (
     <>
       <Container>

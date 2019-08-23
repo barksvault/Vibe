@@ -47,10 +47,11 @@ const DescriptionInput = styled.textarea`
   border: 3px solid #663992;
 `;
 
-const TagInput = styled.input`
+const VibeInput = styled.input`
   ::placeholder {
     color: #663992;
   }
+
   margin-bottom: 15px;
   padding: 10px;
   border-radius: 14px;
@@ -108,6 +109,7 @@ function CreateCard({ looks, weather, match, onCreate, ...props }) {
     looks &&
     looks.find(look => look._id === match.params.id);
   const [showSeasons, setShowSeasons] = React.useState(false);
+  const [errors, setErrors] = React.useState({});
   const [formValues, setFormValues] = React.useState(
     outfiToEdit
       ? { ...outfiToEdit }
@@ -122,7 +124,6 @@ function CreateCard({ looks, weather, match, onCreate, ...props }) {
         }
   );
 
-  const [errors, setErrors] = React.useState({});
   function upload(event) {
     const url = `https://api.cloudinary.com/v1_1/${CLOUDNAME}/upload`;
 
@@ -151,7 +152,7 @@ function CreateCard({ looks, weather, match, onCreate, ...props }) {
     }
 
     if (formValues.title.trim() === "") {
-      errors.title = "Please add a picture";
+      errors.title = "Please add a title";
     }
     if (formValues.description.trim() === "") {
       errors.description = "Please add a description";
@@ -242,7 +243,9 @@ function CreateCard({ looks, weather, match, onCreate, ...props }) {
         </StyledImgContainer>
       </Container>
       <StyledForm onSubmit={handleSubmit}>
-        {errors.title && <StyledError>{errors.title}</StyledError>}
+        {errors.title && (
+          <StyledError data-cy="error">{errors.title}</StyledError>
+        )}
         <TitleInput
           placeholder="Look Title"
           name="title"
@@ -259,7 +262,8 @@ function CreateCard({ looks, weather, match, onCreate, ...props }) {
           error={errors.description}
         />{" "}
         {errors.tags && <StyledError>{errors.tags}</StyledError>}
-        <TagInput
+        <VibeInput
+          maxLength="10"
           defaultValue={outfiToEdit && outfiToEdit.tags}
           placeholder="Vibes"
           name="tags"
@@ -297,7 +301,11 @@ function CreateCard({ looks, weather, match, onCreate, ...props }) {
         />
       )}
       <Container>
-        <SubButton src={SubmitButton} onClick={handleSubmit} />
+        <SubButton
+          src={SubmitButton}
+          onClick={handleSubmit}
+          data-cy="pressed-submit"
+        />
       </Container>
       <Navbar />
     </>

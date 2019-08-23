@@ -16,9 +16,10 @@ const ImgFrame = styled.div`
 `;
 const LookImg = styled.img`
   border-radius: 15px;
+
   height: 100%;
   width: 100%;
-  object-fit: fill;
+  object-fit: center;
 `;
 
 export const LookTitle = styled.div`
