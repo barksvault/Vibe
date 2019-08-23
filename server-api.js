@@ -3,7 +3,6 @@ module.exports = function(app) {
   const Look = require("./models/Looks");
 
   app.get("/api/looks", (req, res) => {
-    console.log("##########");
     Look.find()
       .then(looks => res.json(looks))
       .catch(err => res.json(err));
