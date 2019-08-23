@@ -61,3 +61,13 @@ export const fadeRight = keyframes`
     width: 100%;
   }
 `;
+export const loading = keyframes`
+  
+  from {
+   transform: rotate(0deg);
+  }
+
+  to {
+ transform: rotate(360deg)
+  }
+`;
