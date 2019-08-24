@@ -15,7 +15,6 @@ const StyledLook = styled.div`
 
 const LookImg = styled.img`
   object-fit: cover;
-
   height: 140px;
   border-radius: 15px;
   width: 135px;
@@ -23,7 +22,6 @@ const LookImg = styled.img`
 
 export const LookTitle = styled.div`
   text-align: center;
-
   padding: 2px 5px;
   font-size: 14px;
   color: #663992;

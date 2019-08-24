@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import Look from "../components/Look";
 import Navbar from "../components/Navbar";
-import DashboardHeaderContent from "../components/DashboardHeaderContent";
+import DashboardHeaderContent from "../components/DashboardComponents/DashboardHeaderContent";
 import uuid from "uuid/v1";
 import { fadeIn } from "../utils/animations";
 import PropTypes from "prop-types";
+
 const StyledNavbar = styled(Navbar)`
   position: fixed;
   bottom: 0;
@@ -70,6 +71,7 @@ function Dashboard({ looks, history, weather, ...props }) {
         {...props}
       />
       <CardContainerTitle>Your closet</CardContainerTitle>
+
       <CardContainer>
         {looks && looks.map(look => renderLook(look))}
       </CardContainer>

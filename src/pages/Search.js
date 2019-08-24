@@ -8,7 +8,7 @@ import Headline from "../components/Headline";
 import Fuse from "fuse.js";
 import PropTypes from "prop-types";
 import { fadeDown, fadeRight, fadeVibe } from "../utils/animations";
-import SearchLook from "../components/SearchLook";
+import SearchResults from "../components/SearchResults";
 
 const StyledFullscreen = styled(Fullscreen)`
   justify-content: flex-start;
@@ -18,7 +18,7 @@ const StyledFullscreen = styled(Fullscreen)`
 const StyledBackground = styled(Background)`
   animation: ${fadeRight} 2s ease 1 both;
 `;
-const StylesSearchlook = styled(SearchLook)`
+const StylesSearchResults = styled(SearchResults)`
   animation: ${fadeDown} 2s ease 1 both;
   margin-bottom: 30px;
 `;
@@ -47,23 +47,15 @@ const SearchInput = styled.input`
   color: white;
 `;
 
-const VibeContainer = styled.div`
-  display: grid;
-  padding-bottom: 77px;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
-  justify-items: center;
-`;
-
-function Search({ history, looks, match, ...props }) {
+function Search({ history, looks, match }) {
   const [searchValue, setSearchValue] = React.useState(
     (match.params && match.params.tag) || ""
   );
+
   const [result, setResult] = React.useState([]);
 
   function handleChange(event) {
     const lowerCaseValue = event.target.value.toLowerCase();
-    console.log(lowerCaseValue);
     setSearchValue(lowerCaseValue);
   }
 
@@ -82,14 +74,13 @@ function Search({ history, looks, match, ...props }) {
       keys: ["title", "description", "tags", "season", "favorites"]
     };
     const fuse = new Fuse(looks, options);
-
     const result = fuse.search(searchValue);
     setResult(result);
   }, [searchValue, looks]);
 
   function renderOutfit(outfit) {
     return (
-      <StylesSearchlook
+      <StylesSearchResults
         titleColor="white"
         key={outfit._id}
         id={outfit._id}
@@ -99,9 +90,7 @@ function Search({ history, looks, match, ...props }) {
       />
     );
   }
-  function renderVibe(outfit) {
-    return <div key={outfit._id} id={outfit._id} />;
-  }
+
   function handleOutfit(outfit, _id) {
     history.push(`look/${outfit._id}`);
   }
@@ -110,7 +99,6 @@ function Search({ history, looks, match, ...props }) {
     <>
       <StyledFullscreen>
         <StyledBackground src={SearchImg} />
-
         <Headline size="XL">What is your vibe?</Headline>
         <SearchInput
           value={searchValue}
@@ -121,17 +109,14 @@ function Search({ history, looks, match, ...props }) {
         <ResultContainer>
           {result.map(outfit => renderOutfit(outfit))}
         </ResultContainer>
-        <VibeContainer>
-          {looks && looks.map(look => renderVibe(look))}
-        </VibeContainer>
       </StyledFullscreen>
-
       <Navbar />
     </>
   );
 }
 Search.propTypes = {
   looks: PropTypes.array.isRequired,
-  history: PropTypes.func
+  history: PropTypes.func,
+  match: PropTypes.object
 };
 export default Search;

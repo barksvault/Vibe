@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React from "react";
+import PropTypes from "prop-types";
 
 const StyledLook = styled.div`
   width: 306px;
@@ -33,7 +34,7 @@ export const LookTitle = styled.div`
   justify-content: center;
   background-color: rgba(216, 216, 216, 0.141882);
 `;
-function SearchLook({ img, title, onClick, titleColor, ...props }) {
+function SearchResults({ img, title, onClick, ...props }) {
   return (
     <StyledLook {...props}>
       <ImgFrame>
@@ -43,4 +44,9 @@ function SearchLook({ img, title, onClick, titleColor, ...props }) {
     </StyledLook>
   );
 }
-export default SearchLook;
+SearchResults.propTypes = {
+  img: PropTypes.string,
+  title: PropTypes.string,
+  onClick: PropTypes.func
+};
+export default SearchResults;

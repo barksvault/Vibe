@@ -3,13 +3,14 @@ import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import CreateHeader from "../components/CreateComponents/CreateHeader";
 import ImgButton from "../Images/ImgButton.png";
-import SubmitButton from "../Images/SubmitButton.png";
+import SubmitButtonImg from "../Images/SubmitButton.png";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { fadeDown } from "../utils/animations";
 import SeasonInput from "../components/Seasoninput";
 import Switch from "react-switch";
-const Container = styled.div`
+
+const CreateContainer = styled.div`
   padding: 20px;
   margin-bottom: 10px;
   margin-top: 20px;
@@ -39,7 +40,6 @@ const DescriptionInput = styled.textarea`
   ::placeholder {
     color: #663992;
   }
-
   padding: 10px;
   border-radius: 14px;
   margin-bottom: 15px;
@@ -47,11 +47,10 @@ const DescriptionInput = styled.textarea`
   border: 3px solid #663992;
 `;
 
-const VibeInput = styled.input`
+const VibeTagInput = styled.input`
   ::placeholder {
     color: #663992;
   }
-
   margin-bottom: 15px;
   padding: 10px;
   border-radius: 14px;
@@ -74,7 +73,7 @@ const AddImgButton = styled.img`
   animation: ${fadeDown} 1s ease 1 both;
 `;
 
-const SubButton = styled.img`
+const SubmitButton = styled.img`
   padding-bottom: 59px;
 `;
 const StyledImgContainer = styled.div`
@@ -88,6 +87,11 @@ const ImgUpload = styled.div`
 
 const StyledError = styled.div`
   color: #663992;
+`;
+const StyledUploadImg = styled.img`
+  box-shadow: 0px 0px 65px -6px rgba(163, 65, 163, 1);
+  width: 50%;
+  border-radius: 14px;
 `;
 const StyledLabel = styled.label`
   display: flex;
@@ -223,7 +227,7 @@ function CreateCard({ looks, weather, match, onCreate, ...props }) {
   return (
     <>
       <CreateHeader />
-      <Container>
+      <CreateContainer>
         {" "}
         <StyledImgContainer>
           <label htmlFor="file-input">
@@ -233,15 +237,9 @@ function CreateCard({ looks, weather, match, onCreate, ...props }) {
             <input id="file-input" type="file" name="img" onChange={upload} />
           </ImgUpload>
 
-          {formValues.img && (
-            <img
-              src={formValues.img}
-              alt=""
-              style={{ width: "50%", borderRadius: "50px" }}
-            />
-          )}
+          {formValues.img && <StyledUploadImg src={formValues.img} alt="" />}
         </StyledImgContainer>
-      </Container>
+      </CreateContainer>
       <StyledForm onSubmit={handleSubmit}>
         {errors.title && (
           <StyledError data-cy="error">{errors.title}</StyledError>
@@ -262,7 +260,7 @@ function CreateCard({ looks, weather, match, onCreate, ...props }) {
           error={errors.description}
         />{" "}
         {errors.tags && <StyledError>{errors.tags}</StyledError>}
-        <VibeInput
+        <VibeTagInput
           maxLength="14
           "
           defaultValue={outfiToEdit && outfiToEdit.tags}
@@ -301,13 +299,13 @@ function CreateCard({ looks, weather, match, onCreate, ...props }) {
           error={errors.season}
         />
       )}
-      <Container>
-        <SubButton
-          src={SubmitButton}
+      <CreateContainer>
+        <SubmitButton
+          src={SubmitButtonImg}
           onClick={handleSubmit}
           data-cy="pressed-submit"
         />
-      </Container>
+      </CreateContainer>
       <Navbar />
     </>
   );

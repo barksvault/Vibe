@@ -1,5 +1,4 @@
 module.exports = function(app) {
-  console.log(app);
   const Look = require("./models/Looks");
 
   app.get("/api/looks", (req, res) => {
@@ -9,7 +8,6 @@ module.exports = function(app) {
   });
 
   app.post("/api/looks", (req, res) => {
-    console.log("sdfkdjh");
     Look.create(req.body)
       .then(look => res.json(look))
       .catch(err => res.json(err));
@@ -28,13 +26,11 @@ module.exports = function(app) {
       .catch(err => res.json(err));
   });
   app.get("/api/user", (req, res) => {
-    console.log("user");
     User.find()
       .then(user => res.json(user))
       .catch(err => res.json(err));
   });
   app.post("/api/user", (req, res) => {
-    console.log("sdfkdjh");
     User.create(req.body)
       .then(user => res.json(user))
       .catch(err => res.json(err));

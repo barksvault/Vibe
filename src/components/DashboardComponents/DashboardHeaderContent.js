@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { fadeIn } from "../utils/animations";
-import BackgroundVibe from "../Images/BackgroundVibe.png";
-import Look from "./Look";
+import { fadeIn } from "../../utils/animations";
+import BackgroundVibe from "../../Images/BackgroundVibe.png";
+import Look from "../Look";
 import { Link } from "react-router-dom";
-import RecommendationSlider from "./DashboardComponents/RecommendationSlider";
+import RecommendationSlider from "./RecommendationSlider";
 import PropTypes from "prop-types";
-import LoadingSpinner from "./DashboardComponents/LoadingSpinner";
+import LoadingSpinner from "./LoadingSpinner";
 
 const DashboardHeader = styled.header`
   animation: ${fadeIn} 1.5s ease 1 both;
@@ -53,7 +53,7 @@ const TodaysCard = styled.div`
   right: 22px;
   top: 82px;
 `;
-const Tags = styled.div`
+const TagsContainer = styled.div`
   color: white;
   display: grid;
   display: grid;
@@ -111,12 +111,10 @@ function DashboardHeaderContent({
         (weather && Math.abs(weather.temp - look.temp) <= 3)
     );
 
-  console.log(todaysLooks);
   const tags = todaysLooks && todaysLooks.map(look => look.tags);
 
   let showTags = tags && tags[indexCount];
 
-  console.log(tags);
   const tag1 = showTags && showTags[0];
 
   const tag2 = showTags && showTags[1];
@@ -144,7 +142,6 @@ function DashboardHeaderContent({
     }, [delay]);
   }
 
-  console.log(indexCount);
   return (
     <DashboardHeader>
       <DashboardTitle>
@@ -162,7 +159,7 @@ function DashboardHeaderContent({
           {todaysLooks && todaysLooks.map(look => renderLook(look))}
         </RecommendationSlider>
       </TodaysCard>
-      <Tags>
+      <TagsContainer>
         <TagContainer1>
           {" "}
           <Tag>#{tag1}</Tag>
@@ -171,7 +168,7 @@ function DashboardHeaderContent({
         <TagContainer2>
           <Tag>#{tag2}</Tag>
         </TagContainer2>
-      </Tags>
+      </TagsContainer>
     </DashboardHeader>
   );
 }
