@@ -4,9 +4,9 @@ import { fadeIn } from "../utils/animations";
 import BackgroundVibe from "../Images/BackgroundVibe.png";
 import Look from "./Look";
 import { Link } from "react-router-dom";
-import RecommendationSlider from "./RecommendationSlider";
+import RecommendationSlider from "./DashboardComponents/RecommendationSlider";
 import PropTypes from "prop-types";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "./DashboardComponents/LoadingSpinner";
 
 const DashboardHeader = styled.header`
   animation: ${fadeIn} 1.5s ease 1 both;
@@ -176,8 +176,8 @@ function DashboardHeaderContent({
   );
 }
 DashboardHeaderContent.propTypes = {
-  looks: PropTypes.array.isRequired,
-  seasonRange: PropTypes.object,
+  looks: PropTypes.array,
+  seasonRange: PropTypes.string,
   weather: PropTypes.object,
   onTodaysLookClick: PropTypes.func
 };

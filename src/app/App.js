@@ -113,10 +113,6 @@ function App() {
             )}
           />
           <Route
-            path="/search/:tag"
-            render={props => <Search looks={looks} {...props} />}
-          />
-          <Route
             path="/search"
             looks={looks}
             render={props => <Search looks={looks} {...props} />}
@@ -143,6 +139,10 @@ function App() {
                 {...props}
               />
             )}
+          />{" "}
+          <Route
+            path="/:tag"
+            render={props => <Search looks={looks} {...props} />}
           />
           <Route path="/" component={Landing} />
         </Switch>

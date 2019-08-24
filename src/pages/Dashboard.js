@@ -79,8 +79,8 @@ function Dashboard({ looks, history, weather, ...props }) {
   );
 }
 Dashboard.propTypes = {
-  looks: PropTypes.array.isRequired,
-  history: PropTypes.func,
+  looks: PropTypes.array,
+  history: PropTypes.object,
   weather: PropTypes.object
 };
 export default Dashboard;

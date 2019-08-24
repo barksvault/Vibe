@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
-import CreateHeader from "../components/CreateHeader";
+import CreateHeader from "../components/CreateComponents/CreateHeader";
 import ImgButton from "../Images/ImgButton.png";
 import SubmitButton from "../Images/SubmitButton.png";
 import axios from "axios";
@@ -263,7 +263,8 @@ function CreateCard({ looks, weather, match, onCreate, ...props }) {
         />{" "}
         {errors.tags && <StyledError>{errors.tags}</StyledError>}
         <VibeInput
-          maxLength="10"
+          maxLength="14
+          "
           defaultValue={outfiToEdit && outfiToEdit.tags}
           placeholder="Vibes"
           name="tags"
@@ -312,8 +313,8 @@ function CreateCard({ looks, weather, match, onCreate, ...props }) {
   );
 }
 CreateCard.propTypes = {
-  looks: PropTypes.array.isRequired,
-  history: PropTypes.func,
+  looks: PropTypes.array,
+  history: PropTypes.object,
   weather: PropTypes.object
 };
 export default CreateCard;

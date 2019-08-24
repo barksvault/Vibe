@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { loading } from "../utils/animations";
+import { loading } from "../../utils/animations";
 
 const StyledLoader = styled.div`
   border: 8px solid white;

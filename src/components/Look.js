@@ -14,7 +14,7 @@ const StyledLook = styled.div`
 `;
 
 const LookImg = styled.img`
-  object-fit: fill;
+  object-fit: cover;
 
   height: 140px;
   border-radius: 15px;
@@ -41,6 +41,6 @@ function Look({ img, title, onClick, ...props }) {
 Look.propTypes = {
   onClick: PropTypes.func,
   img: PropTypes.string,
-  weather: PropTypes.array.isRequired
+  weather: PropTypes.array
 };
 export default Look;

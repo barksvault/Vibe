@@ -130,9 +130,7 @@ function LookDetail({ looks, history, match, deleteLook }) {
     );
   }
   function handleVibeClick(tag) {
-    console.log(tag);
-
-    history.push(`/search/${tag}`);
+    history.push(`/${tag}`);
   }
   return (
     <>
