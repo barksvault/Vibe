@@ -1,7 +1,9 @@
-This is a final project of the Neue Fische Web Development Bootcamp.
 
-Setup the Project
-Copy the repository into a new folder
+### This is a final project of the Neue Fische Web Development Bootcamp. ###
+
+## Setup the Project ##
+
+- Copy the repository into a new folder
 rm -rf .git && git init to start a fresh git repo
 Check package.jsonfor dependencies
 Install npm packages: run npm initand npm install
