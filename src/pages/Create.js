@@ -7,7 +7,7 @@ import SubmitButtonImg from "../Images/SubmitButton.png";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { fadeDown } from "../utils/animations";
-import SeasonInput from "../components/Seasoninput";
+import SeasonInput from "../components/CreateComponents/Seasoninput";
 import Switch from "react-switch";
 
 const CreateContainer = styled.div`

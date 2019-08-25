@@ -50,7 +50,7 @@ function App() {
 
   async function getWeather() {
     const currentWeather = await axios.get(
-      "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=Hamburg&units=metric&appid=9000a13cb01f156d8f261209d67d50c6"
+      "http://api.openweathermap.org/data/2.5/weather?q=Hamburg&units=metric&appid=9000a13cb01f156d8f261209d67d50c6"
     );
 
     return setWeather({
@@ -60,8 +60,6 @@ function App() {
   }
 
   function handleCreate(look, showSeasons) {
-    console.log(look);
-
     if (!showSeasons && weather) {
       look = {
         ...look,
@@ -72,9 +70,11 @@ function App() {
 
     postLook(look).then(result => setLooks([result, ...looks]));
   }
+
   function handleEdit(look) {
     patchLook(look, look._id).then(result => updateCardInState(result));
   }
+
   function deleteLook(id, history) {
     deleteLooks(id).then(result => {
       const index = looks.findIndex(look => look._id === id);
@@ -87,7 +87,6 @@ function App() {
     const profile = formValues.user_name;
     const index = UserData.findIndex(user => user.user_name === profile);
     setActiveUser(UserData[index]);
-    console.log(activeUser);
   }
   return (
     <Container>

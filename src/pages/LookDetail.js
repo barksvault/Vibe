@@ -1,21 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import Detail from "../Images/BackgroundVibe.png";
-import { fadeDown } from "../utils/animations";
+import { fadeVibe } from "../utils/animations";
 import Popup from "reactjs-popup";
 import PropTypes from "prop-types";
+
 const BackButton = styled.div`
   font-size: 30px;
   position: absolute;
   top: 19px;
   left: 12px;
-`;
-const DetailImg = styled.img`
-  border: white 2px solid;
-  border-radius: 20px;
-  object-fit: fill;
-  height: 384px;
-  width: 100%;
 `;
 const StyledHeader = styled.h1`
   text-align: center;
@@ -24,17 +18,26 @@ const StyledHeader = styled.h1`
   color: white;
 `;
 
-const Container = styled.div`
-  animation: ${fadeDown} 1s ease 1 both;
+const LookDetailContainer = styled.div`
+  animation: ${fadeVibe} 0.5s ease;
   color: white;
   object-fit: cover;
   background-image: url(${Detail});
-  background-repeat: no-repeat;
   height: 100%;
-
+  width: 100vw;
   overflow: auto;
 `;
-const ContainerContent = styled.div`
+const DetailImg = styled.img`
+  border: white 4px solid;
+  border-radius: 20px;
+  position: relative;
+  top: 0;
+  object-fit: cover;
+  height: 384px;
+  width: 100vw;
+`;
+
+const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -134,7 +137,7 @@ function LookDetail({ looks, history, match, deleteLook }) {
   }
   return (
     <>
-      <Container>
+      <LookDetailContainer>
         <BackButton className="fas fa-chevron-left" onClick={handleBackClick} />
 
         <StyledHeader> {outfit.title} </StyledHeader>
@@ -155,7 +158,7 @@ function LookDetail({ looks, history, match, deleteLook }) {
             </OptionContainer>
           </Popup>
         </PopupContainer>
-        <ContainerContent>
+        <ContentContainer>
           <h2>Description</h2>
 
           <StyledInfo>{outfit.description}</StyledInfo>
@@ -168,8 +171,8 @@ function LookDetail({ looks, history, match, deleteLook }) {
           <TagList>{outfit.tags.map(tag => renderTag(tag))}</TagList>
           {outfit.color && <h2>Color</h2>}
           <ColorDot style={{ background: outfit.color }} />
-        </ContainerContent>
-      </Container>
+        </ContentContainer>
+      </LookDetailContainer>
     </>
   );
 }

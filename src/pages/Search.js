@@ -16,7 +16,7 @@ const StyledFullscreen = styled(Fullscreen)`
 `;
 
 const StyledBackground = styled(Background)`
-  animation: ${fadeRight} 2s ease 1 both;
+  animation: ${fadeRight} 1s ease 1 both;
 `;
 const StylesSearchResults = styled(SearchResults)`
   animation: ${fadeDown} 2s ease 1 both;
@@ -37,7 +37,7 @@ const SearchInput = styled.input`
     opacity: 0.5;
   }
   outline: none;
-  animation: ${fadeVibe} 3s ease 1 both;
+  animation: ${fadeVibe} 1.5s ease 1 both;
   background: rgba(216, 216, 216, 0.282206);
   padding: 10px;
   border-radius: 14px;
