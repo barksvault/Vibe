@@ -104,7 +104,7 @@ function Search({ history, looks, match }) {
           value={searchValue}
           placeholder="#vibes"
           type="search"
-          onInput={handleChange}
+          onChange={handleChange}
         />
         <ResultContainer>
           {result.map(outfit => renderOutfit(outfit))}
@@ -115,8 +115,8 @@ function Search({ history, looks, match }) {
   );
 }
 Search.propTypes = {
-  looks: PropTypes.array.isRequired,
-  history: PropTypes.func,
+  looks: PropTypes.array,
+  history: PropTypes.object,
   match: PropTypes.object
 };
 export default Search;

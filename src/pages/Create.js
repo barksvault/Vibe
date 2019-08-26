@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import CreateHeader from "../components/CreateComponents/CreateHeader";
@@ -179,7 +179,7 @@ function CreateCard({ looks, weather, match, onCreate, ...props }) {
     });
   }
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (!formValues.img) {
       return;
     }
@@ -196,8 +196,8 @@ function CreateCard({ looks, weather, match, onCreate, ...props }) {
         setFormValues({ ...formValues, color: result.colors.accent[0].hex });
       })
       .catch(function(err) {});
-  }, [formValues.img]);
-*/
+  }, [formValues]);
+
   function handleSubmit() {
     const errors = validate();
 

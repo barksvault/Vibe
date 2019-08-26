@@ -18,7 +18,7 @@ const StyledHeadline = styled.h1`
   font-size: ${props => getSize(props.size)};
   color: white;
   font-family: "Montserrat", sans-serif;
-  animation: ${fadeVibe} 3s ease 1 both;
+  animation: ${fadeVibe} 2s ease 1 both;
 `;
 
 function Headline({ size, ...props }) {

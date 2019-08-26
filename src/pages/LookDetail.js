@@ -30,8 +30,7 @@ const LookDetailContainer = styled.div`
 const DetailImg = styled.img`
   border: white 4px solid;
   border-radius: 20px;
-  position: relative;
-  top: 0;
+  object-position: 0 0;
   object-fit: cover;
   height: 384px;
   width: 100vw;

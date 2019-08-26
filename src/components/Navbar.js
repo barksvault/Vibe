@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 import styled from "styled-components";
 import SearchButton from "../Images/SearchButton.png";
 import VibeButton from "../Images/VibeButton.png";
@@ -9,7 +8,7 @@ import CreateButton from "../Images/CreateButton.png";
 const NavbarContainer = styled.footer`
   position: fixed;
   bottom: 0;
-  left: 10px;
+
   width: 100%;
   display: flex;
   justify-content: space-around;

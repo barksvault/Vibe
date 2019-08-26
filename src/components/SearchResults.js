@@ -17,10 +17,10 @@ const ImgFrame = styled.div`
 `;
 const LookImg = styled.img`
   border-radius: 15px;
-
-  height: 100%;
-  width: 100%;
-  object-fit: center;
+  width: 306px;
+  height: 308px;
+  object-position: 0 0;
+  object-fit: cover;
 `;
 
 export const LookTitle = styled.div`

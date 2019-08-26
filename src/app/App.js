@@ -35,7 +35,7 @@ function App() {
     setLooks(await getLooks());
   }
 
-  function updateCardInState(data) {
+  function updateLookInState(data) {
     const index = looks.findIndex(look => look._id === data._id);
     setLooks([...looks.slice(0, index), data, ...looks.slice(index + 1)]);
   }
@@ -50,7 +50,7 @@ function App() {
 
   async function getWeather() {
     const currentWeather = await axios.get(
-      "http://api.openweathermap.org/data/2.5/weather?q=Hamburg&units=metric&appid=9000a13cb01f156d8f261209d67d50c6"
+      "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=Hamburg&units=metric&appid=9000a13cb01f156d8f261209d67d50c6"
     );
 
     return setWeather({
@@ -72,7 +72,7 @@ function App() {
   }
 
   function handleEdit(look) {
-    patchLook(look, look._id).then(result => updateCardInState(result));
+    patchLook(look, look._id).then(result => updateLookInState(result));
   }
 
   function deleteLook(id, history) {
@@ -83,16 +83,17 @@ function App() {
 
     history.push("/dashboard");
   }
+
   function handleLogin(formValues) {
     const profile = formValues.user_name;
     const index = UserData.findIndex(user => user.user_name === profile);
     setActiveUser(UserData[index]);
   }
+
   return (
     <Container>
       <Router>
         <GlobalStyle />
-
         <Switch>
           <Route
             path="/create/:id"

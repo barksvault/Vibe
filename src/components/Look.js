@@ -15,6 +15,7 @@ const StyledLook = styled.div`
 
 const LookImg = styled.img`
   object-fit: cover;
+  object-position: 0 0;
   height: 140px;
   border-radius: 15px;
   width: 135px;
